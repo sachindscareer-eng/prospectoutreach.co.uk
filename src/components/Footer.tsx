@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Mail, MapPin, Phone, Linkedin, Twitter } from "lucide-react";
+import { Mail, MapPin, Linkedin } from "lucide-react";
 import { Logo } from "@/components/Logo";
 
 const companyLinks = [
@@ -16,10 +16,7 @@ const serviceLinks = [
   { href: "/services#crm", label: "CRM Integration" },
 ];
 
-const socialLinks = [
-  { href: "#", icon: Linkedin, label: "LinkedIn" },
-  { href: "#", icon: Twitter, label: "Twitter" },
-];
+const linkedInUrl = "https://www.linkedin.com/company/prospectoutreach/?viewAsMember=true";
 
 export function Footer() {
   return (
@@ -37,7 +34,7 @@ export function Footer() {
             <h4 className="text-sm font-semibold text-foreground">Company</h4>
             <ul className="mt-4 space-y-3">
               {companyLinks.map((link) => (
-                <li key={link.href}>
+                <li key={link.label}>
                   <Link
                     href={link.href}
                     className="text-sm text-muted-foreground transition-colors hover:text-primary"
@@ -53,7 +50,7 @@ export function Footer() {
             <h4 className="text-sm font-semibold text-foreground">Services</h4>
             <ul className="mt-4 space-y-3">
               {serviceLinks.map((link) => (
-                <li key={link.href}>
+                <li key={link.label}>
                   <Link
                     href={link.href}
                     className="text-sm text-muted-foreground transition-colors hover:text-primary"
@@ -68,34 +65,32 @@ export function Footer() {
           <div>
             <h4 className="text-sm font-semibold text-foreground">Contact</h4>
             <ul className="mt-4 space-y-3">
-              <li className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Mail className="h-4 w-4 shrink-0" />
-                <a href="mailto:hello@prospectoutreach.com" className="hover:text-primary">
-                  hello@prospectoutreach.com
-                </a>
-              </li>
-              <li className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Phone className="h-4 w-4 shrink-0" />
-                <a href="tel:+1234567890" className="hover:text-primary">
-                  +1 (234) 567-890
-                </a>
+              <li className="flex items-start gap-2 text-sm text-muted-foreground">
+                <Mail className="h-4 w-4 shrink-0 mt-0.5" />
+                <div className="space-y-1">
+                  <a href="mailto:sales@prospectoutreach.co.uk" className="block hover:text-primary">
+                    sales@prospectoutreach.co.uk
+                  </a>
+                  <a href="mailto:info@prospectoutreach.co.uk" className="block hover:text-primary">
+                    info@prospectoutreach.co.uk
+                  </a>
+                </div>
               </li>
               <li className="flex items-center gap-2 text-sm text-muted-foreground">
                 <MapPin className="h-4 w-4 shrink-0" />
-                <span>San Francisco, CA</span>
+                <span>Kharadi, Pune</span>
               </li>
             </ul>
-            <div className="mt-4 flex gap-4">
-              {socialLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  className="text-muted-foreground transition-colors hover:text-primary"
-                  aria-label={link.label}
-                >
-                  <link.icon className="h-5 w-5" />
-                </a>
-              ))}
+            <div className="mt-4">
+              <a
+                href={linkedInUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex text-muted-foreground transition-colors hover:text-primary"
+                aria-label="ProspectOutreach on LinkedIn"
+              >
+                <Linkedin className="h-5 w-5" />
+              </a>
             </div>
           </div>
         </div>

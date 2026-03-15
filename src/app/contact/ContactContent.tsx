@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, MapPin, Phone, CheckCircle2 } from "lucide-react";
+import { Mail, MapPin, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
@@ -51,22 +51,16 @@ export function ContactContent() {
                   <div>
                     <p className="text-sm font-medium text-foreground">Email</p>
                     <a
-                      href="mailto:hello@prospectoutreach.com"
-                      className="text-sm text-muted-foreground hover:text-primary"
+                      href="mailto:sales@prospectoutreach.co.uk"
+                      className="block text-sm text-muted-foreground hover:text-primary"
                     >
-                      hello@prospectoutreach.com
+                      sales@prospectoutreach.co.uk
                     </a>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <Phone className="h-5 w-5 shrink-0 text-primary" />
-                  <div>
-                    <p className="text-sm font-medium text-foreground">Phone</p>
                     <a
-                      href="tel:+1234567890"
-                      className="text-sm text-muted-foreground hover:text-primary"
+                      href="mailto:info@prospectoutreach.co.uk"
+                      className="block text-sm text-muted-foreground hover:text-primary"
                     >
-                      +1 (234) 567-890
+                      info@prospectoutreach.co.uk
                     </a>
                   </div>
                 </div>
@@ -75,7 +69,7 @@ export function ContactContent() {
                   <div>
                     <p className="text-sm font-medium text-foreground">Location</p>
                     <p className="text-sm text-muted-foreground">
-                      San Francisco, CA
+                      Kharadi, Pune
                     </p>
                   </div>
                 </div>
