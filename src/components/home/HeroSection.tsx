@@ -7,40 +7,21 @@ import { Button } from "@/components/ui/button";
 
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-primary/5 via-background to-primary/10">
-      {/* Animated gradient mesh - CSS animation */}
-      <div
-        className="absolute inset-0 animate-hero-gradient pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse 80% 50% at 50% -20%, rgba(37, 99, 235, 0.2), transparent 60%), radial-gradient(ellipse 60% 40% at 100% 50%, rgba(37, 99, 235, 0.12), transparent 55%), radial-gradient(ellipse 50% 50% at 0% 100%, rgba(37, 99, 235, 0.12), transparent 55%)",
-        }}
-      />
-      {/* Subtle grid - B2B feel */}
-      <div
-        className="absolute inset-0 animate-hero-grid pointer-events-none opacity-[0.06]"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(37, 99, 235, 0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(37, 99, 235, 0.4) 1px, transparent 1px)",
-          backgroundSize: "48px 48px",
-        }}
-      />
-      {/* Floating orbs - CSS animations */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div
-          className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-primary/15 blur-3xl animate-hero-orb-1"
-          aria-hidden
-        />
-        <div
-          className="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-primary/10 blur-3xl animate-hero-orb-2"
-          aria-hidden
-        />
-        <div
-          className="absolute left-1/2 top-1/2 h-96 w-96 rounded-full bg-primary/10 blur-3xl animate-hero-orb-center"
-          style={{ transform: "translate(-50%, -50%)" }}
-          aria-hidden
+    <section className="relative overflow-hidden bg-black">
+      {/* Background video */}
+      <div className="absolute inset-0">
+        <video
+          className="h-full w-full object-cover"
+          src="/3205679-hd_1920_1080_25fps.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
         />
       </div>
+      {/* Overlay to keep content readable with a neutral grey veil */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/50 to-black/75" />
+      <div className="absolute inset-0 bg-black/10 mix-blend-multiply" />
 
       <div className="container relative mx-auto px-4 py-20 sm:px-6 sm:py-24 lg:px-8 lg:py-32">
         <div className="mx-auto max-w-4xl text-center">
@@ -48,7 +29,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-2 text-sm font-medium text-primary"
+            className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-2 text-sm font-medium text-white"
           >
             <Sparkles className="h-4 w-4" />
             B2B lead generation made simple
@@ -58,7 +39,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-7xl"
+            className="text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl"
           >
             Grow Your B2B Pipeline with{" "}
             <span className="bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
@@ -70,7 +51,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground sm:text-xl"
+            className="mx-auto mt-6 max-w-2xl text-lg text-white sm:text-xl"
           >
             ProspectOutreach helps B2B companies generate qualified leads,
             automate outreach, and close more deals.

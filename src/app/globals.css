@@ -31,3 +31,13 @@ body {
 html {
   scroll-behavior: smooth;
 }
+
+/* Logo marquee animation for trusted-by section */
+@keyframes logo-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
