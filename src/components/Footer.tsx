@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Mail, MapPin, Phone, Linkedin } from "lucide-react";
 
-const MOBILE_DISPLAY = "995 995 3818";
+const MOBILE_DISPLAY = "+91-9959953818";
 const MOBILE_TEL = "+919959953818";
 import { Logo } from "@/components/Logo";
 

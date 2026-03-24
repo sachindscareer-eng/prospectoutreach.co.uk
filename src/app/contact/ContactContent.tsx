@@ -6,7 +6,7 @@ import { Mail, MapPin, Phone, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
-const MOBILE_DISPLAY = "995 995 3818";
+const MOBILE_DISPLAY = "+91-9959953818";
 const MOBILE_TEL = "+919959953818";
 
 export function ContactContent() {
