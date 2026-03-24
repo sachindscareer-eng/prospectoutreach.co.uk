@@ -4,18 +4,18 @@ import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
-// Normalized client logos – all served from /public/company_logos
+// Normalized client logos – SVGs in /public/company_logos (11.svg = Unisys; no 1.svg)
 const LOGOS = [
-  { src: "/company_logos/1-removebg-preview.png", alt: "Unisys" },
-  { src: "/company_logos/2-removebg-preview.png", alt: "Red Hat" },
-  { src: "/company_logos/3-removebg-preview.png", alt: "Zscaler" },
-  { src: "/company_logos/4-removebg-preview.png", alt: "Dell" },
-  { src: "/company_logos/5-removebg-preview.png", alt: "Hewlett Packard Enterprise" },
-  { src: "/company_logos/6-removebg-preview.png", alt: "Hitachi" },
-  { src: "/company_logos/7-removebg-preview.png", alt: "IBM" },
-  { src: "/company_logos/8-removebg-preview.png", alt: "Oracle" },
-  { src: "/company_logos/9-removebg-preview.png", alt: "Salesforce" },
-  { src: "/company_logos/10-removebg-preview.png", alt: "Snowflake" },
+  { src: "/company_logos/11.svg", alt: "Unisys" },
+  { src: "/company_logos/2.svg", alt: "Red Hat" },
+  { src: "/company_logos/3.svg", alt: "Zscaler" },
+  { src: "/company_logos/4.svg", alt: "Dell" },
+  { src: "/company_logos/5.svg", alt: "Hewlett Packard Enterprise" },
+  { src: "/company_logos/6.svg", alt: "Hitachi" },
+  { src: "/company_logos/7.svg", alt: "IBM" },
+  { src: "/company_logos/8.svg", alt: "Oracle" },
+  { src: "/company_logos/9.svg", alt: "Salesforce" },
+  { src: "/company_logos/10.svg", alt: "Snowflake" },
 ];
 
 const MARQUEE_LOGOS = [...LOGOS, ...LOGOS];
@@ -61,15 +61,15 @@ export function TrustedBy() {
               {MARQUEE_LOGOS.map((logo, index) => (
                 <div
                   key={`${logo.src}-${index}`}
-                  className="flex h-[72px] w-[180px] items-center justify-center sm:h-[84px] sm:w-[210px]"
+                  className="flex h-16 w-40 shrink-0 items-center justify-center px-2 sm:h-[4.5rem] sm:w-44"
                 >
                   <Image
                     src={logo.src}
                     alt={logo.alt}
-                    width={400}
-                    height={200}
+                    width={180}
+                    height={72}
                     unoptimized
-                    className="h-[56px] w-auto object-contain sm:h-[70px]"
+                    className="max-h-12 w-full max-w-[9.5rem] object-contain object-center sm:max-h-14 sm:max-w-[10.5rem]"
                   />
                 </div>
               ))}

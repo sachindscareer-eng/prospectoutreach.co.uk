@@ -2,20 +2,50 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, MapPin, CheckCircle2 } from "lucide-react";
+import { Mail, MapPin, Phone, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+
+const MOBILE_DISPLAY = "995 995 3818";
+const MOBILE_TEL = "+919959953818";
 
 export function ContactContent() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setError(null);
+    const form = e.currentTarget;
+    const fd = new FormData(form);
+
+    const name = String(fd.get("name") ?? "").trim();
+    const email = String(fd.get("email") ?? "").trim();
+    const company = String(fd.get("company") ?? "").trim();
+    const message = String(fd.get("message") ?? "").trim();
+
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 800));
-    setSubmitted(true);
-    setLoading(false);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, company, message }),
+      });
+      const data = (await res.json().catch(() => ({}))) as { error?: string };
+
+      if (!res.ok) {
+        setError(data.error ?? "Something went wrong. Please try again.");
+        return;
+      }
+
+      form.reset();
+      setSubmitted(true);
+    } catch {
+      setError("Network error. Check your connection and try again.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -65,6 +95,18 @@ export function ContactContent() {
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
+                  <Phone className="h-5 w-5 shrink-0 text-primary" />
+                  <div>
+                    <p className="text-sm font-medium text-foreground">Mobile</p>
+                    <a
+                      href={`tel:${MOBILE_TEL}`}
+                      className="text-sm text-muted-foreground hover:text-primary"
+                    >
+                      {MOBILE_DISPLAY}
+                    </a>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
                   <MapPin className="h-5 w-5 shrink-0 text-primary" />
                   <div>
                     <p className="text-sm font-medium text-foreground">Location</p>
@@ -103,6 +145,14 @@ export function ContactContent() {
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleSubmit} className="space-y-6">
+                    {error ? (
+                      <p
+                        className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"
+                        role="alert"
+                      >
+                        {error}
+                      </p>
+                    ) : null}
                     <div className="grid gap-6 sm:grid-cols-2">
                       <div className="space-y-2">
                         <label
