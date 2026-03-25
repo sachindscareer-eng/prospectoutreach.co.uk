@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Mail, MapPin, Phone, Linkedin } from "lucide-react";
+import { Mail, MapPin, Phone, Linkedin, Instagram } from "lucide-react";
 
 const MOBILE_DISPLAY = "+91-9959953818";
 const MOBILE_TEL = "+919959953818";
@@ -20,6 +20,7 @@ const serviceLinks = [
 ];
 
 const linkedInUrl = "https://www.linkedin.com/company/prospectoutreach/?viewAsMember=true";
+const instagramUrl = "https://www.instagram.com/prospectoutreach?igsh=c3k3ZTYzMnUwZHJ6";
 
 export function Footer() {
   return (
@@ -90,7 +91,7 @@ export function Footer() {
                 <span>Kharadi, Pune</span>
               </li>
             </ul>
-            <div className="mt-4">
+            <div className="mt-4 flex items-center gap-3">
               <a
                 href={linkedInUrl}
                 target="_blank"
@@ -99,6 +100,15 @@ export function Footer() {
                 aria-label="ProspectOutreach on LinkedIn"
               >
                 <Linkedin className="h-5 w-5" />
+              </a>
+              <a
+                href={instagramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex text-muted-foreground transition-colors hover:text-primary"
+                aria-label="ProspectOutreach on Instagram"
+              >
+                <Instagram className="h-5 w-5" />
               </a>
             </div>
           </div>

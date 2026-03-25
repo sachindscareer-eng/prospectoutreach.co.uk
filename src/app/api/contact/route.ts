@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 
 const TO_SALES = "sales@prospectoutreach.co.uk";
 const TO_INFO = "info@prospectoutreach.co.uk";
+const SEND_TIMEOUT_MS = 15000;
 
 const MAX = { name: 200, company: 200, message: 8000 };
 
@@ -51,6 +52,7 @@ export async function POST(request: Request) {
   const from =
     process.env.CONTACT_FROM_EMAIL?.trim() ||
     "ProspectOutreach <onboarding@resend.dev>";
+  const testRecipient = process.env.CONTACT_TEST_RECIPIENT?.trim();
 
   const text = [
     "New enquiry from the ProspectOutreach website contact form.",
@@ -64,16 +66,32 @@ export async function POST(request: Request) {
   ].join("\n");
 
   const resend = new Resend(apiKey);
-  const { error } = await resend.emails.send({
+  const sendPromise = resend.emails.send({
     from,
-    to: [TO_SALES, TO_INFO],
+    to: testRecipient ? [testRecipient] : [TO_SALES, TO_INFO],
     replyTo: emailTrim,
     subject: `Website enquiry from ${nameTrim}`,
     text,
   });
 
+  const timeoutPromise = new Promise<{ error: { message: string } }>((resolve) => {
+    setTimeout(() => resolve({ error: { message: "Email request timed out." } }), SEND_TIMEOUT_MS);
+  });
+
+  const { error } = await Promise.race([sendPromise, timeoutPromise]);
+
   if (error) {
     console.error("[contact]", error);
+    if (error.message.includes("verify a domain")) {
+      return NextResponse.json(
+        {
+          error:
+            "Email service is in test mode. Please verify your domain in Resend or set CONTACT_TEST_RECIPIENT for local testing.",
+        },
+        { status: 503 }
+      );
+    }
+
     return NextResponse.json(
       { error: "Could not send your message. Please try again or email us directly." },
       { status: 502 }

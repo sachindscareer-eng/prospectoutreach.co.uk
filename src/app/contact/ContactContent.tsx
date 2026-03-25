@@ -2,12 +2,14 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, MapPin, Phone, CheckCircle2 } from "lucide-react";
+import { Mail, MapPin, Phone, CheckCircle2, Instagram, Linkedin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 const MOBILE_DISPLAY = "+91-9959953818";
 const MOBILE_TEL = "+919959953818";
+const INSTAGRAM_URL = "https://www.instagram.com/prospectoutreach?igsh=c3k3ZTYzMnUwZHJ6";
+const LINKEDIN_URL = "https://www.linkedin.com/company/prospectoutreach/?viewAsMember=true";
 
 export function ContactContent() {
   const [submitted, setSubmitted] = useState(false);
@@ -26,12 +28,18 @@ export function ContactContent() {
     const message = String(fd.get("message") ?? "").trim();
 
     setLoading(true);
+    let timeoutId: ReturnType<typeof setTimeout> | null = null;
     try {
+      const controller = new AbortController();
+      timeoutId = setTimeout(() => controller.abort(), 20000);
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, company, message }),
+        signal: controller.signal,
       });
+      clearTimeout(timeoutId);
+      timeoutId = null;
       const data = (await res.json().catch(() => ({}))) as { error?: string };
 
       if (!res.ok) {
@@ -42,8 +50,11 @@ export function ContactContent() {
       form.reset();
       setSubmitted(true);
     } catch {
-      setError("Network error. Check your connection and try again.");
+      setError("Request timed out or network error. Please try again.");
     } finally {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
       setLoading(false);
     }
   }
@@ -113,6 +124,34 @@ export function ContactContent() {
                     <p className="text-sm text-muted-foreground">
                       Kharadi, Pune
                     </p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <Instagram className="h-5 w-5 shrink-0 text-primary" />
+                  <div>
+                    <p className="text-sm font-medium text-foreground">Instagram</p>
+                    <a
+                      href={INSTAGRAM_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-muted-foreground hover:text-primary"
+                    >
+                      @prospectoutreach
+                    </a>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <Linkedin className="h-5 w-5 shrink-0 text-primary" />
+                  <div>
+                    <p className="text-sm font-medium text-foreground">LinkedIn</p>
+                    <a
+                      href={LINKEDIN_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-muted-foreground hover:text-primary"
+                    >
+                      ProspectOutreach
+                    </a>
                   </div>
                 </div>
               </CardContent>
