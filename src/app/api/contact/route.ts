@@ -49,10 +49,20 @@ export async function POST(request: Request) {
     typeof company === "string" ? company.trim().slice(0, MAX.company) : "";
   const messageTrim = message.trim().slice(0, MAX.message);
 
-  const from =
-    process.env.CONTACT_FROM_EMAIL?.trim() ||
-    "ProspectOutreach <onboarding@resend.dev>";
   const testRecipient = process.env.CONTACT_TEST_RECIPIENT?.trim();
+  const fromEnv = process.env.CONTACT_FROM_EMAIL?.trim();
+  const from =
+    fromEnv || (testRecipient ? "ProspectOutreach <onboarding@resend.dev>" : "");
+
+  if (!from) {
+    return NextResponse.json(
+      {
+        error:
+          "CONTACT_FROM_EMAIL is required for real sending. Verify your sender/domain in Resend (and ensure CONTACT_FROM_EMAIL uses a verified domain).",
+      },
+      { status: 503 }
+    );
+  }
 
   const text = [
     "New enquiry from the ProspectOutreach website contact form.",
@@ -82,11 +92,14 @@ export async function POST(request: Request) {
 
   if (error) {
     console.error("[contact]", error);
-    if (error.message.includes("verify a domain")) {
+    if (
+      error.message.includes("verify a domain") ||
+      error.message.includes("testing emails")
+    ) {
       return NextResponse.json(
         {
           error:
-            "Email service is in test mode. Please verify your domain in Resend or set CONTACT_TEST_RECIPIENT for local testing.",
+            "Resend is restricting non-test sending. Verify your domain/sender in Resend (and ensure CONTACT_FROM_EMAIL uses a verified domain). For local testing, set CONTACT_TEST_RECIPIENT.",
         },
         { status: 503 }
       );
