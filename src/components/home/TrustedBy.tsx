@@ -4,7 +4,6 @@ import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
-// Normalized client logos – SVGs in /public/company_logos (11.svg = Unisys; no 1.svg)
 const LOGOS = [
   { src: "/company_logos/11.svg", alt: "Unisys" },
   { src: "/company_logos/2.svg", alt: "Red Hat" },
@@ -22,7 +21,7 @@ const MARQUEE_LOGOS = [...LOGOS, ...LOGOS];
 
 export function TrustedBy() {
   return (
-    <section className="relative border-y border-border/60 bg-muted/30 py-12 sm:py-16 overflow-hidden">
+    <section className="relative overflow-hidden border-y border-primary/10 bg-gradient-to-b from-white to-muted/40 py-12 sm:py-16">
       <style jsx>{`
         .trusted-marquee-inner {
           animation: trustedMarqueeScroll linear infinite;
@@ -37,23 +36,30 @@ export function TrustedBy() {
         }
       `}</style>
 
-      {/* Gradient fade edge effect on marquee */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-white via-white/95 to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-white via-white/95 to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-white via-white to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-white via-white to-transparent" />
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.p
+      <div className="container relative mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
-          className="mb-8 text-center text-lg font-medium uppercase tracking-wider text-muted-foreground"
+          className="mb-8 flex flex-col items-center gap-2 text-center sm:mb-10"
         >
-          Trusted by B2B Teams
-        </motion.p>
+          <span className="rounded-full bg-gradient-to-r from-primary/15 via-fuchsia-500/15 to-cyan-500/15 px-4 py-1 text-xs font-semibold uppercase tracking-widest text-primary">
+            Social proof
+          </span>
+          <p className="text-lg font-semibold text-foreground sm:text-xl">
+            Trusted by{" "}
+            <span className="bg-gradient-to-r from-primary to-fuchsia-600 bg-clip-text text-transparent">
+              B2B teams
+            </span>{" "}
+            worldwide
+          </p>
+        </motion.div>
 
         <div className="relative mx-auto flex h-[180px] max-w-5xl items-center">
-          {/* Mobile & desktop: smooth horizontal marquee, fully responsive logos */}
-          <div className="w-full overflow-hidden">
+          <div className="w-full overflow-hidden rounded-2xl border border-border/60 bg-white/60 py-4 shadow-sm backdrop-blur-sm">
             <div
               className="trusted-marquee-inner flex min-w-max gap-4 sm:gap-5"
               style={{ animationDuration: `${LOGOS.length * 3}s` }}
@@ -61,7 +67,7 @@ export function TrustedBy() {
               {MARQUEE_LOGOS.map((logo, index) => (
                 <div
                   key={`${logo.src}-${index}`}
-                  className="flex h-16 w-40 shrink-0 items-center justify-center px-2 sm:h-[4.5rem] sm:w-44"
+                  className="flex h-16 w-40 shrink-0 items-center justify-center px-2 opacity-90 grayscale transition-[filter,opacity] hover:opacity-100 hover:grayscale-0 sm:h-[4.5rem] sm:w-44"
                 >
                   <Image
                     src={logo.src}

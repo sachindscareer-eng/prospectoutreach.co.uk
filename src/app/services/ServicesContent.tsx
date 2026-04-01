@@ -11,8 +11,13 @@ import {
   TrendingUp,
   Target,
   Headphones,
+  ArrowRight,
+  CheckCircle2,
 } from "lucide-react";
+import Link from "next/link";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 const accountProgrammes = [
   {
@@ -101,50 +106,105 @@ const services = [
   },
 ];
 
+const serviceStyles = [
+  {
+    glow: "from-violet-500 to-fuchsia-600",
+    soft: "bg-violet-500/10 text-violet-700",
+  },
+  {
+    glow: "from-cyan-500 to-primary",
+    soft: "bg-cyan-500/10 text-cyan-700",
+  },
+  {
+    glow: "from-fuchsia-500 to-pink-600",
+    soft: "bg-fuchsia-500/10 text-fuchsia-700",
+  },
+  {
+    glow: "from-emerald-500 to-teal-600",
+    soft: "bg-emerald-500/10 text-emerald-700",
+  },
+  {
+    glow: "from-amber-500 to-orange-600",
+    soft: "bg-amber-500/10 text-amber-800",
+  },
+  {
+    glow: "from-indigo-500 to-violet-600",
+    soft: "bg-indigo-500/10 text-indigo-700",
+  },
+];
+
 export function ServicesContent() {
   return (
-    <div className="container mx-auto px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mx-auto max-w-3xl text-center"
-      >
-        <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
-          Our Services
-        </h1>
-        <p className="mt-4 text-lg text-muted-foreground">
-          End-to-end B2B lead generation, outreach, and pipeline tools.
-        </p>
-      </motion.div>
+    <div className="relative overflow-hidden">
+      <div className="pointer-events-none absolute -left-24 top-28 h-72 w-72 rounded-full bg-fuchsia-300/30 blur-3xl" />
+      <div className="pointer-events-none absolute -right-16 top-96 h-80 w-80 rounded-full bg-cyan-300/30 blur-3xl" />
 
-      <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {services.map((service, i) => (
-          <motion.div
-            key={service.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.06 }}
-          >
-            <Card
-              id={service.id}
-              className="group h-full transition-all duration-300 hover:-translate-y-1 hover:shadow-soft-lg"
-            >
-              <CardHeader>
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
-                  <service.icon className="h-6 w-6" />
-                </div>
-                <h2 className="text-xl font-semibold">{service.title}</h2>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">{service.description}</p>
-              </CardContent>
-            </Card>
-          </motion.div>
-        ))}
-      </div>
+      <section className="container mx-auto px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mx-auto max-w-3xl text-center"
+        >
+          <span className="inline-block rounded-full bg-gradient-to-r from-primary/15 to-fuchsia-500/15 px-4 py-1 text-xs font-semibold uppercase tracking-widest text-primary">
+            What we do
+          </span>
+          <h1 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
+            End-to-end services for{" "}
+            <span className="bg-gradient-to-r from-primary via-fuchsia-600 to-cyan-600 bg-clip-text text-transparent">
+              pipeline growth
+            </span>
+          </h1>
+          <p className="mt-4 text-lg text-muted-foreground">
+            From first-party data to ABM execution, we help B2B teams generate
+            consistent demand and better conversion outcomes.
+          </p>
+        </motion.div>
 
-      {/* Account-Based Programmes */}
-      <section className="mt-20 sm:mt-24">
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {services.map((service, i) => {
+            const style = serviceStyles[i % serviceStyles.length];
+            return (
+              <motion.div
+                key={service.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ delay: i * 0.06 }}
+              >
+                <Card
+                  id={service.id}
+                  className="group h-full border-border/80 bg-card/95 hover:-translate-y-1 hover:shadow-soft-lg"
+                >
+                  <CardHeader>
+                    <div
+                      className={cn(
+                        "flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br text-white shadow-md",
+                        style.glow
+                      )}
+                    >
+                      <service.icon className="h-6 w-6" />
+                    </div>
+                    <h2 className="text-xl font-semibold">{service.title}</h2>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground">{service.description}</p>
+                    <p
+                      className={cn(
+                        "mt-4 inline-flex rounded-full px-3 py-1 text-xs font-medium",
+                        style.soft
+                      )}
+                    >
+                      Performance focused
+                    </p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="container mx-auto px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -154,10 +214,11 @@ export function ServicesContent() {
           Account-Based Programmes
         </motion.h2>
         <p className="mx-auto mt-3 max-w-xl text-center text-muted-foreground">
-          Structured programmes to scale pipeline and revenue from your key accounts.
+          Structured programmes to scale pipeline and revenue across your key
+          accounts.
         </p>
 
-        <div className="mt-10 space-y-8 sm:mt-14 md:space-y-12">
+        <div className="mt-10 space-y-6 sm:mt-14 md:space-y-8">
           {accountProgrammes.map((programme, i) => (
             <motion.section
               key={programme.id}
@@ -166,9 +227,9 @@ export function ServicesContent() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ delay: i * 0.08 }}
-              className={i % 2 === 1 ? "bg-muted/40 rounded-2xl" : ""}
+              className="rounded-3xl border border-border/80 bg-gradient-to-r from-white via-white to-primary/5"
             >
-              <div className="flex flex-col gap-6 rounded-2xl p-6 sm:gap-8 sm:p-8 md:flex-row md:items-start md:gap-10 lg:p-10">
+              <div className="flex flex-col gap-6 rounded-3xl p-6 sm:gap-8 sm:p-8 md:flex-row md:items-start md:gap-10 lg:p-10">
                 <div className="flex shrink-0 flex-col sm:flex-row md:flex-col md:gap-4">
                   <span className="text-4xl font-bold tabular-nums text-primary/20 sm:text-5xl">
                     {programme.number}
@@ -190,7 +251,7 @@ export function ServicesContent() {
                         key={point}
                         className="flex items-start gap-2 text-sm text-muted-foreground"
                       >
-                        <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                        <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
                         <span>{point}</span>
                       </li>
                     ))}
@@ -200,6 +261,31 @@ export function ServicesContent() {
             </motion.section>
           ))}
         </div>
+      </section>
+
+      <section className="container mx-auto px-4 pb-16 pt-6 sm:px-6 sm:pb-24 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-violet-600 via-fuchsia-600 to-primary px-6 py-14 text-center shadow-2xl shadow-fuchsia-500/20 sm:px-12"
+        >
+          <div className="pointer-events-none absolute -right-16 -top-16 h-44 w-44 rounded-full bg-white/15 blur-2xl" />
+          <h3 className="text-2xl font-bold text-white sm:text-3xl">
+            Want a custom growth plan for your market?
+          </h3>
+          <p className="mx-auto mt-4 max-w-2xl text-white/90">
+            Talk with our team to map your ICP, channels, and conversion goals.
+          </p>
+          <div className="mt-8">
+            <Button size="lg" className="border-0 bg-white text-primary hover:bg-white/95" asChild>
+              <Link href="/contact">
+                Talk to an expert
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
+        </motion.div>
       </section>
     </div>
   );

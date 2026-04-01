@@ -13,8 +13,12 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
         primary: {
-          DEFAULT: "#2563EB",
-          foreground: "#ffffff",
+          DEFAULT: "var(--primary)",
+          foreground: "var(--primary-foreground)",
+        },
+        accent: {
+          DEFAULT: "var(--accent)",
+          foreground: "var(--accent-foreground)",
         },
         muted: {
           DEFAULT: "var(--muted)",
@@ -29,8 +33,8 @@ const config: Config = {
         sans: ["var(--font-inter)", "system-ui", "sans-serif"],
       },
       boxShadow: {
-        soft: "0 2px 15px -3px rgba(37, 99, 235, 0.07), 0 10px 20px -2px rgba(37, 99, 235, 0.04)",
-        "soft-lg": "0 10px 40px -10px rgba(37, 99, 235, 0.15)",
+        soft: "0 2px 15px -3px rgba(37, 99, 235, 0.08), 0 10px 24px -8px rgba(192, 38, 211, 0.06)",
+        "soft-lg": "0 12px 40px -12px rgba(37, 99, 235, 0.12), 0 8px 24px -8px rgba(192, 38, 211, 0.1)",
       },
       borderRadius: {
         xl: "1rem",

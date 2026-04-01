@@ -22,7 +22,7 @@ export function PageTransition({
       animate="animate"
       variants={variants}
       transition={{ duration: 0.3, ease: "easeOut" }}
-      className="min-h-[calc(100vh-4rem)]"
+      className="min-h-[calc(100vh-5rem)] pt-20 sm:pt-24"
     >
       {children}
     </motion.main>

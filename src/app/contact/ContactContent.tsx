@@ -2,14 +2,33 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, MapPin, Phone, CheckCircle2, Instagram, Linkedin } from "lucide-react";
+import { CheckCircle2, Mail, Phone, MapPin, Instagram, Linkedin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
-const MOBILE_DISPLAY = "+91-9959953818";
-const MOBILE_TEL = "+919959953818";
-const INSTAGRAM_URL = "https://www.instagram.com/prospectoutreach?igsh=c3k3ZTYzMnUwZHJ6";
-const LINKEDIN_URL = "https://www.linkedin.com/company/prospectoutreach/?viewAsMember=true";
+const expectationSteps = [
+  {
+    title: "Quick response",
+    description: "Our team reviews your inquiry quickly and shares clear next steps.",
+    color: "from-violet-500 to-fuchsia-600",
+  },
+  {
+    title: "Personalized consultation",
+    description: "We understand your goals, ICP, and current pipeline challenges.",
+    color: "from-cyan-500 to-primary",
+  },
+  {
+    title: "Tailored strategy",
+    description: "You receive a custom demand and outreach plan built for your market.",
+    color: "from-emerald-500 to-teal-600",
+  },
+  {
+    title: "Seamless onboarding",
+    description: "We launch quickly and keep operations simple for your team.",
+    color: "from-amber-500 to-orange-600",
+  },
+];
 
 export function ContactContent() {
   const [submitted, setSubmitted] = useState(false);
@@ -22,9 +41,11 @@ export function ContactContent() {
     const form = e.currentTarget;
     const fd = new FormData(form);
 
-    const name = String(fd.get("name") ?? "").trim();
+    const firstName = String(fd.get("firstName") ?? "").trim();
+    const lastName = String(fd.get("lastName") ?? "").trim();
+    const name = `${firstName} ${lastName}`.trim();
     const email = String(fd.get("email") ?? "").trim();
-    const company = String(fd.get("company") ?? "").trim();
+    const company = String(fd.get("companyWebsite") ?? "").trim();
     const message = String(fd.get("message") ?? "").trim();
 
     setLoading(true);
@@ -60,213 +81,254 @@ export function ContactContent() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
-      <div className="mx-auto max-w-5xl">
+    <section className="relative overflow-hidden pb-16 pt-8 sm:pb-24">
+      <div className="pointer-events-none absolute -left-20 top-12 h-72 w-72 rounded-full bg-fuchsia-300/20 blur-3xl" />
+      <div className="pointer-events-none absolute -right-24 top-44 h-80 w-80 rounded-full bg-cyan-300/20 blur-3xl" />
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center"
+          className="mx-auto max-w-3xl text-center"
         >
-          <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
-            Get in Touch
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">
+            Contact us
+          </p>
+          <h1 className="mt-3 text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
+            Elevate your brand story
           </h1>
           <p className="mt-4 text-lg text-muted-foreground">
-            Tell us about your goals and we&apos;ll help you get there.
+            Have questions or want to collaborate? Send us a message and our
+            team will get back within 1 business day.
           </p>
         </motion.div>
 
-        <div className="mt-12 grid gap-8 lg:grid-cols-3">
+        <div className="mt-12 grid gap-8 lg:grid-cols-12">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="lg:col-span-1"
+            initial={{ opacity: 0, x: -18 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="space-y-6 lg:col-span-5"
           >
-            <Card className="h-full border-border bg-muted/30">
-              <CardHeader>
-                <h2 className="text-lg font-semibold">Contact Information</h2>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <Mail className="h-5 w-5 shrink-0 text-primary" />
-                  <div>
-                    <p className="text-sm font-medium text-foreground">Email</p>
-                    <a
-                      href="mailto:sales@prospectoutreach.co.uk"
-                      className="block text-sm text-muted-foreground hover:text-primary"
+            <div className="rounded-3xl border border-border/80 bg-white/90 p-6 shadow-soft sm:p-7">
+              <h2 className="text-xl font-semibold text-foreground">What to Expect</h2>
+              <div className="mt-5 space-y-5">
+                {expectationSteps.map((step, index) => (
+                  <div key={step.title} className="flex items-start gap-3">
+                    <span
+                      className={cn(
+                        "inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br text-sm font-semibold text-white",
+                        step.color
+                      )}
                     >
-                      sales@prospectoutreach.co.uk
-                    </a>
-                    <a
-                      href="mailto:info@prospectoutreach.co.uk"
-                      className="block text-sm text-muted-foreground hover:text-primary"
-                    >
-                      info@prospectoutreach.co.uk
-                    </a>
+                      {index + 1}
+                    </span>
+                    <div>
+                      <p className="font-semibold text-foreground">{step.title}</p>
+                      <p className="mt-1 text-sm text-muted-foreground">
+                        {step.description}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-7 border-t border-border/70 pt-6">
+                <h3 className="text-base font-semibold text-foreground">
+                  Contact Information
+                </h3>
+                <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                  <div className="flex items-start gap-3 rounded-2xl bg-muted/35 px-3 py-2.5">
+                    <span className="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-primary/15 to-fuchsia-500/15 text-primary">
+                      <Mail className="h-4 w-4" />
+                    </span>
+                    <div className="text-sm text-muted-foreground">
+                      <p className="font-medium text-foreground">Email</p>
+                      <p>sales@prospectoutreach.co.uk</p>
+                      <p>info@prospectoutreach.co.uk</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3 rounded-2xl bg-muted/35 px-3 py-2.5">
+                    <span className="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-cyan-500/20 to-primary/20 text-primary">
+                      <Phone className="h-4 w-4" />
+                    </span>
+                    <div className="text-sm text-muted-foreground">
+                      <p className="font-medium text-foreground">Mobile</p>
+                      <p>+91-9959953818</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3 rounded-2xl bg-muted/35 px-3 py-2.5">
+                    <span className="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-fuchsia-500/20 to-amber-500/20 text-fuchsia-600">
+                      <MapPin className="h-4 w-4" />
+                    </span>
+                    <div className="text-sm text-muted-foreground">
+                      <p className="font-medium text-foreground">Location</p>
+                      <p>Kharadi, Pune</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3 rounded-2xl bg-muted/35 px-3 py-2.5">
+                    <span className="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-pink-500/20 to-fuchsia-500/20 text-fuchsia-600">
+                      <Instagram className="h-4 w-4" />
+                    </span>
+                    <div className="text-sm text-muted-foreground">
+                      <p className="font-medium text-foreground">Instagram</p>
+                      <p>@prospectoutreach</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3 rounded-2xl bg-muted/35 px-3 py-2.5">
+                    <span className="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-primary/20 to-cyan-500/20 text-primary">
+                      <Linkedin className="h-4 w-4" />
+                    </span>
+                    <div className="text-sm text-muted-foreground">
+                      <p className="font-medium text-foreground">LinkedIn</p>
+                      <p>ProspectOutreach</p>
+                    </div>
                   </div>
                 </div>
-                <div className="flex items-start gap-3">
-                  <Phone className="h-5 w-5 shrink-0 text-primary" />
-                  <div>
-                    <p className="text-sm font-medium text-foreground">Mobile</p>
-                    <a
-                      href={`tel:${MOBILE_TEL}`}
-                      className="text-sm text-muted-foreground hover:text-primary"
-                    >
-                      {MOBILE_DISPLAY}
-                    </a>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <MapPin className="h-5 w-5 shrink-0 text-primary" />
-                  <div>
-                    <p className="text-sm font-medium text-foreground">Location</p>
-                    <p className="text-sm text-muted-foreground">
-                      Kharadi, Pune
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <Instagram className="h-5 w-5 shrink-0 text-primary" />
-                  <div>
-                    <p className="text-sm font-medium text-foreground">Instagram</p>
-                    <a
-                      href={INSTAGRAM_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-sm text-muted-foreground hover:text-primary"
-                    >
-                      @prospectoutreach
-                    </a>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <Linkedin className="h-5 w-5 shrink-0 text-primary" />
-                  <div>
-                    <p className="text-sm font-medium text-foreground">LinkedIn</p>
-                    <a
-                      href={LINKEDIN_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-sm text-muted-foreground hover:text-primary"
-                    >
-                      ProspectOutreach
-                    </a>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
+
+            <div className="rounded-3xl border border-primary/15 bg-gradient-to-r from-primary/5 to-fuchsia-500/5 p-6 sm:p-7">
+              <p className="text-sm font-semibold text-primary">
+                Trusted by 143+ Clients Worldwide
+              </p>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                Join leading B2B brands across North America, EMEA, and APAC who
+                trust ProspectOutreach for demand generation and outreach.
+              </p>
+            </div>
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="lg:col-span-2"
+            initial={{ opacity: 0, x: 18 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="lg:col-span-7"
           >
             {submitted ? (
-              <Card className="flex flex-col items-center justify-center py-16">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
-                  <CheckCircle2 className="h-8 w-8" />
-                </div>
-                <h3 className="mt-4 text-xl font-semibold">Message sent</h3>
-                <p className="mt-2 text-center text-muted-foreground">
-                  Thanks for reaching out. We&apos;ll get back to you within 24 hours.
-                </p>
-              </Card>
-            ) : (
-              <Card>
-                <CardHeader>
-                  <h2 className="text-lg font-semibold">Send a message</h2>
-                  <p className="text-sm text-muted-foreground">
-                    Fill out the form below and we&apos;ll respond as soon as we can.
+              <div className="rounded-[1.6rem] bg-gradient-to-r from-primary/35 via-fuchsia-500/35 to-cyan-500/35 p-[1.5px]">
+                <Card className="flex min-h-[520px] flex-col items-center justify-center border-0 bg-white">
+                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
+                    <CheckCircle2 className="h-8 w-8" />
+                  </div>
+                  <h3 className="mt-4 text-xl font-semibold">Message sent</h3>
+                  <p className="mt-2 max-w-md text-center text-muted-foreground">
+                    Thanks for reaching out. We&apos;ll get back to you within one
+                    business day.
                   </p>
-                </CardHeader>
-                <CardContent>
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    {error ? (
-                      <p
-                        className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"
-                        role="alert"
-                      >
-                        {error}
-                      </p>
-                    ) : null}
-                    <div className="grid gap-6 sm:grid-cols-2">
-                      <div className="space-y-2">
-                        <label
-                          htmlFor="name"
-                          className="text-sm font-medium text-foreground"
+                </Card>
+              </div>
+            ) : (
+              <div className="rounded-[1.6rem] bg-gradient-to-r from-primary/35 via-fuchsia-500/35 to-cyan-500/35 p-[1.5px] shadow-soft">
+                <Card className="border-0 bg-white">
+                  <CardHeader>
+                    <h2 className="text-xl font-semibold text-foreground">Send Message</h2>
+                  </CardHeader>
+                  <CardContent>
+                    <form onSubmit={handleSubmit} className="space-y-5">
+                      {error ? (
+                        <p
+                          className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"
+                          role="alert"
                         >
-                          Name
+                          {error}
+                        </p>
+                      ) : null}
+
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <div className="space-y-2">
+                        <label htmlFor="firstName" className="text-sm font-medium text-foreground">
+                          First Name *
                         </label>
                         <input
-                          id="name"
-                          name="name"
+                          id="firstName"
+                          name="firstName"
                           type="text"
                           required
-                          className="w-full rounded-lg border border-border bg-background px-4 py-3 text-foreground transition-colors placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
-                          placeholder="Your name"
+                          className="w-full rounded-xl border border-border bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                          placeholder="Your first name"
                         />
                       </div>
                       <div className="space-y-2">
-                        <label
-                          htmlFor="email"
-                          className="text-sm font-medium text-foreground"
-                        >
-                          Email
+                        <label htmlFor="lastName" className="text-sm font-medium text-foreground">
+                          Last Name
+                        </label>
+                        <input
+                          id="lastName"
+                          name="lastName"
+                          type="text"
+                          className="w-full rounded-xl border border-border bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                          placeholder="Your last name"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <div className="space-y-2">
+                        <label htmlFor="email" className="text-sm font-medium text-foreground">
+                          Email Address *
                         </label>
                         <input
                           id="email"
                           name="email"
                           type="email"
                           required
-                          className="w-full rounded-lg border border-border bg-background px-4 py-3 text-foreground transition-colors placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
-                          placeholder="you@company.com"
+                          className="w-full rounded-xl border border-border bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                          placeholder="yourname@company.com"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label htmlFor="mobile" className="text-sm font-medium text-foreground">
+                          Mobile Number
+                        </label>
+                        <input
+                          id="mobile"
+                          name="mobile"
+                          type="tel"
+                          className="w-full rounded-xl border border-border bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                          placeholder="+91 98765 43210"
                         />
                       </div>
                     </div>
+
                     <div className="space-y-2">
-                      <label
-                        htmlFor="company"
-                        className="text-sm font-medium text-foreground"
-                      >
-                        Company
+                      <label htmlFor="companyWebsite" className="text-sm font-medium text-foreground">
+                        Company Website *
                       </label>
                       <input
-                        id="company"
-                        name="company"
+                        id="companyWebsite"
+                        name="companyWebsite"
                         type="text"
-                        className="w-full rounded-lg border border-border bg-background px-4 py-3 text-foreground transition-colors placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
-                        placeholder="Your company"
+                        required
+                        className="w-full rounded-xl border border-border bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                        placeholder="yourcompany.com"
                       />
                     </div>
+
                     <div className="space-y-2">
-                      <label
-                        htmlFor="message"
-                        className="text-sm font-medium text-foreground"
-                      >
-                        Message
+                      <label htmlFor="message" className="text-sm font-medium text-foreground">
+                        Message *
                       </label>
                       <textarea
                         id="message"
                         name="message"
                         rows={5}
                         required
-                        className="w-full resize-none rounded-lg border border-border bg-background px-4 py-3 text-foreground transition-colors placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
-                        placeholder="How can we help?"
+                        className="w-full resize-none rounded-xl border border-border bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                        placeholder="Tell us about your requirements..."
                       />
                     </div>
-                    <Button type="submit" size="lg" disabled={loading}>
-                      {loading ? "Sending..." : "Send message"}
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
+
+                      <Button type="submit" size="lg" disabled={loading}>
+                        {loading ? "Sending..." : "Send Message"}
+                      </Button>
+                    </form>
+                  </CardContent>
+                </Card>
+              </div>
             )}
           </motion.div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
