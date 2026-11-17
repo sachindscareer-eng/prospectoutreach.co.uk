@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import Link from "next/link";
 import { Database, Zap, Target, ArrowRight } from "lucide-react";
+import { useSpotlight } from "@/hooks/use-spotlight";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -53,7 +54,7 @@ const stats = [
   },
   {
     label: "Clients & Counting",
-    numeric: 140,
+    numeric: 45,
     suffix: "+",
     card: "border-fuchsia-500/25 bg-gradient-to-b from-fuchsia-500/[0.09] to-white/95",
     num: "bg-gradient-to-br from-fuchsia-600 to-pink-600 bg-clip-text text-transparent",
@@ -67,7 +68,7 @@ const stats = [
   },
   {
     label: "Global Database",
-    numeric: 21,
+    numeric: 75,
     suffix: "M+",
     card: "border-cyan-500/25 bg-gradient-to-b from-cyan-500/[0.09] to-white/95",
     num: "bg-gradient-to-br from-cyan-600 to-primary bg-clip-text text-transparent",
@@ -94,6 +95,7 @@ function AboutStatCard({
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-40px" });
   const [count, setCount] = useState(0);
+  const { position, isHovered, handleMouseMove, handleMouseEnter, handleMouseLeave } = useSpotlight();
 
   useEffect(() => {
     if (!isInView) return;
@@ -126,11 +128,21 @@ function AboutStatCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
       transition={{ delay: index * 0.04, duration: 0.35 }}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       className={cn(
-        "flex h-full min-h-[5.25rem] w-full flex-col items-center justify-center rounded-xl border px-2.5 py-3 text-center shadow-soft transition-shadow duration-300 ease-out hover:shadow-soft-lg sm:min-h-0 sm:px-3 sm:py-3.5",
+        "group relative overflow-hidden flex h-full min-h-[5.25rem] w-full flex-col items-center justify-center rounded-xl border px-2.5 py-3 text-center shadow-soft transition-all duration-300 ease-out hover:shadow-soft-lg sm:min-h-0 sm:px-3 sm:py-3.5",
         stat.card
       )}
     >
+      <div
+        className="pointer-events-none absolute -inset-px transition-opacity duration-300"
+        style={{
+          opacity: isHovered ? 1 : 0,
+          background: `radial-gradient(350px circle at ${position.x}px ${position.y}px, rgba(217, 70, 239, 0.08), transparent 40%)`,
+        }}
+      />
       <p
         className={cn(
           "text-sm font-bold tabular-nums tracking-tight sm:text-base md:text-lg lg:text-xl",
@@ -196,23 +208,17 @@ export function AboutContent() {
             transition={{ duration: 0.45 }}
             className="mx-auto max-w-3xl space-y-6"
           >
-            <p className="text-lg font-medium leading-relaxed text-foreground sm:text-xl">
-              ProspectOutreach is a global B2B demand generation partner
-              dedicated to driving sustainable revenue for the world&apos;s
-              leading tech companies and publishers.
+            <p className="text-lg font-semibold leading-relaxed text-foreground sm:text-xl">
+              Backed by 9 years of deep B2B expertise, ProspectOutreach empowers Marketing and Sales teams to outpace the competition and maximize ROI.
             </p>
             <p className="leading-[1.75] text-muted-foreground">
-              We believe that successful outreach happens at the intersection of
-              data and human connection. By utilizing our proprietary technology
-              and a vast network of 75 million global professionals, we deliver
-              omnichannel marketing solutions—including ABM and intent-based
-              syndication—that put you in front of the right decision-makers at
-              the right time.
+              ProspectOutreach is a global B2B demand generation partner dedicated to driving sustainable revenue for the world&apos;s leading tech companies and publishers.
             </p>
             <p className="leading-[1.75] text-muted-foreground">
-              At our core, we are more than a service provider; we are a growth
-              engine designed to turn your target audience into your most
-              valuable long-term partners.
+              We believe that successful outreach happens at the intersection of data and human connection. By utilizing our proprietary technology and a vast network of 75 million global professionals, we deliver omnichannel marketing solutions including ABM and intent-based syndication that put you in front of the right decision-makers at the right time.
+            </p>
+            <p className="leading-[1.75] text-muted-foreground">
+              At our core, we are more than a service provider we are a growth engine designed to turn your target audience into your most valuable long-term partners.
             </p>
           </motion.div>
         </div>

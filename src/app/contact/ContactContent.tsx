@@ -39,43 +39,42 @@ export function ContactContent() {
     e.preventDefault();
     setError(null);
     const form = e.currentTarget;
-    const fd = new FormData(form);
+    const formData = new FormData(form);
 
-    const firstName = String(fd.get("firstName") ?? "").trim();
-    const lastName = String(fd.get("lastName") ?? "").trim();
-    const name = `${firstName} ${lastName}`.trim();
-    const email = String(fd.get("email") ?? "").trim();
-    const company = String(fd.get("companyWebsite") ?? "").trim();
-    const message = String(fd.get("message") ?? "").trim();
+    // Spam protection: check honeypot
+    if (formData.get("_hp_phone")) {
+      console.log("Spam detected!");
+      setSubmitted(true); // Don't let the bot know it failed
+      return;
+    }
 
     setLoading(true);
-    let timeoutId: ReturnType<typeof setTimeout> | null = null;
     try {
-      const controller = new AbortController();
-      timeoutId = setTimeout(() => controller.abort(), 20000);
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, company, message }),
-        signal: controller.signal,
+      // Use URLSearchParams for application/x-www-form-urlencoded
+      const body = new URLSearchParams();
+      formData.forEach((value, key) => {
+        if (!key.startsWith("_hp_")) {
+          body.append(key, value.toString());
+        }
       });
-      clearTimeout(timeoutId);
-      timeoutId = null;
-      const data = (await res.json().catch(() => ({}))) as { error?: string };
 
-      if (!res.ok) {
-        setError(data.error ?? "Something went wrong. Please try again.");
-        return;
+      const res = await fetch("/send-mail.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: body.toString(),
+      });
+
+      const data = await res.json();
+      if (data.status === "success") {
+        form.reset();
+        setSubmitted(true);
+      } else {
+        setError(data.message || "Error sending message. Please check your details and try again.");
       }
-
-      form.reset();
-      setSubmitted(true);
-    } catch {
-      setError("Request timed out or network error. Please try again.");
+    } catch (err) {
+      console.error(err);
+      setError("Network error. Please try again later.");
     } finally {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
       setLoading(false);
     }
   }
@@ -109,7 +108,7 @@ export function ContactContent() {
             viewport={{ once: true }}
             className="space-y-6 lg:col-span-5"
           >
-            <div className="rounded-3xl border border-border/80 bg-white/90 p-6 shadow-soft sm:p-7">
+            <Card className="border border-border/80 bg-white/90 p-6 shadow-soft sm:p-7">
               <h2 className="text-xl font-semibold text-foreground">What to Expect</h2>
               <div className="mt-5 space-y-5">
                 {expectationSteps.map((step, index) => (
@@ -136,15 +135,15 @@ export function ContactContent() {
                 <h3 className="text-base font-semibold text-foreground">
                   Contact Information
                 </h3>
-                <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                <div className="mt-4 grid gap-x-8 gap-y-4 sm:grid-cols-2">
                   <div className="flex items-start gap-3 rounded-2xl bg-muted/35 px-3 py-2.5">
                     <span className="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-primary/15 to-fuchsia-500/15 text-primary">
                       <Mail className="h-4 w-4" />
                     </span>
                     <div className="text-sm text-muted-foreground">
                       <p className="font-medium text-foreground">Email</p>
-                      <p>sales@prospectoutreach.co.uk</p>
-                      <p>info@prospectoutreach.co.uk</p>
+                      <p><a href="mailto:sales@prospectoutreach.co.uk" className="hover:text-primary transition-colors">sales@prospectoutreach.co.uk</a></p>
+                      <p><a href="mailto:info@prospectoutreach.co.uk" className="hover:text-primary transition-colors">info@prospectoutreach.co.uk</a></p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3 rounded-2xl bg-muted/35 px-3 py-2.5">
@@ -153,7 +152,7 @@ export function ContactContent() {
                     </span>
                     <div className="text-sm text-muted-foreground">
                       <p className="font-medium text-foreground">Mobile</p>
-                      <p>+91-9959953818</p>
+                      <p><a href="tel:+919959953818" className="hover:text-primary transition-colors">+91-9959953818</a></p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3 rounded-2xl bg-muted/35 px-3 py-2.5">
@@ -162,34 +161,44 @@ export function ContactContent() {
                     </span>
                     <div className="text-sm text-muted-foreground">
                       <p className="font-medium text-foreground">Location</p>
-                      <p>Kharadi, Pune</p>
+                      <p>EON Free Zone, Kharadi, Pune, Maharashtra 411014</p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3 rounded-2xl bg-muted/35 px-3 py-2.5">
-                    <span className="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-pink-500/20 to-fuchsia-500/20 text-fuchsia-600">
+                  <a 
+                    href="https://www.instagram.com/prospectoutreach" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="flex items-start gap-3 rounded-2xl bg-muted/35 px-3 py-2.5 hover:bg-muted/50 transition-all group"
+                  >
+                    <span className="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-pink-500/20 to-fuchsia-500/20 text-fuchsia-600 group-hover:scale-110 transition-transform">
                       <Instagram className="h-4 w-4" />
                     </span>
                     <div className="text-sm text-muted-foreground">
-                      <p className="font-medium text-foreground">Instagram</p>
+                      <p className="font-medium text-foreground group-hover:text-primary transition-colors">Instagram</p>
                       <p>@prospectoutreach</p>
                     </div>
-                  </div>
-                  <div className="flex items-start gap-3 rounded-2xl bg-muted/35 px-3 py-2.5">
-                    <span className="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-primary/20 to-cyan-500/20 text-primary">
+                  </a>
+                  <a 
+                    href="https://www.linkedin.com/company/prospectoutreach/" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="flex items-start gap-3 rounded-2xl bg-muted/35 px-3 py-2.5 hover:bg-muted/50 transition-all group"
+                  >
+                    <span className="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-primary/20 to-cyan-500/20 text-primary group-hover:scale-110 transition-transform">
                       <Linkedin className="h-4 w-4" />
                     </span>
                     <div className="text-sm text-muted-foreground">
-                      <p className="font-medium text-foreground">LinkedIn</p>
+                      <p className="font-medium text-foreground group-hover:text-primary transition-colors">LinkedIn</p>
                       <p>ProspectOutreach</p>
                     </div>
-                  </div>
+                  </a>
                 </div>
               </div>
-            </div>
+            </Card>
 
             <div className="rounded-3xl border border-primary/15 bg-gradient-to-r from-primary/5 to-fuchsia-500/5 p-6 sm:p-7">
               <p className="text-sm font-semibold text-primary">
-                Trusted by 143+ Clients Worldwide
+                Trusted by 45+ Clients Worldwide
               </p>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                 Join leading B2B brands across North America, EMEA, and APAC who
@@ -208,12 +217,13 @@ export function ContactContent() {
               <div className="rounded-[1.6rem] bg-gradient-to-r from-primary/35 via-fuchsia-500/35 to-cyan-500/35 p-[1.5px]">
                 <Card className="flex min-h-[520px] flex-col items-center justify-center border-0 bg-white">
                   <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
-                    <CheckCircle2 className="h-8 w-8" />
+                    <CheckCircle2 className="h-4 w-4" />
                   </div>
-                  <h3 className="mt-4 text-xl font-semibold">Message sent</h3>
-                  <p className="mt-2 max-w-md text-center text-muted-foreground">
-                    Thanks for reaching out. We&apos;ll get back to you within one
-                    business day.
+                  <h3 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+                    Message Sent Successfully
+                  </h3>
+                  <p className="mt-2 text-center text-muted-foreground">
+                    Thank you for reaching out. Our team will get back to you within 24 hours.
                   </p>
                 </Card>
               </div>
@@ -225,6 +235,9 @@ export function ContactContent() {
                   </CardHeader>
                   <CardContent>
                     <form onSubmit={handleSubmit} className="space-y-5">
+                      {/* Honeypot field */}
+                      <input type="text" name="_hp_phone" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" />
+                      
                       {error ? (
                         <p
                           className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"

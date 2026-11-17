@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function HeroSection() {
@@ -17,25 +17,17 @@ export function HeroSection() {
       <div className="container relative mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-14 lg:py-4">
           <div>
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45 }}
-              className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-gradient-to-r from-primary/5 via-fuchsia-500/10 to-cyan-500/10 px-4 py-2 text-sm font-medium text-foreground shadow-sm"
-            >
-              <Sparkles className="h-4 w-4 text-amber-500" />
-              B2B lead generation made simple
-            </motion.div>
+
 
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45, delay: 0.05 }}
-              className="text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl lg:text-6xl lg:leading-[1.08]"
+              className="text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl lg:text-7xl lg:leading-[1.1]"
             >
-              Grow your pipeline with{" "}
-              <span className="bg-gradient-to-r from-primary via-fuchsia-600 to-cyan-600 bg-clip-text text-transparent">
-                smart outreach
+              The pipeline won’t{" "}
+              <span className="bg-gradient-to-r from-primary via-fuchsia-600 to-violet-600 bg-clip-text text-transparent">
+                fill itself.
               </span>
             </motion.h1>
 
@@ -43,11 +35,9 @@ export function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45, delay: 0.12 }}
-              className="mt-5 max-w-xl text-lg leading-relaxed text-muted-foreground sm:text-xl"
+              className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground sm:text-xl lg:text-2xl"
             >
-              ProspectOutreach helps B2B teams find qualified leads, automate
-              sequences, and close more deals—with verified data and workflows
-              your reps will actually use.
+              ProspectOutreach finds your best fit buyers, reaches them with messaging that lands, and hands your team meetings worth showing up to all without adding headcount.
             </motion.p>
 
             <motion.div
@@ -56,14 +46,14 @@ export function HeroSection() {
               transition={{ duration: 0.45, delay: 0.2 }}
               className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center"
             >
-              <Button size="lg" className="group gap-2 shadow-soft-lg" asChild>
+              <Button size="lg" className="group h-14 gap-2 rounded-2xl px-8 text-lg font-semibold shadow-soft-lg transition-transform hover:scale-[1.02]" asChild>
                 <Link href="/contact">
                   Get started
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
                 </Link>
               </Button>
-              <Button size="lg" variant="outline" asChild>
-                <Link href="/contact?demo=1">Book a demo</Link>
+              <Button size="lg" variant="outline" className="h-14 rounded-2xl px-8 text-lg font-semibold" asChild>
+                <Link href="#how-it-works">See how it works</Link>
               </Button>
             </motion.div>
 

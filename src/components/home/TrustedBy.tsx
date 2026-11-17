@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { Card } from "@/components/ui/card";
 
 const LOGOS = [
   { src: "/company_logos/11.svg", alt: "Unisys" },
@@ -49,17 +50,16 @@ export function TrustedBy() {
           <span className="rounded-full bg-gradient-to-r from-primary/15 via-fuchsia-500/15 to-cyan-500/15 px-4 py-1 text-xs font-semibold uppercase tracking-widest text-primary">
             Social proof
           </span>
-          <p className="text-lg font-semibold text-foreground sm:text-xl">
-            Trusted by{" "}
-            <span className="bg-gradient-to-r from-primary to-fuchsia-600 bg-clip-text text-transparent">
-              B2B teams
-            </span>{" "}
-            worldwide
+          <h2 className="text-2xl font-bold text-foreground sm:text-3xl">
+            TRUSTED BY THE WORLD’S BEST
+          </h2>
+          <p className="mt-2 text-muted-foreground sm:text-lg">
+            Global brands trust ProspectOutreach as their demand generation partner:
           </p>
         </motion.div>
 
         <div className="relative mx-auto flex h-[180px] max-w-5xl items-center">
-          <div className="w-full overflow-hidden rounded-2xl border border-border/60 bg-white/60 py-4 shadow-sm backdrop-blur-sm">
+          <Card className="w-full overflow-hidden border-border/60 bg-white/60 py-4 shadow-sm backdrop-blur-sm">
             <div
               className="trusted-marquee-inner flex min-w-max gap-4 sm:gap-5"
               style={{ animationDuration: `${LOGOS.length * 3}s` }}
@@ -80,7 +80,7 @@ export function TrustedBy() {
                 </div>
               ))}
             </div>
-          </div>
+          </Card>
         </div>
       </div>
     </section>
