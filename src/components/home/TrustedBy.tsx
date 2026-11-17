@@ -31,23 +31,26 @@ function TrackItem({
 }) {
   if (company.src) {
     return (
-      <div className="flex h-11 w-36 shrink-0 items-center justify-center opacity-50 brightness-0 invert transition-opacity hover:opacity-90 sm:w-40">
+      // fixed-size box so every logo occupies the same space
+      <div className="flex h-10 w-36 shrink-0 items-center justify-center sm:w-40">
         <Image
           src={company.src}
           alt={company.alt || ""}
           width={170}
-          height={44}
+          height={40}
           unoptimized
-          className="max-h-10 w-auto max-w-[9.5rem] object-contain"
+          // grayscale + dim by default, full original colour on hover
+          className="max-h-9 w-auto max-w-[9rem] object-contain opacity-60 grayscale brightness-150 transition-all duration-300 hover:opacity-100 hover:grayscale-0 hover:brightness-100"
         />
       </div>
     );
   }
   const Icon = company.icon!;
   return (
-    <div className="flex shrink-0 items-center gap-2.5 text-foreground/75 transition-colors hover:text-foreground">
-      <Icon className="h-7 w-7 text-[#a78bfa]" strokeWidth={2} />
-      <span className="whitespace-nowrap text-xl font-semibold tracking-tight">
+    // same fixed box for text companies too
+    <div className="group flex h-10 w-36 shrink-0 items-center justify-center gap-2.5 opacity-70 transition-opacity hover:opacity-100 sm:w-40">
+      <Icon className="h-7 w-7 text-[#a78bfa] transition-colors group-hover:text-[#c084fc]" strokeWidth={2} />
+      <span className="whitespace-nowrap text-xl font-semibold tracking-tight text-foreground/80 transition-colors group-hover:text-foreground">
         {company.name}
       </span>
     </div>
