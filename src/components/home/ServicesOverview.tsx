@@ -123,8 +123,8 @@ export function ServicesOverview() {
           </p>
         </motion.div>
 
-        {/* cards */}
-        <div className="mt-14 grid gap-5 md:grid-cols-2">
+        {/* cards — one row of four, equal width */}
+        <div className="mt-14 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {services.map((s, i) => (
             <motion.button
               key={s.title}
@@ -135,48 +135,44 @@ export function ServicesOverview() {
               viewport={{ once: true, margin: "200px" }}
               transition={{ delay: reduce ? 0 : i * 0.08, duration: 0.5 }}
               whileHover={reduce ? undefined : { y: -6 }}
-              className="group relative overflow-hidden rounded-3xl border border-white/[0.08] bg-[#0f1016] p-6 text-left transition-colors duration-300 hover:border-white/20 sm:p-7"
+              className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/[0.08] bg-[#0f1016] p-5 text-left transition-colors duration-300 hover:border-white/20"
             >
               {/* hover glow blob */}
               <span
                 className={cn(
-                  "pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-20",
+                  "pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-20",
                   s.glow
                 )}
                 aria-hidden
               />
-              {/* big ghost number */}
-              <span className="pointer-events-none absolute right-5 top-4 font-syne text-5xl font-bold text-white/[0.04] transition-colors duration-300 group-hover:text-white/[0.07] sm:text-6xl">
+              {/* ghost number */}
+              <span className="pointer-events-none absolute right-4 top-3 font-syne text-4xl font-bold text-white/[0.05] transition-colors duration-300 group-hover:text-white/[0.08]">
                 {s.no}
               </span>
 
-              <div className="relative flex items-start justify-between gap-4">
-                <span
-                  className={cn(
-                    "flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br text-white shadow-lg transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6",
-                    s.gradient
-                  )}
-                >
-                  <s.icon className="h-7 w-7" />
-                </span>
-                <span className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-[11px] font-medium text-muted-foreground">
-                  {s.tag}
-                </span>
-              </div>
+              <span
+                className={cn(
+                  "relative flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br text-white shadow-lg transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6",
+                  s.gradient
+                )}
+              >
+                <s.icon className="h-6 w-6" />
+              </span>
 
-              <h3 className="relative mt-6 text-xl font-bold text-foreground">
+              <h3 className="relative mt-5 text-base font-bold leading-snug text-foreground">
                 {s.title}
               </h3>
-              <p className="relative mt-2.5 text-sm leading-relaxed text-muted-foreground">
+              <p className="relative mt-2 text-[13px] leading-relaxed text-muted-foreground">
                 {s.description}
               </p>
 
-              <div className="relative mt-6 flex items-center justify-between border-t border-white/[0.06] pt-4">
-                <span className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+              {/* footer pinned to bottom for equal alignment */}
+              <div className="relative mt-auto flex items-center justify-between border-t border-white/[0.06] pt-4">
+                <span className="flex items-center gap-1.5 text-[11px] font-medium text-muted-foreground">
                   <span className={cn("h-1.5 w-1.5 rounded-full", s.glow)} />
-                  {s.stat}
+                  {s.tag}
                 </span>
-                <span className="flex items-center gap-1.5 text-sm font-semibold text-primary">
+                <span className="flex items-center gap-1 text-[13px] font-semibold text-primary">
                   Learn more
                   <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </span>
