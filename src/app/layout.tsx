@@ -1,29 +1,23 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Syne, DM_Sans } from "next/font/google";
+import { Roboto, Roboto_Condensed } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { PageTransition } from "@/components/PageTransition";
 import { cn } from "@/lib/utils";
 
-const inter = Inter({
+const roboto = Roboto({
   subsets: ["latin"],
   variable: "--font-inter",
+  weight: ["300", "400", "500", "700", "900"],
   display: "swap",
 });
 
-const syne = Syne({
+// Display font for big headings (still Roboto family for consistency)
+const robotoCondensed = Roboto_Condensed({
   subsets: ["latin"],
   variable: "--font-syne",
-  weight: ["400", "600", "700", "800"],
-  display: "swap",
-});
-
-const dmSans = DM_Sans({
-  subsets: ["latin"],
-  variable: "--font-dm-sans",
-  weight: ["300", "400", "500"],
-  style: ["normal", "italic"],
+  weight: ["400", "500", "700"],
   display: "swap",
 });
 
@@ -152,7 +146,7 @@ export default function RootLayout({
   return (
     <html
       lang="en-GB"
-      className={cn(inter.variable, syne.variable, dmSans.variable)}
+      className={cn(roboto.variable, robotoCondensed.variable)}
     >
       <body className="min-h-screen bg-background font-sans text-foreground antialiased">
         <script

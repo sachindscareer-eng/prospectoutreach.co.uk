@@ -11,12 +11,12 @@ export function Faq() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section className="relative bg-background py-20 sm:py-28">
+    <section className="relative bg-background py-16 sm:py-20">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
+          viewport={{ once: true, margin: "200px" }}
           className="mx-auto max-w-2xl text-center"
         >
           <span className="text-sm font-semibold uppercase tracking-widest text-primary">
@@ -36,7 +36,7 @@ export function Faq() {
                 key={faq.q}
                 initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
+                viewport={{ once: true, margin: "200px" }}
                 transition={{ delay: reduce ? 0 : i * 0.05, duration: 0.4 }}
                 className="overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02]"
               >

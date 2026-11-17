@@ -25,7 +25,7 @@ export function TrustedBy() {
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
+          viewport={{ once: true, margin: "200px" }}
           className="mb-10 text-center"
         >
           <p className="text-sm font-medium uppercase tracking-widest text-muted-foreground">

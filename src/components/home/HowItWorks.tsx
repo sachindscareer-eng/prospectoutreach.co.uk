@@ -36,7 +36,7 @@ export function HowItWorks() {
   return (
     <section
       id="how-it-works"
-      className="relative overflow-hidden bg-muted py-20 sm:py-28"
+      className="relative overflow-hidden bg-muted py-16 sm:py-20"
     >
       <div className="pointer-events-none absolute left-1/4 top-10 h-72 w-72 rounded-full bg-[#7c5cff]/10 blur-[100px]" />
       <div className="pointer-events-none absolute bottom-10 right-1/4 h-72 w-72 rounded-full bg-[#4f7bff]/10 blur-[100px]" />
@@ -45,7 +45,7 @@ export function HowItWorks() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
+          viewport={{ once: true, margin: "200px" }}
           className="mx-auto max-w-2xl text-center"
         >
           <span className="text-sm font-semibold uppercase tracking-widest text-primary">
@@ -81,12 +81,13 @@ export function HowItWorks() {
                 key={step.title}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
+                viewport={{ once: true, margin: "200px" }}
                 transition={{ delay: reduce ? 0 : i * 0.12, duration: 0.5 }}
-                className="relative text-center"
+                whileHover={reduce ? undefined : { y: -6 }}
+                className="group relative text-center"
               >
-                <div className="relative mx-auto flex h-20 w-20 items-center justify-center rounded-2xl border border-white/10 bg-background shadow-soft">
-                  <span className="absolute -inset-1 -z-10 rounded-[1.1rem] bg-accent-gradient opacity-30 blur-md" />
+                <div className="relative mx-auto flex h-20 w-20 items-center justify-center rounded-2xl border border-white/10 bg-background shadow-soft transition-transform duration-300 group-hover:scale-110">
+                  <span className="absolute -inset-1 -z-10 rounded-[1.1rem] bg-accent-gradient opacity-30 blur-md transition-opacity duration-300 group-hover:opacity-70" />
                   <step.icon className="h-8 w-8 text-foreground" />
                 </div>
                 <p className="mt-6 text-xs font-bold uppercase tracking-widest text-primary">

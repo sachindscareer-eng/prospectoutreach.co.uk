@@ -36,8 +36,7 @@ const config: Config = {
       },
       fontFamily: {
         sans: ["var(--font-inter)", "system-ui", "sans-serif"],
-        syne: ["var(--font-syne)", "sans-serif"],
-        dmSans: ["var(--font-dm-sans)", "sans-serif"],
+        syne: ["var(--font-syne)", "system-ui", "sans-serif"],
       },
       boxShadow: {
         soft: "0 2px 15px -3px rgba(0, 0, 0, 0.4), 0 10px 24px -8px rgba(124, 92, 255, 0.12)",

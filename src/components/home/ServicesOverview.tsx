@@ -81,14 +81,14 @@ export function ServicesOverview() {
   >(null);
 
   return (
-    <section className="relative bg-background py-20 sm:py-28">
+    <section className="relative bg-background py-16 sm:py-20">
       <div className="pointer-events-none absolute left-1/2 top-0 h-px w-3/4 max-w-2xl -translate-x-1/2 bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
+          viewport={{ once: true, margin: "200px" }}
           className="mx-auto max-w-3xl text-center"
         >
           <span className="text-sm font-semibold uppercase tracking-widest text-primary">
@@ -110,7 +110,7 @@ export function ServicesOverview() {
               key={service.title}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
+              viewport={{ once: true, margin: "200px" }}
               transition={{ delay: reduce ? 0 : i * 0.08, duration: 0.5 }}
               className={cn("h-full", service.span)}
             >

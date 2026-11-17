@@ -35,12 +35,12 @@ export function WhyChoose() {
   const reduce = useReducedMotion();
 
   return (
-    <section className="relative bg-background py-20 sm:py-28">
+    <section className="relative bg-background py-16 sm:py-20">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
+          viewport={{ once: true, margin: "200px" }}
           className="mx-auto max-w-2xl text-center"
         >
           <span className="text-sm font-semibold uppercase tracking-widest text-primary">
@@ -63,7 +63,7 @@ export function WhyChoose() {
               key={benefit.title}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
+              viewport={{ once: true, margin: "200px" }}
               transition={{ delay: reduce ? 0 : i * 0.08, duration: 0.5 }}
               className="h-full"
             >
