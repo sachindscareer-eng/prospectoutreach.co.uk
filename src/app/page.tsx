@@ -1,8 +1,7 @@
 import { HeroSection } from "@/components/home/HeroSection";
-import { TrustedBy } from "@/components/home/TrustedBy";
+import { VideoSection } from "@/components/home/VideoSection";
 import { ServicesOverview } from "@/components/home/ServicesOverview";
 import { HowItWorks } from "@/components/home/HowItWorks";
-import { WhyChoose } from "@/components/home/WhyChoose";
 import { Faq } from "@/components/home/Faq";
 import { faqs } from "@/components/home/faq-data";
 import { CTASection } from "@/components/home/CTASection";
@@ -43,10 +42,9 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(homeJsonLd) }}
       />
       <HeroSection />
-      <TrustedBy />
+      <VideoSection />
       <ServicesOverview />
       <HowItWorks />
-      <WhyChoose />
       <Faq />
       <CTASection />
     </>
