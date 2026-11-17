@@ -143,10 +143,13 @@ export function HeroSection() {
             transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
             className="relative"
           >
-            {/* glow frame — brighter purple ring like reference */}
-            <div className="pointer-events-none absolute -inset-6 -z-10 rounded-[2.25rem] bg-gradient-to-br from-[#4f7bff]/50 via-[#8b3dff]/50 to-[#e552ff]/40 opacity-70 blur-3xl" />
+            {/* neon edge glows like reference */}
+            <div className="pointer-events-none absolute -left-10 -top-10 -z-10 h-48 w-48 rounded-full bg-[#4f7bff]/60 blur-[70px]" />
+            <div className="pointer-events-none absolute -bottom-12 -right-6 -z-10 h-56 w-56 rounded-full bg-[#9333ea]/60 blur-[80px]" />
+            <div className="pointer-events-none absolute -bottom-10 left-1/4 -z-10 h-40 w-64 rounded-full bg-[#7c3aed]/50 blur-[80px]" />
+            <div className="pointer-events-none absolute -inset-5 -z-10 rounded-[2.25rem] bg-gradient-to-br from-[#4f7bff]/40 via-[#8b3dff]/45 to-[#e552ff]/35 opacity-80 blur-3xl" />
 
-            <div className="overflow-hidden rounded-2xl border border-[#8b5cf6]/40 bg-[#0d0b18] shadow-[0_0_0_1px_rgba(139,92,246,0.3),0_30px_90px_-20px_rgba(124,92,255,0.7)]">
+            <div className="relative overflow-hidden rounded-2xl border border-[#8b5cf6]/50 bg-[#0d0b18] shadow-[0_0_0_1px_rgba(139,92,246,0.35),0_0_40px_-5px_rgba(124,92,255,0.6),0_30px_90px_-20px_rgba(124,92,255,0.8)]">
               <div className="flex">
                 {/* sidebar */}
                 <aside className="hidden w-40 shrink-0 flex-col gap-1 border-r border-white/[0.06] bg-white/[0.015] p-3 sm:flex">
@@ -184,18 +187,18 @@ export function HeroSection() {
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.4 + idx * 0.08 }}
-                        className={`rounded-xl border p-2.5 ${
+                        className={`rounded-xl border p-3 ${
                           idx === 3
-                            ? "border-[#7c5cff]/40 bg-[#7c5cff]/10"
-                            : "border-white/[0.06] bg-white/[0.02]"
+                            ? "border-[#7c5cff]/50 bg-[#7c5cff]/15"
+                            : "border-white/[0.08] bg-white/[0.03]"
                         }`}
                       >
                         <div className="flex items-center justify-between">
-                          <span className="text-[9px] text-muted-foreground">{s.label}</span>
-                          <s.icon className="h-3 w-3 text-primary" />
+                          <span className="text-[9.5px] text-muted-foreground">{s.label}</span>
+                          <s.icon className="h-3.5 w-3.5 text-primary" />
                         </div>
-                        <p className="mt-1 text-base font-bold text-foreground">{s.value}</p>
-                        <p className="text-[9px] font-medium text-emerald-400">↑ {s.delta}</p>
+                        <p className="mt-1.5 text-lg font-bold leading-none text-foreground">{s.value}</p>
+                        <p className="mt-1 text-[9px] font-medium text-emerald-400">↑ {s.delta}</p>
                       </motion.div>
                     ))}
                   </div>
