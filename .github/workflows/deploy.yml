@@ -33,5 +33,9 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./out/
-          server-dir: ./
-          dangerous-clean-slate: true
+          server-dir: public_html/
+          # keep server-side secret config; don't wipe the whole directory
+          exclude: |
+            **/.git*
+            **/.git*/**
+            smtp-config.php
