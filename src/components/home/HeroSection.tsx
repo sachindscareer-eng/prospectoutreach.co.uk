@@ -8,10 +8,7 @@ import {
 } from "framer-motion";
 import {
   ArrowRight,
-  Play,
   CalendarCheck,
-  BarChart3,
-  Zap,
   LayoutDashboard,
   Megaphone,
   Users,
@@ -23,12 +20,6 @@ import {
   Linkedin,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-const highlights = [
-  { icon: CalendarCheck, label: "More qualified meetings" },
-  { icon: BarChart3, label: "A stronger sales pipeline" },
-  { icon: Zap, label: "Predictable revenue growth" },
-];
 
 const stats = [
   { label: "Prospects", value: "12,480", delta: "+28%", icon: Users },
@@ -75,7 +66,7 @@ export function HeroSection() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-[#070510] pb-16 pt-10 sm:pb-20 sm:pt-12">
+    <section className="relative flex min-h-[calc(100vh-2rem)] items-center overflow-hidden bg-[#070510] pb-20 pt-16 sm:pb-28 sm:pt-20">
       {/* ambient glow — strong purple like reference */}
       <div className="pointer-events-none absolute inset-0 -z-10 bg-grid opacity-25" />
       <div className="pointer-events-none absolute right-[8%] top-[6%] -z-10 h-[40rem] w-[46rem] rounded-full bg-[#7c3aed]/35 blur-[140px]" />
@@ -88,52 +79,84 @@ export function HeroSection() {
           <motion.div variants={container} initial="hidden" animate="show">
             <motion.span
               variants={item}
-              className="inline-flex items-center rounded-full border border-white/15 bg-white/[0.04] px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-foreground/90"
+              className="inline-flex items-center rounded-full border border-[#8b5cf6]/40 bg-[#8b5cf6]/10 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-foreground sm:text-xs"
             >
-              B2B Lead Generation Agency
+              B2B Demand Generation &amp; Sales Outreach
             </motion.span>
 
             <motion.h1
               variants={item}
-              className="mt-6 font-syne text-4xl font-bold leading-[1.05] tracking-tight text-foreground sm:text-5xl lg:text-6xl"
+              className="mt-6 font-syne text-[2.75rem] font-extrabold leading-[1.02] tracking-tight text-foreground sm:text-6xl lg:text-[4rem]"
             >
-              B2B lead generation that fills your{" "}
-              <span className="bg-gradient-to-r from-[#8b6fff] to-[#c084fc] bg-clip-text italic text-transparent">
-                pipeline.
+              Turn the Right Prospects into{" "}
+              <span className="relative inline-block bg-gradient-to-r from-[#8b6fff] to-[#c084fc] bg-clip-text italic text-transparent">
+                Real Opportunities
+                <svg
+                  className="absolute -bottom-2 left-0 w-full"
+                  height="10"
+                  viewBox="0 0 300 10"
+                  fill="none"
+                  preserveAspectRatio="none"
+                  aria-hidden
+                >
+                  <path
+                    d="M2 7 C 80 2, 220 2, 298 7"
+                    stroke="url(#ug)"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                  />
+                  <defs>
+                    <linearGradient id="ug" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stopColor="#8b6fff" />
+                      <stop offset="100%" stopColor="#e552ff" />
+                    </linearGradient>
+                  </defs>
+                </svg>
               </span>
             </motion.h1>
 
             <motion.p
               variants={item}
-              className="mt-5 max-w-md text-base leading-relaxed text-muted-foreground sm:text-lg"
+              className="mt-7 max-w-md text-base leading-relaxed text-muted-foreground sm:text-lg"
             >
-              We find best-fit buyers, run targeted cold email and LinkedIn
-              outreach, and book qualified meetings directly on your calendar.
+              Target the right accounts, engage decision-makers and turn
+              conversations into qualified meetings for your sales team.
             </motion.p>
 
             <motion.div variants={item} className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Button size="lg" className="group h-14 gap-2 px-7 text-base" asChild>
                 <Link href="/contact">
-                  Book qualified meetings
+                  Book a Strategy Call
                   <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
                 </Link>
               </Button>
-              <Button size="lg" variant="outline" className="h-14 gap-2 px-7 text-base" asChild>
-                <Link href="#how-it-works">
-                  <Play className="h-4 w-4 fill-current" />
-                  See how it works
-                </Link>
+              <Button size="lg" variant="outline" className="h-14 px-7 text-base" asChild>
+                <Link href="/services">Explore Services</Link>
               </Button>
             </motion.div>
 
-            <motion.ul variants={item} className="mt-9 flex flex-wrap gap-x-7 gap-y-3">
-              {highlights.map((h) => (
-                <li key={h.label} className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <h.icon className="h-4 w-4 text-primary" />
-                  {h.label}
-                </li>
-              ))}
-            </motion.ul>
+            {/* social proof */}
+            <motion.div variants={item} className="mt-9 flex items-center gap-4">
+              <div className="flex -space-x-3">
+                {["#7c5cff", "#4f7bff", "#e552ff"].map((c, i) => (
+                  <motion.span
+                    key={i}
+                    whileHover={{ y: -4, scale: 1.1, zIndex: 10 }}
+                    className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border-2 border-background text-xs font-bold text-white transition-shadow hover:shadow-[0_0_12px_rgba(124,92,255,0.6)]"
+                    style={{ background: `linear-gradient(135deg, ${c}, #0d0b18)` }}
+                  >
+                    <Users className="h-4 w-4" />
+                  </motion.span>
+                ))}
+              </div>
+              <span className="h-8 w-px bg-white/15" />
+              <p className="max-w-[16rem] text-sm leading-snug text-muted-foreground">
+                Trusted by B2B teams to build a{" "}
+                <span className="font-semibold text-foreground">
+                  stronger, more predictable pipeline.
+                </span>
+              </p>
+            </motion.div>
           </motion.div>
 
           {/* RIGHT dashboard mockup */}
@@ -152,15 +175,15 @@ export function HeroSection() {
             <div className="relative overflow-hidden rounded-2xl border border-[#8b5cf6]/50 bg-[#0d0b18] shadow-[0_0_0_1px_rgba(139,92,246,0.35),0_0_40px_-5px_rgba(124,92,255,0.6),0_30px_90px_-20px_rgba(124,92,255,0.8)]">
               <div className="flex">
                 {/* sidebar */}
-                <aside className="hidden w-40 shrink-0 flex-col gap-1 border-r border-white/[0.06] bg-white/[0.015] p-3 sm:flex">
-                  <div className="mb-3 flex items-center gap-2 px-2 py-1">
-                    <span className="flex h-6 w-6 items-center justify-center rounded-md bg-accent-gradient text-[10px] font-bold text-white">P</span>
-                    <span className="text-xs font-bold text-foreground">ProspectOutreach</span>
+                <aside className="hidden w-44 shrink-0 flex-col gap-1.5 border-r border-white/[0.06] bg-white/[0.015] p-4 sm:flex">
+                  <div className="mb-4 flex items-center gap-2 px-2 py-1">
+                    <span className="flex h-7 w-7 items-center justify-center rounded-md bg-accent-gradient text-[11px] font-bold text-white">P</span>
+                    <span className="text-sm font-bold text-foreground">ProspectOutreach</span>
                   </div>
                   {navItems.map((n) => (
                     <div
                       key={n.label}
-                      className={`flex items-center gap-2 rounded-lg px-2.5 py-2 text-[11px] font-medium ${
+                      className={`flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-xs font-medium ${
                         n.active ? "bg-white/[0.06] text-foreground" : "text-muted-foreground"
                       }`}
                     >
@@ -171,26 +194,27 @@ export function HeroSection() {
                 </aside>
 
                 {/* main panel */}
-                <div className="min-w-0 flex-1 p-4 sm:p-5">
+                <div className="min-w-0 flex-1 p-5 sm:p-6">
                   <div className="flex items-center justify-between">
-                    <h3 className="text-sm font-bold text-foreground">Pipeline Overview</h3>
-                    <span className="rounded-md border border-white/10 bg-white/[0.03] px-2.5 py-1 text-[10px] text-muted-foreground">
+                    <h3 className="text-base font-bold text-foreground">Pipeline Overview</h3>
+                    <span className="rounded-md border border-white/10 bg-white/[0.03] px-3 py-1.5 text-[11px] text-muted-foreground">
                       Last 30 Days ▾
                     </span>
                   </div>
 
                   {/* stat cards */}
-                  <div className="mt-3 grid grid-cols-2 gap-2 lg:grid-cols-4">
+                  <div className="mt-4 grid grid-cols-2 gap-2.5 lg:grid-cols-4">
                     {stats.map((s, idx) => (
                       <motion.div
                         key={s.label}
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.4 + idx * 0.08 }}
-                        className={`rounded-xl border p-3 ${
+                        whileHover={{ y: -3, scale: 1.03 }}
+                        className={`cursor-default rounded-xl border p-3 transition-colors ${
                           idx === 3
-                            ? "border-[#7c5cff]/50 bg-[#7c5cff]/15"
-                            : "border-white/[0.08] bg-white/[0.03]"
+                            ? "border-[#7c5cff]/50 bg-[#7c5cff]/15 hover:bg-[#7c5cff]/25"
+                            : "border-white/[0.08] bg-white/[0.03] hover:border-[#7c5cff]/40 hover:bg-white/[0.06]"
                         }`}
                       >
                         <div className="flex items-center justify-between">
@@ -204,42 +228,43 @@ export function HeroSection() {
                   </div>
 
                   {/* sales pipeline row */}
-                  <div className="mt-3 flex items-center gap-2 text-[10px]">
+                  <div className="mt-5 flex items-center gap-2 text-[11px]">
                     <span className="font-semibold text-foreground">Sales Pipeline</span>
                     <span className="text-muted-foreground">$3.4M Potential</span>
                   </div>
-                  <div className="mt-1.5 grid grid-cols-4 gap-1.5">
+                  <div className="mt-2 grid grid-cols-4 gap-2">
                     {pipeline.map((p) => (
                       <div
                         key={p.label}
-                        className={`rounded-lg border px-2 py-1.5 text-center ${
+                        className={`rounded-lg border px-2 py-2.5 text-center ${
                           p.active
                             ? "border-transparent bg-accent-gradient text-white"
                             : "border-white/[0.06] bg-white/[0.02]"
                         }`}
                       >
-                        <p className={`text-[9px] ${p.active ? "text-white/80" : "text-muted-foreground"}`}>{p.label}</p>
-                        <p className={`text-[11px] font-bold ${p.active ? "text-white" : "text-foreground"}`}>{p.value}</p>
+                        <p className={`text-[9.5px] ${p.active ? "text-white/80" : "text-muted-foreground"}`}>{p.label}</p>
+                        <p className={`text-xs font-bold ${p.active ? "text-white" : "text-foreground"}`}>{p.value}</p>
                       </div>
                     ))}
                   </div>
 
                   {/* bottom row: chart + leads */}
-                  <div className="mt-3 grid grid-cols-1 gap-2 lg:grid-cols-2">
-                    <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-2.5">
-                      <p className="mb-2 text-[10px] font-semibold text-foreground">Outreach Activity</p>
-                      <div className="flex h-16 items-end gap-1">
+                  <div className="mt-4 grid grid-cols-1 gap-3 lg:grid-cols-2">
+                    <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-3.5">
+                      <p className="mb-3 text-[11px] font-semibold text-foreground">Outreach Activity</p>
+                      <div className="group/chart flex h-24 items-end gap-1">
                         {bars.map((h, i) => (
                           <motion.div
                             key={i}
                             initial={{ height: 0 }}
                             animate={{ height: `${h}%` }}
                             transition={{ delay: 0.6 + i * 0.03, duration: 0.4 }}
-                            className="flex-1 rounded-sm bg-gradient-to-t from-[#7c5cff] to-[#c084fc]"
+                            whileHover={{ scaleY: 1.08 }}
+                            className="flex-1 origin-bottom cursor-pointer rounded-sm bg-gradient-to-t from-[#7c5cff] to-[#c084fc] transition-opacity hover:from-[#9f7bff] hover:to-[#e552ff] group-hover/chart:opacity-60 hover:!opacity-100"
                           />
                         ))}
                       </div>
-                      <div className="mt-1.5 flex justify-between text-[7px] text-muted-foreground/70">
+                      <div className="mt-2 flex justify-between text-[8px] text-muted-foreground/70">
                         <span>Apr 1</span>
                         <span>Apr 8</span>
                         <span>Apr 15</span>
@@ -247,20 +272,23 @@ export function HeroSection() {
                         <span>Apr 30</span>
                       </div>
                     </div>
-                    <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-2.5">
-                      <div className="mb-2 flex items-center justify-between">
-                        <p className="text-[10px] font-semibold text-foreground">Recent Qualified Leads</p>
-                        <span className="text-[9px] text-primary">View All →</span>
+                    <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-3.5">
+                      <div className="mb-3 flex items-center justify-between">
+                        <p className="text-[11px] font-semibold text-foreground">Recent Qualified Leads</p>
+                        <span className="text-[9.5px] text-primary">View All →</span>
                       </div>
-                      <div className="space-y-1.5">
+                      <div className="space-y-3">
                         {leads.map((l) => (
-                          <div key={l.name} className="flex items-center gap-2">
-                            <span className="h-5 w-5 shrink-0 rounded-full bg-gradient-to-br from-[#7c5cff] to-[#e552ff]" />
+                          <div
+                            key={l.name}
+                            className="-mx-1.5 flex cursor-pointer items-center gap-2.5 rounded-lg px-1.5 py-1 transition-colors hover:bg-white/[0.04]"
+                          >
+                            <span className="h-7 w-7 shrink-0 rounded-full bg-gradient-to-br from-[#7c5cff] to-[#e552ff]" />
                             <div className="min-w-0 flex-1">
-                              <p className="truncate text-[10px] font-semibold text-foreground">{l.name}</p>
-                              <p className="truncate text-[8px] text-muted-foreground">{l.role}</p>
+                              <p className="truncate text-[11px] font-semibold text-foreground">{l.name}</p>
+                              <p className="truncate text-[9px] text-muted-foreground">{l.role}</p>
                             </div>
-                            <Linkedin className="h-3 w-3 text-[#4f7bff]" />
+                            <Linkedin className="h-3.5 w-3.5 text-[#4f7bff] transition-transform hover:scale-125" />
                           </div>
                         ))}
                       </div>

@@ -1,58 +1,55 @@
 "use client";
 
-import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
+import { Zap, Cloud, Hexagon, Layers, BarChart3 } from "lucide-react";
 
-const LOGOS = [
-  { src: "/company_logos/11.svg", alt: "Unisys logo" },
-  { src: "/company_logos/2.svg", alt: "Red Hat logo" },
-  { src: "/company_logos/3.svg", alt: "Zscaler logo" },
-  { src: "/company_logos/4.svg", alt: "Dell logo" },
-  { src: "/company_logos/5.svg", alt: "Hewlett Packard Enterprise logo" },
-  { src: "/company_logos/6.svg", alt: "Hitachi logo" },
-  { src: "/company_logos/7.svg", alt: "IBM logo" },
-  { src: "/company_logos/8.svg", alt: "Oracle logo" },
-  { src: "/company_logos/9.svg", alt: "Salesforce logo" },
-  { src: "/company_logos/10.svg", alt: "Snowflake logo" },
+const companies = [
+  { icon: Zap, name: "Techwave" },
+  { icon: Cloud, name: "Cloudify" },
+  { icon: Hexagon, name: "Nexora" },
+  { icon: Layers, name: "DataSync" },
+  { icon: BarChart3, name: "ScaleHQ" },
 ];
 
 export function TrustedBy() {
   const reduce = useReducedMotion();
 
   return (
-    <section className="relative overflow-hidden border-y border-white/[0.08] bg-background py-12 sm:py-14">
-      <div className="container relative mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
+    <section className="relative border-y border-white/[0.06] bg-[#0a0a0f]">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true, margin: "200px" }}
-          className="mx-auto mb-9 max-w-2xl text-center text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground"
+          transition={{ duration: 0.5 }}
+          className="flex flex-col items-center gap-6 py-6 md:flex-row md:justify-center md:gap-10"
         >
-          Built for the enterprise B2B landscape we sell into
-        </motion.p>
+          {/* label */}
+          <p className="text-center text-[11px] font-semibold uppercase leading-tight tracking-[0.15em] text-muted-foreground md:text-left">
+            Trusted by
+            <br className="hidden md:block" /> growing B2B companies
+          </p>
 
-        {/* centered, symmetric logo grid */}
-        <div className="mx-auto grid max-w-5xl grid-cols-2 items-center gap-x-6 gap-y-8 sm:grid-cols-3 lg:grid-cols-5">
-          {LOGOS.map((logo, i) => (
-            <motion.div
-              key={logo.src}
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "200px" }}
-              transition={{ delay: reduce ? 0 : i * 0.04, duration: 0.4 }}
-              className="flex h-10 items-center justify-center"
-            >
-              <Image
-                src={logo.src}
-                alt={logo.alt}
-                width={150}
-                height={44}
-                unoptimized
-                className="max-h-9 w-auto max-w-[8.5rem] object-contain opacity-50 brightness-0 invert transition-opacity duration-300 hover:opacity-90"
-              />
-            </motion.div>
-          ))}
-        </div>
+          {/* divider */}
+          <span className="hidden h-10 w-px bg-white/10 md:block" />
+
+          {/* company strip */}
+          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 sm:gap-x-10">
+            {companies.map((c, i) => (
+              <motion.div
+                key={c.name}
+                initial={{ opacity: 0, y: 8 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "200px" }}
+                transition={{ delay: reduce ? 0 : i * 0.06, duration: 0.4 }}
+                className="flex items-center gap-2 text-foreground/80 transition-colors hover:text-foreground"
+              >
+                <c.icon className="h-5 w-5 text-[#a78bfa]" strokeWidth={2} />
+                <span className="text-base font-semibold tracking-tight">{c.name}</span>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
       </div>
     </section>
   );

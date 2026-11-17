@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
-import { Target, Send, CheckSquare, CalendarDays, ArrowRight } from "lucide-react";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
+import { Target, Send, CheckSquare, CalendarDays } from "lucide-react";
 
 const steps = [
   {
@@ -9,32 +9,51 @@ const steps = [
     title: "Target",
     description:
       "Define your ideal customer profile and build a precise list of best-fit accounts and buyers.",
+    gradient: "from-[#4f7bff] to-[#7c5cff]",
   },
   {
     icon: Send,
     title: "Reach",
     description:
       "Run personalized cold email and LinkedIn outreach at scale to start real conversations.",
+    gradient: "from-[#7c5cff] to-[#a855f7]",
   },
   {
     icon: CheckSquare,
     title: "Qualify",
     description:
       "Engage and filter responses to surface sales-ready opportunities.",
+    gradient: "from-[#a855f7] to-[#e552ff]",
   },
   {
     icon: CalendarDays,
     title: "Close",
     description:
       "Book qualified meetings directly into your sales team’s calendar.",
+    gradient: "from-[#e552ff] to-[#ff7ab8]",
   },
 ];
 
 export function HowItWorks() {
   const reduce = useReducedMotion();
 
+  const card: Variants = {
+    hidden: { opacity: 0, y: reduce ? 0 : 30 },
+    show: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: { delay: reduce ? 0 : i * 0.15, duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+    }),
+  };
+
   return (
-    <section id="how-it-works" className="relative overflow-hidden bg-background py-16 sm:py-20">
+    <section
+      id="how-it-works"
+      className="relative overflow-hidden bg-[#08060f] py-20 sm:py-24"
+    >
+      {/* ambient glow */}
+      <div className="pointer-events-none absolute left-1/2 top-24 -z-0 h-72 w-[42rem] -translate-x-1/2 rounded-full bg-[#7c5cff]/10 blur-[120px]" />
+
       <div className="container relative mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -54,36 +73,65 @@ export function HowItWorks() {
           </p>
         </motion.div>
 
-        <div className="mx-auto mt-14 grid max-w-6xl grid-cols-1 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-x-4">
-          {steps.map((step, i) => (
-            <motion.div
-              key={step.title}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "200px" }}
-              transition={{ delay: reduce ? 0 : i * 0.12, duration: 0.5 }}
-              className="group relative"
-            >
-              {/* connector arrow */}
-              {i < steps.length - 1 && (
-                <ArrowRight className="absolute right-[-10px] top-5 hidden h-5 w-5 text-[#7c5cff]/60 lg:block" />
-              )}
+        <div className="relative mx-auto mt-16 max-w-6xl">
+          {/* animated connector line (desktop) */}
+          <div className="pointer-events-none absolute left-[12%] right-[12%] top-[4.5rem] hidden lg:block">
+            <div className="relative h-0.5 w-full overflow-hidden rounded-full bg-white/[0.08]">
+              <motion.div
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: reduce ? 0 : 1.6, ease: "easeInOut", delay: 0.3 }}
+                style={{ transformOrigin: "left" }}
+                className="h-full w-full bg-gradient-to-r from-[#4f7bff] via-[#a855f7] to-[#e552ff]"
+              />
+            </div>
+          </div>
 
-              <div className="flex items-center gap-3">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#7c5cff]/40 bg-[#7c5cff]/12 text-sm font-bold text-[#c084fc]">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
+            {steps.map((step, i) => (
+              <motion.div
+                key={step.title}
+                custom={i}
+                variants={card}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, margin: "150px" }}
+                whileHover={reduce ? undefined : { y: -8 }}
+                className="group relative rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6 text-center transition-colors duration-300 hover:border-[#7c5cff]/40"
+              >
+                {/* number badge */}
+                <span className="absolute right-4 top-4 font-syne text-3xl font-bold text-white/[0.06] transition-colors group-hover:text-white/[0.1]">
                   0{i + 1}
                 </span>
-                <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-[#a78bfa] transition-transform duration-300 group-hover:scale-110">
-                  <step.icon className="h-5 w-5" strokeWidth={1.75} />
-                </span>
-              </div>
 
-              <h3 className="mt-5 text-lg font-bold text-foreground">{step.title}</h3>
-              <p className="mt-2 max-w-[15rem] text-sm leading-relaxed text-muted-foreground">
-                {step.description}
-              </p>
-            </motion.div>
-          ))}
+                {/* animated icon */}
+                <div className="relative mx-auto flex h-16 w-16 items-center justify-center">
+                  <motion.span
+                    aria-hidden
+                    className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${step.gradient} opacity-30 blur-md`}
+                    animate={reduce ? undefined : { scale: [1, 1.15, 1], opacity: [0.3, 0.5, 0.3] }}
+                    transition={{ duration: 3, repeat: Infinity, delay: i * 0.4 }}
+                  />
+                  <span
+                    className={`relative flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br ${step.gradient} text-white shadow-lg transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6`}
+                  >
+                    <step.icon className="h-7 w-7" strokeWidth={1.9} />
+                  </span>
+                </div>
+
+                <p className="mt-5 text-xs font-bold uppercase tracking-widest text-[#a78bfa]">
+                  Step {i + 1}
+                </p>
+                <h3 className="mt-1.5 text-xl font-bold text-foreground">
+                  {step.title}
+                </h3>
+                <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">
+                  {step.description}
+                </p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
