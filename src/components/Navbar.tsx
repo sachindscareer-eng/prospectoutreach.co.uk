@@ -10,13 +10,20 @@ import { Logo } from "@/components/Logo";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
-  { href: "/", label: "Home" },
   {
     href: "/services",
     label: "Services",
     children: [
       { href: "/services", label: "Outreach Services" },
       { href: "/web-solutions", label: "Web Solutions" },
+    ],
+  },
+  {
+    href: "/web-solutions",
+    label: "Web Solutions",
+    children: [
+      { href: "/web-solutions", label: "Web Design" },
+      { href: "/web-solutions", label: "Development" },
     ],
   },
   { href: "/about", label: "About" },
@@ -97,7 +104,7 @@ export function Navbar() {
           <div className="hidden shrink-0 md:flex md:items-center">
             <Button className="gap-1.5" asChild>
               <Link href="/contact">
-                Get Started
+                Book a Strategy Call
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>
@@ -168,7 +175,7 @@ export function Navbar() {
                 <div className="border-t border-white/10 p-2 pt-3">
                   <Button className="w-full gap-2" asChild>
                     <Link href="/contact" onClick={() => setMobileOpen(false)}>
-                      Get Started
+                      Book a Strategy Call
                       <ArrowRight className="h-4 w-4" />
                     </Link>
                   </Button>

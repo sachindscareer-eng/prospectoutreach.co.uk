@@ -75,11 +75,12 @@ export function HeroSection() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-background pb-16 pt-10 sm:pb-20 sm:pt-12">
-      {/* ambient glow */}
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-grid opacity-40" />
-      <div className="pointer-events-none absolute right-[-10%] top-[-5%] -z-10 h-[34rem] w-[34rem] rounded-full bg-[#7c5cff]/20 blur-[130px]" />
-      <div className="pointer-events-none absolute left-[-10%] top-1/3 -z-10 h-[28rem] w-[28rem] rounded-full bg-[#4f7bff]/12 blur-[130px]" />
+    <section className="relative overflow-hidden bg-[#070510] pb-16 pt-10 sm:pb-20 sm:pt-12">
+      {/* ambient glow — strong purple like reference */}
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-grid opacity-25" />
+      <div className="pointer-events-none absolute right-[8%] top-[6%] -z-10 h-[40rem] w-[46rem] rounded-full bg-[#7c3aed]/35 blur-[140px]" />
+      <div className="pointer-events-none absolute right-[-5%] top-[30%] -z-10 h-[34rem] w-[34rem] rounded-full bg-[#9333ea]/25 blur-[140px]" />
+      <div className="pointer-events-none absolute left-[-8%] top-[40%] -z-10 h-[26rem] w-[26rem] rounded-full bg-[#4f7bff]/14 blur-[140px]" />
 
       <div className="container relative mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid items-center gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-12">
@@ -142,10 +143,10 @@ export function HeroSection() {
             transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
             className="relative"
           >
-            {/* glow frame */}
-            <div className="pointer-events-none absolute -inset-4 -z-10 rounded-[2rem] bg-gradient-to-br from-[#4f7bff]/40 via-[#7c5cff]/30 to-[#e552ff]/30 opacity-50 blur-3xl" />
+            {/* glow frame — brighter purple ring like reference */}
+            <div className="pointer-events-none absolute -inset-6 -z-10 rounded-[2.25rem] bg-gradient-to-br from-[#4f7bff]/50 via-[#8b3dff]/50 to-[#e552ff]/40 opacity-70 blur-3xl" />
 
-            <div className="overflow-hidden rounded-2xl border border-white/12 bg-[#0d0b18] shadow-[0_30px_80px_-24px_rgba(124,92,255,0.5)]">
+            <div className="overflow-hidden rounded-2xl border border-[#8b5cf6]/40 bg-[#0d0b18] shadow-[0_0_0_1px_rgba(139,92,246,0.3),0_30px_90px_-20px_rgba(124,92,255,0.7)]">
               <div className="flex">
                 {/* sidebar */}
                 <aside className="hidden w-40 shrink-0 flex-col gap-1 border-r border-white/[0.06] bg-white/[0.015] p-3 sm:flex">
@@ -234,6 +235,13 @@ export function HeroSection() {
                             className="flex-1 rounded-sm bg-gradient-to-t from-[#7c5cff] to-[#c084fc]"
                           />
                         ))}
+                      </div>
+                      <div className="mt-1.5 flex justify-between text-[7px] text-muted-foreground/70">
+                        <span>Apr 1</span>
+                        <span>Apr 8</span>
+                        <span>Apr 15</span>
+                        <span>Apr 22</span>
+                        <span>Apr 30</span>
                       </div>
                     </div>
                     <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-2.5">

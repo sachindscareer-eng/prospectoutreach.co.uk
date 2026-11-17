@@ -1,4 +1,5 @@
 import { HeroSection } from "@/components/home/HeroSection";
+import { TrustedBy } from "@/components/home/TrustedBy";
 import { VideoSection } from "@/components/home/VideoSection";
 import { ServicesOverview } from "@/components/home/ServicesOverview";
 import { HowItWorks } from "@/components/home/HowItWorks";
@@ -42,6 +43,7 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(homeJsonLd) }}
       />
       <HeroSection />
+      <TrustedBy />
       <VideoSection />
       <ServicesOverview />
       <HowItWorks />
