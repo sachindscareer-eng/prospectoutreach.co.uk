@@ -32,7 +32,7 @@ const Card = React.forwardRef<
     <div
       ref={ref}
       className={cn(
-        "group relative overflow-hidden rounded-2xl border border-border bg-card text-card-foreground shadow-soft transition-all duration-300",
+        "group relative overflow-hidden rounded-2xl border border-white/[0.08] bg-card text-card-foreground shadow-soft transition-all duration-300",
         className
       )}
       onMouseMove={handleMouseMove}
@@ -44,7 +44,7 @@ const Card = React.forwardRef<
         className="pointer-events-none absolute -inset-px transition-opacity duration-300"
         style={{
           opacity: isHovered ? 1 : 0,
-          background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(217, 70, 239, 0.12), transparent 40%)`,
+          background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(124, 92, 255, 0.14), transparent 40%)`,
         }}
       />
       {children}

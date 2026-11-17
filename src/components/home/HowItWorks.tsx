@@ -1,46 +1,45 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Target, MessageSquare, Filter, RefreshCcw } from "lucide-react";
-import { Card } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
 
 const steps = [
   {
     icon: Target,
     title: "Target the right people",
-    description: "No guesswork. No wasted outreach. We use AI-powered ICP matching and verified B2B data to build prospect lists filled with decision-makers who actually fit what you sell.",
-    color: "from-violet-500 to-purple-600",
-    blob: "bg-violet-200/70",
+    description:
+      "No guesswork. We use ICP matching and verified B2B data to build prospect lists filled with decision-makers who actually fit what you sell.",
   },
   {
     icon: MessageSquare,
     title: "Reach them with precision",
-    description: "Personalised cold email and LinkedIn sequences go out at scale with the right message, to the right person, at the right time. Your team stops writing follow-ups manually.",
-    color: "from-cyan-500 to-primary",
-    blob: "bg-cyan-200/70",
+    description:
+      "Personalised cold email and LinkedIn sequences go out at scale — the right message, to the right person, at the right time.",
   },
   {
     icon: Filter,
-    title: "Qualify before it hits your calendar",
-    description: "Not every reply is a deal. We filter for intent, confirm fit, and only pass through meetings worth your reps’ time. No tyre-kickers. No dead-end demos.",
-    color: "from-fuchsia-500 to-pink-600",
-    blob: "bg-fuchsia-200/70",
+    title: "Qualify before your calendar",
+    description:
+      "Not every reply is a deal. We filter for intent, confirm fit, and only pass through meetings worth your reps’ time.",
   },
   {
     icon: RefreshCcw,
     title: "Close with full visibility",
-    description: "Every lead, reply, and meeting syncs directly to your CRM. Your team picks up with full context no dropped threads, no manual data entry.",
-    color: "from-emerald-500 to-teal-600",
-    blob: "bg-emerald-200/70",
+    description:
+      "Every lead, reply and meeting syncs to your CRM. Your team picks up with full context — no dropped threads, no manual data entry.",
   },
 ];
 
 export function HowItWorks() {
+  const reduce = useReducedMotion();
+
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-violet-50/80 via-white to-cyan-50/60 py-16 sm:py-24">
-      <div className="pointer-events-none absolute -left-20 top-20 h-64 w-64 rounded-full bg-fuchsia-200/40 blur-3xl" />
-      <div className="pointer-events-none absolute -right-16 bottom-10 h-72 w-72 rounded-full bg-cyan-200/40 blur-3xl" />
+    <section
+      id="how-it-works"
+      className="relative overflow-hidden bg-muted py-20 sm:py-28"
+    >
+      <div className="pointer-events-none absolute left-1/4 top-10 h-72 w-72 rounded-full bg-[#7c5cff]/10 blur-[100px]" />
+      <div className="pointer-events-none absolute bottom-10 right-1/4 h-72 w-72 rounded-full bg-[#4f7bff]/10 blur-[100px]" />
 
       <div className="container relative mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
@@ -49,57 +48,56 @@ export function HowItWorks() {
           viewport={{ once: true, margin: "-80px" }}
           className="mx-auto max-w-2xl text-center"
         >
-          <span className="inline-block rounded-full bg-white/80 px-4 py-1 text-xs font-semibold uppercase tracking-widest text-primary shadow-sm ring-1 ring-primary/15">
-            Simple process
+          <span className="text-sm font-semibold uppercase tracking-widest text-primary">
+            The process
           </span>
-          <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-4xl">
-            From first contact to closed deal <br />   one connected process.
+          <h2 className="mt-3 font-syne text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            From first contact to closed deal — one{" "}
+            <span className="text-gradient">connected</span> process
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
             Four clear steps to a fuller pipeline and more closed deals.
           </p>
         </motion.div>
 
-        <div className="mx-auto mt-16 max-w-7xl">
-          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4 md:gap-8">
+        <div className="relative mx-auto mt-16 max-w-7xl">
+          {/* animated connector line (desktop) */}
+          <div className="pointer-events-none absolute left-0 right-0 top-10 hidden lg:block">
+            <div className="relative mx-auto h-px w-[76%] bg-white/[0.08]">
+              <motion.div
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: reduce ? 0 : 1.4, ease: "easeInOut" }}
+                style={{ transformOrigin: "left" }}
+                className="absolute inset-0 bg-accent-gradient"
+              />
+            </div>
+          </div>
+
+          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
             {steps.map((step, i) => (
               <motion.div
                 key={step.title}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
-                transition={{ delay: i * 0.1 }}
-                className="relative"
+                transition={{ delay: reduce ? 0 : i * 0.12, duration: 0.5 }}
+                className="relative text-center"
               >
-                {i < steps.length - 1 && (
-                  <div className="absolute left-[calc(100%-1rem)] top-1/2 hidden h-0.5 w-[calc(2.5rem)] -translate-y-12 bg-gradient-to-r from-primary/40 via-fuchsia-400/35 to-cyan-400/25 lg:block z-10" />
-                )}
-                <Card className="h-full border-border/60 bg-white/70 backdrop-blur-sm p-8 text-center transition-all duration-300 hover:shadow-soft-xl hover:border-primary/20">
-                  <div
-                    className={cn(
-                      "relative mx-auto flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br shadow-lg",
-                      step.color
-                    )}
-                  >
-                    <span
-                      className={cn(
-                        "absolute -inset-1 -z-10 rounded-[1.1rem] opacity-60 blur-md",
-                        step.blob
-                      )}
-                      aria-hidden
-                    />
-                    <step.icon className="h-9 w-9 text-white drop-shadow-md" />
-                  </div>
-                  <p className="mt-6 text-xs font-bold uppercase tracking-widest text-primary/80">
-                    Step {i + 1}
-                  </p>
-                  <h3 className="mt-2 text-lg font-bold text-foreground">
-                    {step.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                    {step.description}
-                  </p>
-                </Card>
+                <div className="relative mx-auto flex h-20 w-20 items-center justify-center rounded-2xl border border-white/10 bg-background shadow-soft">
+                  <span className="absolute -inset-1 -z-10 rounded-[1.1rem] bg-accent-gradient opacity-30 blur-md" />
+                  <step.icon className="h-8 w-8 text-foreground" />
+                </div>
+                <p className="mt-6 text-xs font-bold uppercase tracking-widest text-primary">
+                  Step {i + 1}
+                </p>
+                <h3 className="mt-2 text-lg font-bold text-foreground">
+                  {step.title}
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                  {step.description}
+                </p>
               </motion.div>
             ))}
           </div>

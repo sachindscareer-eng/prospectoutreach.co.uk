@@ -28,6 +28,11 @@ const config: Config = {
           DEFAULT: "var(--card)",
           foreground: "var(--card-foreground)",
         },
+        border: "var(--border)",
+        // gradient stops (for use as bg-grad-1 etc.)
+        "grad-1": "var(--grad-1)",
+        "grad-2": "var(--grad-2)",
+        "grad-3": "var(--grad-3)",
       },
       fontFamily: {
         sans: ["var(--font-inter)", "system-ui", "sans-serif"],
@@ -35,8 +40,10 @@ const config: Config = {
         dmSans: ["var(--font-dm-sans)", "sans-serif"],
       },
       boxShadow: {
-        soft: "0 2px 15px -3px rgba(37, 99, 235, 0.08), 0 10px 24px -8px rgba(192, 38, 211, 0.06)",
-        "soft-lg": "0 12px 40px -12px rgba(37, 99, 235, 0.12), 0 8px 24px -8px rgba(192, 38, 211, 0.1)",
+        soft: "0 2px 15px -3px rgba(0, 0, 0, 0.4), 0 10px 24px -8px rgba(124, 92, 255, 0.12)",
+        "soft-lg":
+          "0 12px 40px -12px rgba(0, 0, 0, 0.55), 0 8px 24px -8px rgba(124, 92, 255, 0.18)",
+        glow: "0 0 0 1px rgba(124, 92, 255, 0.4), 0 8px 30px -6px rgba(124, 92, 255, 0.5)",
       },
       borderRadius: {
         xl: "1rem",
@@ -47,31 +54,50 @@ const config: Config = {
           "0%, 100%": { opacity: "0.5" },
           "50%": { opacity: "0.8" },
         },
-        "hero-grid": {
-          "0%": { backgroundPosition: "0 0" },
-          "100%": { backgroundPosition: "48px 48px" },
+        aurora: {
+          "0%, 100%": {
+            transform: "translate(0, 0) scale(1)",
+            opacity: "0.6",
+          },
+          "33%": {
+            transform: "translate(30px, -24px) scale(1.08)",
+            opacity: "0.8",
+          },
+          "66%": {
+            transform: "translate(-20px, 16px) scale(1.03)",
+            opacity: "0.65",
+          },
         },
-        "hero-orb-1": {
-          "0%, 100%": { transform: "translate(0, 0) scale(1)" },
-          "33%": { transform: "translate(24px, -20px) scale(1.06)" },
-          "66%": { transform: "translate(-16px, 12px) scale(1.02)" },
+        "aurora-2": {
+          "0%, 100%": {
+            transform: "translate(0, 0) scale(1)",
+            opacity: "0.5",
+          },
+          "50%": {
+            transform: "translate(-28px, 22px) scale(1.1)",
+            opacity: "0.75",
+          },
         },
-        "hero-orb-2": {
-          "0%, 100%": { transform: "translate(0, 0) scale(1)" },
-          "33%": { transform: "translate(-24px, 20px) scale(1.08)" },
-          "66%": { transform: "translate(16px, -12px) scale(1.03)" },
+        marquee: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" },
         },
-        "hero-orb-center": {
-          "0%, 100%": { transform: "translate(-50%, -50%) scale(1)" },
-          "50%": { transform: "translate(-50%, -50%) scale(1.05)" },
+        "fade-in-up": {
+          "0%": { opacity: "0", transform: "translateY(16px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        "pulse-line": {
+          "0%, 100%": { opacity: "0.3" },
+          "50%": { opacity: "1" },
         },
       },
       animation: {
         "hero-gradient": "hero-gradient 10s ease-in-out infinite",
-        "hero-grid": "hero-grid 25s linear infinite",
-        "hero-orb-1": "hero-orb-1 16s ease-in-out infinite",
-        "hero-orb-2": "hero-orb-2 20s ease-in-out infinite",
-        "hero-orb-center": "hero-orb-center 12s ease-in-out infinite",
+        aurora: "aurora 18s ease-in-out infinite",
+        "aurora-2": "aurora-2 22s ease-in-out infinite",
+        marquee: "marquee var(--marquee-duration, 40s) linear infinite",
+        "fade-in-up": "fade-in-up 0.6s ease-out both",
+        "pulse-line": "pulse-line 3s ease-in-out infinite",
       },
     },
   },

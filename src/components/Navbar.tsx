@@ -33,7 +33,7 @@ export function Navbar() {
       <div className="relative w-full max-w-5xl">
         <nav
           className={cn(
-            "flex w-full items-center justify-between gap-3 rounded-full border border-primary/15 bg-white/90 px-4 py-2.5 shadow-lg shadow-primary/[0.07] backdrop-blur-xl sm:gap-6 sm:px-6 sm:py-3"
+            "flex w-full items-center justify-between gap-3 rounded-full border border-white/10 bg-[#0d0e12]/80 px-4 py-2.5 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.8)] backdrop-blur-xl sm:gap-6 sm:px-6 sm:py-3"
           )}
           aria-label="Primary"
         >
@@ -50,14 +50,14 @@ export function Navbar() {
                       className={cn(
                         "flex items-center gap-1 rounded-full px-3 py-2 text-sm font-medium transition-colors lg:px-4",
                         active
-                          ? "bg-primary/10 text-primary"
-                          : "text-muted-foreground hover:bg-muted/80 hover:text-foreground"
+                          ? "bg-white/10 text-white"
+                          : "text-muted-foreground hover:bg-white/[0.06] hover:text-foreground"
                       )}
                     >
                       {link.label}
                       <ChevronDown className="h-4 w-4 transition-transform group-hover:rotate-180" />
                     </button>
-                    <div className="absolute left-1/2 top-full mt-2 w-48 -translate-x-1/2 overflow-hidden rounded-2xl border border-border bg-white/95 p-1.5 opacity-0 shadow-xl backdrop-blur-xl transition-all group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 invisible translate-y-2">
+                    <div className="absolute left-1/2 top-full mt-2 w-48 -translate-x-1/2 overflow-hidden rounded-2xl border border-white/10 bg-[#0d0e12]/95 p-1.5 opacity-0 shadow-xl backdrop-blur-xl transition-all group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 invisible translate-y-2">
                       {link.children.map((child) => (
                         <Link
                           key={child.href}
@@ -65,8 +65,8 @@ export function Navbar() {
                           className={cn(
                             "block rounded-xl px-4 py-2.5 text-sm font-medium transition-colors",
                             pathname === child.href
-                              ? "bg-primary/10 text-primary"
-                              : "text-muted-foreground hover:bg-muted/80 hover:text-foreground"
+                              ? "bg-white/10 text-white"
+                              : "text-muted-foreground hover:bg-white/[0.06] hover:text-foreground"
                           )}
                         >
                           {child.label}
@@ -84,8 +84,8 @@ export function Navbar() {
                   className={cn(
                     "rounded-full px-3 py-2 text-sm font-medium transition-colors lg:px-4",
                     active
-                      ? "bg-primary/10 text-primary"
-                      : "text-muted-foreground hover:bg-muted/80 hover:text-foreground"
+                      ? "bg-white/10 text-white"
+                      : "text-muted-foreground hover:bg-white/[0.06] hover:text-foreground"
                   )}
                 >
                   {link.label}
@@ -95,7 +95,7 @@ export function Navbar() {
           </div>
 
           <div className="hidden shrink-0 md:flex md:items-center">
-            <Button className="gap-1.5 shadow-soft" asChild>
+            <Button className="gap-1.5" asChild>
               <Link href="/contact">
                 Get Started
                 <ArrowRight className="h-4 w-4" />
@@ -105,9 +105,10 @@ export function Navbar() {
 
           <button
             type="button"
-            className="inline-flex items-center justify-center rounded-full p-2.5 text-foreground hover:bg-muted md:hidden"
+            className="inline-flex items-center justify-center rounded-full p-2.5 text-foreground hover:bg-white/[0.06] md:hidden"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
+            aria-expanded={mobileOpen}
           >
             {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -120,7 +121,7 @@ export function Navbar() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.2 }}
-              className="absolute left-0 right-0 top-full z-50 mt-2 overflow-hidden rounded-2xl border border-border bg-white/95 p-2 shadow-xl shadow-primary/10 backdrop-blur-xl"
+              className="absolute left-0 right-0 top-full z-50 mt-2 overflow-hidden rounded-2xl border border-white/10 bg-[#0d0e12]/95 p-2 shadow-xl shadow-black/40 backdrop-blur-xl"
             >
               <div className="flex flex-col gap-1 py-1">
                 {navLinks.map((link) => {
@@ -138,8 +139,8 @@ export function Navbar() {
                             className={cn(
                               "rounded-xl px-4 py-3 text-base font-medium transition-colors",
                               pathname === child.href
-                                ? "bg-gradient-to-r from-primary/10 to-fuchsia-500/10 text-primary"
-                                : "text-muted-foreground hover:bg-muted/80 hover:text-foreground"
+                                ? "bg-white/10 text-white"
+                                : "text-muted-foreground hover:bg-white/[0.06] hover:text-foreground"
                             )}
                           >
                             {child.label}
@@ -156,15 +157,15 @@ export function Navbar() {
                       className={cn(
                         "rounded-xl px-4 py-3 text-base font-medium transition-colors",
                         pathname === link.href
-                          ? "bg-gradient-to-r from-primary/10 to-fuchsia-500/10 text-primary"
-                          : "text-muted-foreground hover:bg-muted/80 hover:text-foreground"
+                          ? "bg-white/10 text-white"
+                          : "text-muted-foreground hover:bg-white/[0.06] hover:text-foreground"
                       )}
                     >
                       {link.label}
                     </Link>
                   );
                 })}
-                <div className="border-t border-border p-2 pt-3">
+                <div className="border-t border-white/10 p-2 pt-3">
                   <Button className="w-full gap-2" asChild>
                     <Link href="/contact" onClick={() => setMobileOpen(false)}>
                       Get Started
