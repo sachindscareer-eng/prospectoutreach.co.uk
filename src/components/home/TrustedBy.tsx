@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 const LOGOS = [
   { src: "/company_logos/11.svg", alt: "Unisys logo" },
@@ -16,54 +16,42 @@ const LOGOS = [
   { src: "/company_logos/10.svg", alt: "Snowflake logo" },
 ];
 
-const MARQUEE_LOGOS = [...LOGOS, ...LOGOS];
-
 export function TrustedBy() {
+  const reduce = useReducedMotion();
+
   return (
-    <section className="relative overflow-hidden border-y border-white/[0.08] bg-background py-14 sm:py-16">
+    <section className="relative overflow-hidden border-y border-white/[0.08] bg-background py-12 sm:py-14">
       <div className="container relative mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "200px" }}
-          className="mb-10 text-center"
+          className="mx-auto mb-9 max-w-2xl text-center text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground"
         >
-          <p className="text-sm font-medium uppercase tracking-widest text-muted-foreground">
-            Built for the enterprise B2B landscape we sell into
-          </p>
-          <p className="mx-auto mt-2 max-w-xl text-sm text-muted-foreground/70">
-            We run outreach into the kinds of technology and enterprise accounts
-            your best-fit buyers work at.
-          </p>
-        </motion.div>
+          Built for the enterprise B2B landscape we sell into
+        </motion.p>
 
-        <div className="relative mx-auto max-w-5xl">
-          {/* edge fades */}
-          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-background to-transparent sm:w-24" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-background to-transparent sm:w-24" />
-
-          <div className="overflow-hidden">
-            <div
-              className="flex min-w-max items-center gap-10 motion-safe:animate-marquee sm:gap-14"
-              style={{ ["--marquee-duration" as string]: `${LOGOS.length * 4}s` }}
+        {/* centered, symmetric logo grid */}
+        <div className="mx-auto grid max-w-5xl grid-cols-2 items-center gap-x-6 gap-y-8 sm:grid-cols-3 lg:grid-cols-5">
+          {LOGOS.map((logo, i) => (
+            <motion.div
+              key={logo.src}
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "200px" }}
+              transition={{ delay: reduce ? 0 : i * 0.04, duration: 0.4 }}
+              className="flex h-10 items-center justify-center"
             >
-              {MARQUEE_LOGOS.map((logo, index) => (
-                <div
-                  key={`${logo.src}-${index}`}
-                  className="flex h-12 w-32 shrink-0 items-center justify-center opacity-50 brightness-0 invert transition-opacity hover:opacity-90 sm:h-14 sm:w-40"
-                >
-                  <Image
-                    src={logo.src}
-                    alt={logo.alt}
-                    width={160}
-                    height={56}
-                    unoptimized
-                    className="max-h-10 w-full max-w-[9rem] object-contain sm:max-h-12"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
+              <Image
+                src={logo.src}
+                alt={logo.alt}
+                width={150}
+                height={44}
+                unoptimized
+                className="max-h-9 w-auto max-w-[8.5rem] object-contain opacity-50 brightness-0 invert transition-opacity duration-300 hover:opacity-90"
+              />
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
