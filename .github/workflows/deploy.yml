@@ -24,19 +24,22 @@ jobs:
       - name: Build static site
         run: npm run build
 
-      - name: Deploy to Hostinger via FTP
+      - name: Deploy to Hostinger via FTPS
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: 92.249.46.109
           port: 21
-          protocol: ftp
+          # FTPS (TLS) is far more stable on Hostinger than plain FTP (ECONNRESET)
+          protocol: ftps
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./out/
           # FTP root is already public_html on this account, so deploy to ./
           server-dir: ./
           # fresh sync state so every file re-uploads after the earlier broken deploys
-          state-name: .ftp-deploy-v2.json
+          state-name: .ftp-deploy-v3.json
+          # longer timeout so large JS chunks don't trip the data socket
+          timeout: 120000
           # keep server-side secret config; don't wipe the whole directory
           exclude: |
             **/.git*
