@@ -18,6 +18,8 @@ const services = [
       "Multi-channel engagement across email, social and display.",
       "Scalable personalisation for every stage of the journey.",
     ],
+    gradient: "from-[#4f7bff] to-[#7c5cff]",
+    glow: "bg-[#4f7bff]",
   },
   {
     icon: Layers,
@@ -31,6 +33,8 @@ const services = [
       "Predictive modelling to focus reps on live accounts.",
       "Behavioural insight into what prospects research.",
     ],
+    gradient: "from-[#7c5cff] to-[#a855f7]",
+    glow: "bg-[#7c5cff]",
   },
   {
     icon: FileText,
@@ -44,6 +48,8 @@ const services = [
       "Targeted distribution by industry, title and size.",
       "Strategy-driven nurturing that keeps you top of mind.",
     ],
+    gradient: "from-[#a855f7] to-[#e552ff]",
+    glow: "bg-[#a855f7]",
   },
   {
     icon: Users2,
@@ -57,6 +63,8 @@ const services = [
       "Data validation with GDPR / CCPA compliance.",
       "BANT / custom frameworks for every booking.",
     ],
+    gradient: "from-[#e552ff] to-[#ff7ab8]",
+    glow: "bg-[#e552ff]",
   },
 ];
 
@@ -100,21 +108,54 @@ export function ServicesOverview() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "200px" }}
               transition={{ delay: reduce ? 0 : i * 0.08, duration: 0.5 }}
-              whileHover={reduce ? undefined : { y: -6 }}
-              className="group relative flex h-full flex-col rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6 text-left transition-colors duration-300 hover:border-[#7c5cff]/40"
+              whileHover={reduce ? undefined : { y: -8 }}
+              className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/[0.08] bg-[#0f1016] p-6 text-left transition-colors duration-300 hover:border-[#7c5cff]/50"
             >
-              <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-[#a78bfa] transition-all duration-300 group-hover:border-[#7c5cff]/50 group-hover:text-[#c084fc]">
-                <s.icon className="h-5 w-5" strokeWidth={1.75} />
+              {/* gradient top accent bar */}
+              <span
+                className={`absolute inset-x-0 top-0 h-[3px] origin-left scale-x-0 bg-gradient-to-r ${s.gradient} transition-transform duration-500 group-hover:scale-x-100`}
+                aria-hidden
+              />
+              {/* hover glow blob */}
+              <span
+                className={`pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-25 ${s.glow}`}
+                aria-hidden
+              />
+              {/* ghost number */}
+              <span className="pointer-events-none absolute right-4 top-3 font-syne text-4xl font-bold text-white/[0.05] transition-colors duration-300 group-hover:text-white/[0.09]">
+                0{i + 1}
               </span>
+
+              {/* gradient icon with animated glow */}
+              <div className="relative h-14 w-14">
+                <motion.span
+                  aria-hidden
+                  className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${s.gradient} opacity-25 blur-md`}
+                  animate={reduce ? undefined : { scale: [1, 1.18, 1], opacity: [0.25, 0.45, 0.25] }}
+                  transition={{ duration: 3, repeat: Infinity, delay: i * 0.5 }}
+                />
+                <span
+                  className={`relative flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br ${s.gradient} text-white shadow-lg transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6`}
+                >
+                  <s.icon className="h-6 w-6" strokeWidth={1.9} />
+                </span>
+              </div>
+
               <h3 className="mt-5 text-base font-bold leading-snug text-foreground">
                 {s.title}
               </h3>
               <p className="mt-2.5 text-[13px] leading-relaxed text-muted-foreground">
                 {s.description}
               </p>
-              <span className="mt-6 flex h-8 w-8 items-center justify-center self-end rounded-full border border-white/10 bg-white/[0.03] text-muted-foreground transition-all duration-300 group-hover:border-[#7c5cff]/50 group-hover:bg-[#7c5cff]/15 group-hover:text-foreground">
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-              </span>
+
+              <div className="mt-6 flex items-center justify-between border-t border-white/[0.06] pt-4">
+                <span className="text-xs font-semibold text-primary opacity-0 transition-all duration-300 group-hover:opacity-100">
+                  Learn more
+                </span>
+                <span className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-muted-foreground transition-all duration-300 group-hover:border-transparent group-hover:bg-gradient-to-br group-hover:text-white group-hover:shadow-lg group-hover:[--tw-gradient-from:#7c5cff] group-hover:[--tw-gradient-to:#e552ff]">
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                </span>
+              </div>
             </motion.button>
           ))}
         </div>

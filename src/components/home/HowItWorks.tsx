@@ -73,7 +73,7 @@ export function HowItWorks() {
           </p>
         </motion.div>
 
-        <div className="relative mx-auto mt-16 max-w-6xl">
+        <div className="relative mt-16">
           {/* animated connector line (desktop) */}
           <div className="pointer-events-none absolute left-[12%] right-[12%] top-[4.5rem] hidden lg:block">
             <div className="relative h-0.5 w-full overflow-hidden rounded-full bg-white/[0.08]">
