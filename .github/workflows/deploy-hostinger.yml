@@ -1,0 +1,49 @@
+name: Build & Deploy to Hostinger
+
+# Jab bhi master par push hoga, ye chalega.
+# Manually bhi chala sakte ho GitHub -> Actions -> Run workflow se.
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Code checkout
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Node setup
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      # 3. Dependencies install
+      - name: Install dependencies
+        run: npm ci
+
+      # 4. Static site build -> out/ folder banta hai
+      - name: Build static site
+        run: npm run build
+
+      # 5. out/ folder ko Hostinger par FTP se upload
+      #    FTP details GitHub Secrets se aati hain (chat/code me kabhi mat daalo).
+      - name: Deploy to Hostinger via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}       # jaise: ftp.yourdomain.com
+          username: ${{ secrets.FTP_USERNAME }}    # Hostinger FTP user
+          password: ${{ secrets.FTP_PASSWORD }}    # Hostinger FTP password
+          local-dir: ./out/                        # jo upload hoga
+          server-dir: ${{ secrets.FTP_REMOTE_DIR }} # jaise: /public_html/  (slash zaroori)
+          # Ye files server par rehne do, FTP delete na kare:
+          # (smtp-config.php me aapki live SMTP key hai -> delete nahi honi chahiye)
+          exclude: |
+            **/.git*
+            **/.git*/**
+            smtp-config.php
