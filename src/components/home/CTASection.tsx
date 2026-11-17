@@ -84,16 +84,22 @@ export function CTASection() {
                   style={{ filter: "drop-shadow(0 0 6px rgba(124,92,255,0.9))" }}
                 />
               </svg>
-              {/* flag at summit */}
+              {/* flag planted on the summit (front peak is at x=250/500=50%, y=90/340≈26%) */}
               <motion.div
-                initial={{ opacity: 0, scale: 0.6 }}
-                whileInView={{ opacity: 1, scale: 1 }}
+                initial={{ opacity: 0, y: 12, scale: 0.5 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ delay: reduce ? 0 : 1.4, duration: 0.4 }}
-                className="absolute left-[48%] top-[22%] text-[#e552ff]"
-                style={{ filter: "drop-shadow(0 0 8px rgba(229,82,255,0.8))" }}
+                transition={{ delay: reduce ? 0 : 1.6, type: "spring", stiffness: 200, damping: 12 }}
+                className="absolute left-1/2 top-[26%] z-10 -translate-x-1/2 -translate-y-full text-[#e552ff]"
+                style={{ filter: "drop-shadow(0 0 12px rgba(229,82,255,1))" }}
               >
-                <Flag className="h-6 w-6 fill-[#e552ff]" />
+                <motion.div
+                  animate={reduce ? undefined : { rotate: [0, -6, 0, 4, 0] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                  style={{ transformOrigin: "bottom left" }}
+                >
+                  <Flag className="h-9 w-9 fill-[#e552ff] text-[#e552ff]" strokeWidth={1.5} />
+                </motion.div>
               </motion.div>
             </div>
           </div>

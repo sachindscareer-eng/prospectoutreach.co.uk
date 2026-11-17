@@ -1,23 +1,41 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { Play, Check } from "lucide-react";
+import {
+  Play,
+  Mail,
+  CalendarCheck,
+  TrendingUp,
+  Sparkles,
+} from "lucide-react";
 
 const points = [
-  "Reach best-fit buyers with cold email & LinkedIn outreach",
-  "Generate predictable, qualified meetings",
-  "Build a pipeline that drives real revenue growth",
+  {
+    icon: Mail,
+    title: "Reach best-fit buyers",
+    text: "Cold email & LinkedIn outreach that actually lands.",
+  },
+  {
+    icon: CalendarCheck,
+    title: "Predictable meetings",
+    text: "Generate qualified meetings, consistently, every month.",
+  },
+  {
+    icon: TrendingUp,
+    title: "Real revenue growth",
+    text: "Build a pipeline that drives real revenue, not vanity metrics.",
+  },
 ];
 
 export function VideoSection() {
   const reduce = useReducedMotion();
 
   return (
-    <section className="relative overflow-hidden bg-background py-16 sm:py-20">
-      <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-80 w-[36rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#7c5cff]/10 blur-[120px]" />
+    <section className="relative overflow-hidden bg-[#08060f] py-20 sm:py-24">
+      <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-80 w-[40rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#7c5cff]/12 blur-[130px]" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
+        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           {/* left text */}
           <motion.div
             initial={{ opacity: 0, y: reduce ? 0 : 20 }}
@@ -25,27 +43,46 @@ export function VideoSection() {
             viewport={{ once: true, margin: "200px" }}
             transition={{ duration: 0.55 }}
           >
-            <h2 className="font-syne text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl">
+            <span className="inline-flex items-center gap-2 rounded-full border border-[#8b5cf6]/40 bg-[#8b5cf6]/10 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-foreground">
+              <Sparkles className="h-3.5 w-3.5 text-primary" />
+              How it works
+            </span>
+
+            <h2 className="mt-5 font-syne text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl">
               See how ProspectOutreach{" "}
               <span className="bg-gradient-to-r from-[#8b6fff] to-[#c084fc] bg-clip-text text-transparent">
                 builds pipeline.
               </span>
             </h2>
-            <p className="mt-5 max-w-md text-base leading-relaxed text-muted-foreground">
+            <p className="mt-4 max-w-md text-base leading-relaxed text-muted-foreground">
               A proven, full-funnel outbound engine that helps B2B companies
               find, engage, and convert the right buyers into qualified sales
               meetings.
             </p>
-            <ul className="mt-7 space-y-3.5">
-              {points.map((p) => (
-                <li key={p} className="flex items-start gap-3">
-                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent-gradient text-white">
-                    <Check className="h-3 w-3" strokeWidth={3} />
+
+            {/* checklist as cards */}
+            <div className="mt-8 space-y-3">
+              {points.map((p, i) => (
+                <motion.div
+                  key={p.title}
+                  initial={{ opacity: 0, x: reduce ? 0 : -16 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "150px" }}
+                  transition={{ delay: reduce ? 0 : i * 0.1, duration: 0.45 }}
+                  className="group flex items-start gap-4 rounded-xl border border-white/[0.07] bg-white/[0.02] p-4 transition-all duration-300 hover:border-[#7c5cff]/40 hover:bg-white/[0.04]"
+                >
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-[#7c5cff] to-[#e552ff] text-white shadow-lg transition-transform duration-300 group-hover:scale-110">
+                    <p.icon className="h-5 w-5" strokeWidth={2} />
                   </span>
-                  <span className="text-sm text-muted-foreground sm:text-base">{p}</span>
-                </li>
+                  <div>
+                    <p className="text-sm font-semibold text-foreground">{p.title}</p>
+                    <p className="mt-0.5 text-[13px] leading-relaxed text-muted-foreground">
+                      {p.text}
+                    </p>
+                  </div>
+                </motion.div>
               ))}
-            </ul>
+            </div>
           </motion.div>
 
           {/* right video */}
@@ -56,8 +93,10 @@ export function VideoSection() {
             transition={{ duration: 0.6 }}
             className="relative"
           >
-            <div className="pointer-events-none absolute -inset-3 -z-10 rounded-[1.75rem] bg-gradient-to-br from-[#7c5cff]/40 to-[#e552ff]/30 opacity-40 blur-2xl" />
-            <div className="group relative overflow-hidden rounded-2xl border border-white/12 bg-[#0d0b18] shadow-soft-lg">
+            {/* glow */}
+            <div className="pointer-events-none absolute -inset-4 -z-10 rounded-[2rem] bg-gradient-to-br from-[#4f7bff]/40 via-[#7c5cff]/35 to-[#e552ff]/35 opacity-50 blur-3xl" />
+
+            <div className="group relative overflow-hidden rounded-2xl border border-white/12 bg-[#0d0b18] shadow-[0_30px_80px_-20px_rgba(124,92,255,0.6)]">
               <video
                 className="aspect-video h-auto w-full object-cover"
                 width={1920}
@@ -70,13 +109,55 @@ export function VideoSection() {
               >
                 <source src="/3205679-hd_1920_1080_25fps.mp4" type="video/mp4" />
               </video>
-              {/* play overlay (decorative) */}
+
+              {/* play overlay */}
               <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-                <span className="flex h-16 w-16 items-center justify-center rounded-full border border-white/40 bg-white/10 backdrop-blur-sm transition-transform duration-300 group-hover:scale-110">
-                  <Play className="h-6 w-6 translate-x-0.5 fill-white text-white" />
+                <span className="relative flex h-20 w-20 items-center justify-center">
+                  <motion.span
+                    aria-hidden
+                    className="absolute inset-0 rounded-full bg-white/20"
+                    animate={reduce ? undefined : { scale: [1, 1.4], opacity: [0.5, 0] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }}
+                  />
+                  <span className="relative flex h-16 w-16 items-center justify-center rounded-full border border-white/40 bg-white/15 backdrop-blur-sm transition-transform duration-300 group-hover:scale-110">
+                    <Play className="h-6 w-6 translate-x-0.5 fill-white text-white" />
+                  </span>
                 </span>
               </div>
             </div>
+
+            {/* floating stat badges */}
+            <motion.div
+              initial={{ opacity: 0, y: reduce ? 0 : 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.6, duration: 0.5 }}
+              className="absolute -bottom-5 -left-4 hidden items-center gap-3 rounded-2xl border border-white/10 bg-[#15121f]/90 px-4 py-3 shadow-xl backdrop-blur-md sm:flex"
+            >
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#34d399] to-[#4f7bff] text-white">
+                <CalendarCheck className="h-4 w-4" />
+              </span>
+              <div className="leading-tight">
+                <p className="text-sm font-bold text-foreground">126 meetings</p>
+                <p className="text-[11px] text-muted-foreground">booked this month</p>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: reduce ? 0 : 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.8, duration: 0.5 }}
+              className="absolute -right-4 -top-5 hidden items-center gap-3 rounded-2xl border border-white/10 bg-[#15121f]/90 px-4 py-3 shadow-xl backdrop-blur-md sm:flex"
+            >
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#7c5cff] to-[#e552ff] text-white">
+                <TrendingUp className="h-4 w-4" />
+              </span>
+              <div className="leading-tight">
+                <p className="text-sm font-bold text-foreground">+41% replies</p>
+                <p className="text-[11px] text-muted-foreground">vs. last quarter</p>
+              </div>
+            </motion.div>
           </motion.div>
         </div>
       </div>
