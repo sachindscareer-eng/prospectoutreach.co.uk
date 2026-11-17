@@ -33,7 +33,10 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./out/
-          server-dir: public_html/
+          # FTP root is already public_html on this account, so deploy to ./
+          server-dir: ./
+          # fresh sync state so every file re-uploads after the earlier broken deploys
+          state-name: .ftp-deploy-v2.json
           # keep server-side secret config; don't wipe the whole directory
           exclude: |
             **/.git*
