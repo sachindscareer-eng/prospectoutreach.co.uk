@@ -23,6 +23,10 @@ jobs:
 
       - name: Build static site
         run: npm run build
+        env:
+          # give the build more heap so heavier pages don't OOM on CI
+          NODE_OPTIONS: --max-old-space-size=4096
+          NEXT_TELEMETRY_DISABLED: "1"
 
       - name: Deploy to Hostinger via FTPS
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
