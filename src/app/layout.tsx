@@ -5,6 +5,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { PageTransition } from "@/components/PageTransition";
 import { ScrollProgress } from "@/components/ScrollProgress";
+import { CursorGlow } from "@/components/CursorGlow";
 import { cn } from "@/lib/utils";
 
 const roboto = Roboto({
@@ -155,6 +156,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
         />
         <ScrollProgress />
+        <CursorGlow />
         <Navbar />
         <PageTransition>{children}</PageTransition>
         <Footer />

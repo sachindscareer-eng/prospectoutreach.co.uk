@@ -104,7 +104,7 @@ export function HowItWorks() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
             {steps.map((step, i) => (
               <motion.div
                 key={step.title}
@@ -113,33 +113,44 @@ export function HowItWorks() {
                 initial="hidden"
                 whileInView="show"
                 viewport={{ once: true, margin: "150px" }}
-                whileHover={reduce ? undefined : { y: -8 }}
-                className="group relative rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6 text-center transition-colors duration-300 hover:border-[#7c5cff]/40"
+                whileHover={reduce ? undefined : { y: -10 }}
+                className="group relative overflow-hidden rounded-[1.4rem] border border-white/[0.08] bg-gradient-to-b from-white/[0.05] to-white/[0.01] p-7 text-center backdrop-blur-sm transition-all duration-300 hover:border-[#7c5cff]/50 hover:shadow-[0_20px_50px_-20px_rgba(124,92,255,0.6)]"
               >
-                {/* number badge */}
-                <span className="absolute right-4 top-4 font-syne text-3xl font-bold text-white/[0.06] transition-colors group-hover:text-white/[0.1]">
+                {/* top gradient accent that grows on hover */}
+                <span
+                  className={`absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-gradient-to-r ${step.gradient} transition-transform duration-500 group-hover:scale-x-100`}
+                  aria-hidden
+                />
+                {/* soft colour glow blob on hover */}
+                <span
+                  className={`pointer-events-none absolute left-1/2 top-0 h-32 w-32 -translate-x-1/2 rounded-full bg-gradient-to-br ${step.gradient} opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-20`}
+                  aria-hidden
+                />
+
+                {/* big watermark number */}
+                <span className="pointer-events-none absolute right-4 top-3 font-syne text-4xl font-bold text-white/[0.05] transition-colors duration-300 group-hover:text-white/[0.09]">
                   0{i + 1}
                 </span>
 
-                {/* animated icon */}
+                {/* animated glowing icon */}
                 <div className="relative mx-auto flex h-16 w-16 items-center justify-center">
                   <motion.span
                     aria-hidden
-                    className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${step.gradient} opacity-30 blur-md`}
-                    animate={reduce ? undefined : { scale: [1, 1.15, 1], opacity: [0.3, 0.5, 0.3] }}
+                    className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${step.gradient} opacity-40 blur-lg`}
+                    animate={reduce ? undefined : { scale: [1, 1.2, 1], opacity: [0.4, 0.6, 0.4] }}
                     transition={{ duration: 3, repeat: Infinity, delay: i * 0.4 }}
                   />
                   <span
-                    className={`relative flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br ${step.gradient} text-white shadow-lg transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6`}
+                    className={`relative flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br ${step.gradient} text-white shadow-lg ring-1 ring-white/20 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6`}
                   >
                     <step.icon className="h-7 w-7" strokeWidth={1.9} />
                   </span>
                 </div>
 
-                <p className="mt-5 text-xs font-bold uppercase tracking-widest text-[#a78bfa]">
+                <p className="mt-6 inline-block rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-[#a78bfa]">
                   Step {i + 1}
                 </p>
-                <h3 className="mt-1.5 text-xl font-bold text-foreground">
+                <h3 className="mt-3 text-xl font-bold text-foreground">
                   {step.title}
                 </h3>
                 <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">
