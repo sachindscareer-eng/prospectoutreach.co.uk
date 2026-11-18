@@ -76,15 +76,31 @@ export function HowItWorks() {
         <div className="relative mt-16">
           {/* animated connector line (desktop) */}
           <div className="pointer-events-none absolute left-[12%] right-[12%] top-[4.5rem] hidden lg:block">
-            <div className="relative h-0.5 w-full overflow-hidden rounded-full bg-white/[0.08]">
+            <div className="relative h-0.5 w-full rounded-full bg-white/[0.08]">
+              {/* base gradient line draws in on scroll */}
               <motion.div
                 initial={{ scaleX: 0 }}
                 whileInView={{ scaleX: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: reduce ? 0 : 1.6, ease: "easeInOut", delay: 0.3 }}
                 style={{ transformOrigin: "left" }}
-                className="h-full w-full bg-gradient-to-r from-[#4f7bff] via-[#a855f7] to-[#e552ff]"
+                className="h-full w-full rounded-full bg-gradient-to-r from-[#4f7bff] via-[#a855f7] to-[#e552ff]"
               />
+              {/* continuously travelling glowing dot */}
+              {!reduce && (
+                <motion.span
+                  aria-hidden
+                  className="absolute top-1/2 h-3 w-3 -translate-y-1/2 rounded-full bg-white shadow-[0_0_12px_4px_rgba(229,82,255,0.9)]"
+                  animate={{ left: ["0%", "100%"] }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    repeatDelay: 0.6,
+                    delay: 1.6,
+                  }}
+                />
+              )}
             </div>
           </div>
 

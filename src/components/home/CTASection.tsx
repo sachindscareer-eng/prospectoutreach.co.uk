@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, Flag } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function CTASection() {
@@ -67,12 +67,12 @@ export function CTASection() {
                   </linearGradient>
                 </defs>
                 {/* back mountain */}
-                <path d="M0 340 L150 150 L260 260 L360 120 L500 300 L500 340 Z" fill="url(#peak2)" opacity="0.7" />
-                {/* front mountain */}
-                <path d="M60 340 L250 90 L360 230 L430 170 L500 250 L500 340 Z" fill="url(#peak)" />
-                {/* glowing summit path */}
+                <path d="M0 340 L150 180 L260 270 L370 150 L500 310 L500 340 Z" fill="url(#peak2)" opacity="0.7" />
+                {/* front mountain — summit lowered to (250, 120) so the flag above it stays visible */}
+                <path d="M40 340 L250 120 L360 250 L430 195 L500 270 L500 340 Z" fill="url(#peak)" />
+                {/* glowing summit path ending exactly at the peak (250,120) */}
                 <motion.path
-                  d="M120 330 C 180 300, 190 250, 230 210 S 250 140, 250 95"
+                  d="M110 330 C 175 305, 185 260, 228 225 S 250 165, 250 122"
                   fill="none"
                   stroke="url(#path)"
                   strokeWidth="3.5"
@@ -83,24 +83,26 @@ export function CTASection() {
                   transition={{ duration: reduce ? 0 : 1.6, ease: "easeInOut" }}
                   style={{ filter: "drop-shadow(0 0 6px rgba(124,92,255,0.9))" }}
                 />
-              </svg>
-              {/* flag planted on the summit (front peak is at x=250/500=50%, y=90/340≈26%) */}
-              <motion.div
-                initial={{ opacity: 0, y: 12, scale: 0.5 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: reduce ? 0 : 1.6, type: "spring", stiffness: 200, damping: 12 }}
-                className="absolute left-1/2 top-[26%] z-10 -translate-x-1/2 -translate-y-full text-[#e552ff]"
-                style={{ filter: "drop-shadow(0 0 12px rgba(229,82,255,1))" }}
-              >
-                <motion.div
-                  animate={reduce ? undefined : { rotate: [0, -6, 0, 4, 0] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                  style={{ transformOrigin: "bottom left" }}
+
+                {/* FLAG planted exactly on the summit (250, 120) */}
+                <motion.g
+                  initial={{ opacity: 0, scale: 0.4 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: reduce ? 0 : 1.7, type: "spring", stiffness: 200, damping: 12 }}
+                  style={{ transformOrigin: "250px 120px", filter: "drop-shadow(0 0 8px rgba(229,82,255,1))" }}
                 >
-                  <Flag className="h-9 w-9 fill-[#e552ff] text-[#e552ff]" strokeWidth={1.5} />
-                </motion.div>
-              </motion.div>
+                  {/* pole: from summit up */}
+                  <line x1="250" y1="120" x2="250" y2="80" stroke="#f0c0ff" strokeWidth="3" strokeLinecap="round" />
+                  {/* waving flag triangle */}
+                  <motion.path
+                    d="M250 82 L278 90 L250 100 Z"
+                    fill="#e552ff"
+                    animate={reduce ? undefined : { d: ["M250 82 L278 90 L250 100 Z", "M250 82 L280 86 L250 100 Z", "M250 82 L278 90 L250 100 Z"] }}
+                    transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                  />
+                </motion.g>
+              </svg>
             </div>
           </div>
         </motion.div>
