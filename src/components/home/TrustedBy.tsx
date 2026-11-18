@@ -1,55 +1,42 @@
 "use client";
 
-import Image from "next/image";
-import { Zap, Cloud, Hexagon, Layers, BarChart3 } from "lucide-react";
+import {
+  Zap,
+  Cloud,
+  Hexagon,
+  Layers,
+  BarChart3,
+  Shield,
+  Boxes,
+  Globe,
+  Rocket,
+  CircuitBoard,
+} from "lucide-react";
 
-// Text-style companies (new set)
-const textCompanies = [
+// Uniform text-style companies — all identical treatment (icon + name), one colour, equal size
+const companies = [
   { icon: Zap, name: "Techwave" },
   { icon: Cloud, name: "Cloudify" },
   { icon: Hexagon, name: "Nexora" },
   { icon: Layers, name: "DataSync" },
   { icon: BarChart3, name: "ScaleHQ" },
-];
-
-// Brand SVG logos (old set) — curated so each renders cleanly as a white silhouette
-const brandLogos = [
-  { src: "/company_logos/11.svg", alt: "Unisys logo" },
-  { src: "/company_logos/3.svg", alt: "Zscaler logo" },
-  { src: "/company_logos/4.svg", alt: "Dell logo" },
-  { src: "/company_logos/5.svg", alt: "Hewlett Packard Enterprise logo" },
-  { src: "/company_logos/8.svg", alt: "Oracle logo" },
-  { src: "/company_logos/2.svg", alt: "Red Hat logo" },
-  { src: "/company_logos/10.svg", alt: "Snowflake logo" },
+  { icon: Shield, name: "SecureNet" },
+  { icon: Boxes, name: "Stackly" },
+  { icon: Globe, name: "Globex" },
+  { icon: Rocket, name: "Launchpad" },
+  { icon: CircuitBoard, name: "Nodeflow" },
 ];
 
 function TrackItem({
   company,
 }: {
-  company: { icon?: typeof Zap; name?: string; src?: string; alt?: string };
+  company: { icon: typeof Zap; name: string };
 }) {
-  if (company.src) {
-    return (
-      // equal-size box; forced pure white by default, original colour + zoom on hover
-      <div className="flex h-12 w-44 shrink-0 items-center justify-center">
-        <Image
-          src={company.src}
-          alt={company.alt || ""}
-          width={190}
-          height={48}
-          unoptimized
-          // brightness-0 makes it fully black, invert → pure white (uniform), regardless of source colour
-          className="h-9 w-auto max-w-[10rem] object-contain brightness-0 invert transition-all duration-300 hover:scale-110 hover:brightness-100 hover:invert-0"
-        />
-      </div>
-    );
-  }
-  const Icon = company.icon!;
+  const Icon = company.icon;
   return (
-    // same equal-size box for text companies
-    <div className="group flex h-12 w-44 shrink-0 items-center justify-center gap-2.5 text-white transition-transform duration-300 hover:scale-110">
+    <div className="group flex h-12 w-48 shrink-0 items-center justify-center gap-3 text-white transition-transform duration-300 hover:scale-110">
       <Icon className="h-7 w-7 text-white transition-colors group-hover:text-[#c084fc]" strokeWidth={2} />
-      <span className="whitespace-nowrap text-xl font-semibold tracking-tight">
+      <span className="whitespace-nowrap text-xl font-semibold tracking-tight transition-colors group-hover:text-[#c084fc]">
         {company.name}
       </span>
     </div>
@@ -57,8 +44,7 @@ function TrackItem({
 }
 
 export function TrustedBy() {
-  const all = [...textCompanies, ...brandLogos];
-  const track = [...all, ...all];
+  const track = [...companies, ...companies];
 
   return (
     <section className="relative border-y border-white/[0.06] bg-[#0a0a0f]">
