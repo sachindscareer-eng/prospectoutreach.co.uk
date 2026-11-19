@@ -7,6 +7,11 @@ import {
   Hexagon,
   Layers,
   BarChart3,
+  ShieldCheck,
+  ShoppingCart,
+  Sparkles,
+  Cpu,
+  Building2,
 } from "lucide-react";
 
 type Company =
@@ -26,6 +31,11 @@ const companies: Company[] = [
   { icon: BarChart3, name: "ScaleHQ" },
   { src: "/company_logos/3.svg", alt: "Dell logo" },
   { src: "/company_logos/11.svg", alt: "Unisys logo" },
+  { icon: ShieldCheck, name: "Kaspersky" },
+  { icon: ShoppingCart, name: "QueueBuster" },
+  { icon: Building2, name: "Honeywell" },
+  { icon: Sparkles, name: "Katalist.ai" },
+  { icon: Cpu, name: "TMB Systems" },
 ];
 
 function TrackItem({ company }: { company: Company }) {
