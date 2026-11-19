@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Magnetic } from "@/components/interactive";
 
 // route the glowing line (and the climbing dot) follow — ends exactly on the summit (250,120)
 const CLIMB = "M110 330 C 175 305, 185 260, 228 225 S 250 165, 250 122";
@@ -85,12 +86,14 @@ export function CTASection() {
                 }}
                 className="mt-8 flex flex-col gap-3 sm:flex-row"
               >
-                <Button size="lg" className="group h-14 gap-2 px-7 text-base" asChild>
-                  <Link href="/contact">
-                    Talk to sales
-                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </Link>
-                </Button>
+                <Magnetic>
+                  <Button size="lg" className="group h-14 gap-2 px-7 text-base" asChild>
+                    <Link href="/contact">
+                      Talk to sales
+                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </Link>
+                  </Button>
+                </Magnetic>
               </motion.div>
             </motion.div>
 

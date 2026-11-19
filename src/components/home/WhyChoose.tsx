@@ -69,6 +69,7 @@ export function WhyChoose() {
           {benefits.map((b, i) => (
             <motion.div
               key={b.title}
+              data-spotlight
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "200px" }}

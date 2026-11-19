@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ArrowRight, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/Logo";
+import { Magnetic } from "@/components/interactive";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
@@ -102,12 +103,14 @@ export function Navbar() {
           </div>
 
           <div className="hidden shrink-0 md:flex md:items-center">
-            <Button className="gap-1.5" asChild>
-              <Link href="/contact">
-                Book a Strategy Call
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
+            <Magnetic strength={0.25}>
+              <Button className="group gap-1.5" asChild>
+                <Link href="/contact">
+                  Book a Strategy Call
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                </Link>
+              </Button>
+            </Magnetic>
           </div>
 
           <button

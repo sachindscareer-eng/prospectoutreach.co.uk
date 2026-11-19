@@ -65,6 +65,7 @@ export function VideoSection() {
               {points.map((p, i) => (
                 <motion.div
                   key={p.title}
+                  data-spotlight
                   initial={{ opacity: 0, x: reduce ? 0 : -16 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, margin: "150px" }}

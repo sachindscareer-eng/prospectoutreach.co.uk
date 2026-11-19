@@ -108,6 +108,7 @@ export function HowItWorks() {
             {steps.map((step, i) => (
               <motion.div
                 key={step.title}
+                data-spotlight
                 custom={i}
                 variants={card}
                 initial="hidden"

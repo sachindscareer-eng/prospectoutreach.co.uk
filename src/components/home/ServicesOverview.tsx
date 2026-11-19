@@ -103,6 +103,7 @@ export function ServicesOverview() {
             <motion.button
               key={s.title}
               type="button"
+              data-spotlight
               onClick={() => setSelected(s)}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}

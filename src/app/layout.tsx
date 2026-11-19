@@ -6,6 +6,7 @@ import { Footer } from "@/components/Footer";
 import { PageTransition } from "@/components/PageTransition";
 import { ScrollProgress } from "@/components/ScrollProgress";
 import { CursorGlow } from "@/components/CursorGlow";
+import { SpotlightTracker } from "@/components/interactive";
 import { cn } from "@/lib/utils";
 
 const roboto = Roboto({
@@ -173,6 +174,7 @@ export default function RootLayout({
         />
         <ScrollProgress />
         <CursorGlow />
+        <SpotlightTracker />
         <Navbar />
         <PageTransition>{children}</PageTransition>
         <Footer />

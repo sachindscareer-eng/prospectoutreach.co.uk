@@ -123,6 +123,30 @@ body {
   }
 }
 
+/* Cursor spotlight inside cards (position set by SpotlightTracker) */
+[data-spotlight] {
+  position: relative;
+}
+[data-spotlight]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  background: radial-gradient(
+    320px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(167, 139, 250, 0.16),
+    transparent 65%
+  );
+}
+@media (pointer: fine) {
+  [data-spotlight]:hover::after {
+    opacity: 1;
+  }
+}
+
 /* Grid backdrop pattern */
 .bg-grid {
   background-image: linear-gradient(

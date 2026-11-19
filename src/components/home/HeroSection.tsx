@@ -1,9 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import {
+  AnimatePresence,
   motion,
+  useMotionValue,
   useReducedMotion,
+  useSpring,
+  useTransform,
   type Variants,
 } from "framer-motion";
 import {
@@ -20,6 +25,7 @@ import {
   Linkedin,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { CountUp, Magnetic, useFinePointer } from "@/components/interactive";
 
 const stats = [
   { label: "Prospects", value: "12,480", delta: "+28%", icon: Users },
@@ -55,6 +61,21 @@ const bars = [20, 28, 24, 38, 34, 48, 44, 60, 72, 68, 86, 100];
 
 export function HeroSection() {
   const reduce = useReducedMotion();
+  const fine = useFinePointer();
+
+  // 3D tilt of the dashboard following the cursor
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
+  const rotY = useSpring(useTransform(mx, [-0.5, 0.5], [-7, 7]), { stiffness: 120, damping: 18 });
+  const rotX = useSpring(useTransform(my, [-0.5, 0.5], [6, -6]), { stiffness: 120, damping: 18 });
+
+  // cycling "meeting booked" notification on the dashboard
+  const [toast, setToast] = useState(0);
+  useEffect(() => {
+    if (reduce) return;
+    const id = setInterval(() => setToast((t) => (t + 1) % leads.length), 3600);
+    return () => clearInterval(id);
+  }, [reduce]);
 
   const container: Variants = {
     hidden: {},
@@ -128,15 +149,19 @@ export function HeroSection() {
             </motion.p>
 
             <motion.div variants={item} className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Button size="lg" className="group h-14 gap-2 px-7 text-base" asChild>
-                <Link href="/contact">
-                  Book a Strategy Call
-                  <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
-                </Link>
-              </Button>
-              <Button size="lg" variant="outline" className="h-14 px-7 text-base" asChild>
-                <Link href="/services">Explore Services</Link>
-              </Button>
+              <Magnetic>
+                <Button size="lg" className="group h-14 gap-2 px-7 text-base" asChild>
+                  <Link href="/contact">
+                    Book a Strategy Call
+                    <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+                  </Link>
+                </Button>
+              </Magnetic>
+              <Magnetic>
+                <Button size="lg" variant="outline" className="h-14 px-7 text-base" asChild>
+                  <Link href="/services">Explore Services</Link>
+                </Button>
+              </Magnetic>
             </motion.div>
 
             {/* social proof */}
@@ -168,7 +193,17 @@ export function HeroSection() {
             initial={{ opacity: 0, y: reduce ? 0 : 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="relative"
+            className="relative [perspective:1400px]"
+            onPointerMove={(e) => {
+              if (!fine) return;
+              const r = e.currentTarget.getBoundingClientRect();
+              mx.set((e.clientX - r.left) / r.width - 0.5);
+              my.set((e.clientY - r.top) / r.height - 0.5);
+            }}
+            onPointerLeave={() => {
+              mx.set(0);
+              my.set(0);
+            }}
           >
             {/* neon edge glows like reference */}
             <div className="pointer-events-none absolute -left-10 -top-10 -z-10 h-48 w-48 rounded-full bg-[#4f7bff]/60 blur-[70px]" />
@@ -176,7 +211,10 @@ export function HeroSection() {
             <div className="pointer-events-none absolute -bottom-10 left-1/4 -z-10 h-40 w-64 rounded-full bg-[#7c3aed]/50 blur-[80px]" />
             <div className="pointer-events-none absolute -inset-5 -z-10 rounded-[2.25rem] bg-gradient-to-br from-[#4f7bff]/40 via-[#8b3dff]/45 to-[#e552ff]/35 opacity-80 blur-3xl" />
 
-            <div className="relative overflow-hidden rounded-2xl border border-[#8b5cf6]/50 bg-[#0d0b18] shadow-[0_0_0_1px_rgba(139,92,246,0.35),0_0_40px_-5px_rgba(124,92,255,0.6),0_30px_90px_-20px_rgba(124,92,255,0.8)]">
+            <motion.div
+              style={fine ? { rotateX: rotX, rotateY: rotY } : undefined}
+              className="relative overflow-hidden rounded-2xl border border-[#8b5cf6]/50 bg-[#0d0b18] shadow-[0_0_0_1px_rgba(139,92,246,0.35),0_0_40px_-5px_rgba(124,92,255,0.6),0_30px_90px_-20px_rgba(124,92,255,0.8)]"
+            >
               <div className="flex">
                 {/* sidebar */}
                 <aside className="hidden w-44 shrink-0 flex-col gap-1.5 border-r border-white/[0.06] bg-white/[0.015] p-4 sm:flex">
@@ -225,7 +263,7 @@ export function HeroSection() {
                           <span className="text-[9.5px] text-muted-foreground">{s.label}</span>
                           <s.icon className="h-3.5 w-3.5 text-primary" />
                         </div>
-                        <p className="mt-1.5 text-lg font-bold leading-none text-foreground">{s.value}</p>
+                        <p className="mt-1.5 text-lg font-bold leading-none text-foreground"><CountUp value={s.value} /></p>
                         <p className="mt-1 text-[9px] font-medium text-emerald-400">↑ {s.delta}</p>
                       </motion.div>
                     ))}
@@ -300,7 +338,35 @@ export function HeroSection() {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
+
+            {/* live "meeting booked" notification cycling through recent leads */}
+            {!reduce && (
+              <div className="pointer-events-none absolute -bottom-6 left-4 z-20 hidden sm:block lg:-left-6">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={toast}
+                    initial={{ opacity: 0, y: 14, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -10, scale: 0.97 }}
+                    transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                    className="flex items-center gap-3 rounded-2xl border border-white/10 bg-[#15121f]/95 px-4 py-3 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.8)] backdrop-blur-md"
+                  >
+                    <span className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#34d399] to-[#4f7bff] text-white">
+                      <CalendarCheck className="h-4 w-4" />
+                      <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 animate-ping rounded-full bg-emerald-400" />
+                      <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-emerald-400" />
+                    </span>
+                    <div className="leading-tight">
+                      <p className="text-[13px] font-bold text-foreground">Meeting booked</p>
+                      <p className="text-[11px] text-muted-foreground">
+                        {leads[toast].name} · {leads[toast].role}
+                      </p>
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+            )}
           </motion.div>
         </div>
       </div>
