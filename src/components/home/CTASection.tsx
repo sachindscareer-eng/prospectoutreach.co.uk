@@ -98,7 +98,9 @@ export function CTASection() {
                   <motion.path
                     d="M250 82 L278 90 L250 100 Z"
                     fill="#e552ff"
-                    animate={reduce ? undefined : { d: ["M250 82 L278 90 L250 100 Z", "M250 82 L280 86 L250 100 Z", "M250 82 L278 90 L250 100 Z"] }}
+                    // wave via transform (morphing `d` produced an "attribute d: undefined" console error)
+                    style={{ transformBox: "fill-box", transformOrigin: "left center" }}
+                    animate={reduce ? undefined : { skewY: [0, -10, 0, 6, 0], scaleX: [1, 0.92, 1, 0.96, 1] }}
                     transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
                   />
                 </motion.g>

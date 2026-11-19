@@ -89,7 +89,8 @@ export function HeroSection() {
               className="mt-6 font-syne text-[2.75rem] font-extrabold leading-[1.02] tracking-tight text-foreground sm:text-6xl lg:text-[4rem]"
             >
               Turn the Right Prospects into{" "}
-              <span className="relative inline-block bg-gradient-to-r from-[#8b6fff] to-[#c084fc] bg-clip-text italic text-transparent">
+              {/* pr: italic glyphs overhang the box; padding extends the clipped gradient so the last letter isn't cut */}
+              <span className="relative inline-block bg-gradient-to-r from-[#8b6fff] to-[#c084fc] bg-clip-text pr-[0.18em] italic text-transparent">
                 Real Opportunities
                 <svg
                   className="absolute -bottom-2 left-0 w-full"
