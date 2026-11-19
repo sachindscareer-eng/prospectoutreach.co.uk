@@ -117,6 +117,13 @@ const orgJsonLd = {
           areaServed: ["GB", "US"],
           availableLanguage: ["en"],
         },
+        {
+          "@type": "ContactPoint",
+          telephone: "+919959953818",
+          contactType: "sales",
+          areaServed: ["IN"],
+          availableLanguage: ["en"],
+        },
       ],
       address: [
         {
@@ -126,6 +133,14 @@ const orgJsonLd = {
           addressRegion: "NJ",
           postalCode: "08850",
           addressCountry: "US",
+        },
+        {
+          "@type": "PostalAddress",
+          streetAddress: "EON Free Zone, Kharadi",
+          addressLocality: "Pune",
+          addressRegion: "Maharashtra",
+          postalCode: "411014",
+          addressCountry: "IN",
         },
       ],
     },

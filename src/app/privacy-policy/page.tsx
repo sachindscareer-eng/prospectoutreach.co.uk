@@ -125,8 +125,9 @@ export default function PrivacyPolicyPage() {
                 How can you get in contact with our team?
               </h2>
               <p className="mt-4 leading-relaxed text-muted-foreground">
-                21 N Main St #1022, Milltown, NJ 08850, United States<br />
-                +44 7915 378769
+                USA: 21 N Main St #1022, Milltown, NJ 08850, United States<br />
+                India: EON Free Zone, Kharadi, Pune, Maharashtra 411014<br />
+                +44 7915 378769 · +91-9959953818
               </p>
             </div>
 

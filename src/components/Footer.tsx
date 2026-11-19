@@ -8,8 +8,10 @@ import { DoNotShareModal } from "@/components/DoNotShareModal";
 import { GdprModal } from "@/components/GdprModal";
 import { CcpaModal } from "@/components/CcpaModal";
 
-const MOBILE_DISPLAY = "+44 7915 378769";
-const MOBILE_TEL = "+447915378769";
+const phones = [
+  { display: "+44 7915 378769", tel: "+447915378769" },
+  { display: "+91-9959953818", tel: "+919959953818" },
+];
 
 const companyLinks = [
   { href: "/about", label: "About Us" },
@@ -29,6 +31,10 @@ const offices = [
   {
     name: "USA Office",
     lines: "21 N Main St #1022, Milltown, NJ 08850, United States",
+  },
+  {
+    name: "Pune Office",
+    lines: "EON Free Zone, Kharadi, Pune, Maharashtra 411014, India",
   },
 ];
 
@@ -153,15 +159,17 @@ export function Footer() {
               </h2>
             </div>
             <ul className="space-y-3">
-              <li className="flex items-center gap-3">
-                <Phone className="h-4 w-4 shrink-0 text-primary" />
-                <a
-                  href={`tel:${MOBILE_TEL}`}
-                  className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  {MOBILE_DISPLAY}
-                </a>
-              </li>
+              {phones.map((p) => (
+                <li key={p.tel} className="flex items-center gap-3">
+                  <Phone className="h-4 w-4 shrink-0 text-primary" />
+                  <a
+                    href={`tel:${p.tel}`}
+                    className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    {p.display}
+                  </a>
+                </li>
+              ))}
               <li className="flex items-center gap-3">
                 <Mail className="h-4 w-4 shrink-0 text-primary" />
                 <a
