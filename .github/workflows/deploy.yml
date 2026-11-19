@@ -28,7 +28,33 @@ jobs:
           NODE_OPTIONS: --max-old-space-size=4096
           NEXT_TELEMETRY_DISABLED: "1"
 
+      # Attempt 1 — Hostinger FTP is occasionally flaky (ECONNRESET / 550), so don't fail yet
       - name: Deploy to Hostinger via FTPS
+        id: ftp1
+        continue-on-error: true
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: 92.249.46.109
+          port: 21
+          protocol: ftps
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./out/
+          server-dir: ./
+          state-name: .ftp-deploy-${{ github.run_id }}.json
+          timeout: 180000
+          exclude: |
+            **/.git*
+            **/.git*/**
+            smtp-config.php
+
+      - name: Wait before retry
+        if: steps.ftp1.outcome == 'failure'
+        run: sleep 30
+
+      # Attempt 2 — only runs if attempt 1 failed; fresh state so it re-uploads everything
+      - name: Deploy to Hostinger via FTPS (retry)
+        if: steps.ftp1.outcome == 'failure'
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: 92.249.46.109
@@ -41,7 +67,7 @@ jobs:
           # FTP root is already public_html on this account, so deploy to ./
           server-dir: ./
           # unique state per run → full fresh upload, avoids stale-state 550 errors
-          state-name: .ftp-deploy-${{ github.run_id }}.json
+          state-name: .ftp-deploy-${{ github.run_id }}-retry.json
           # longer timeout so large JS chunks don't trip the data socket
           timeout: 180000
           # keep server-side secret config; don't wipe the whole directory
