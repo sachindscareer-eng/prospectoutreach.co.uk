@@ -3,7 +3,7 @@ export type FaqItem = { q: string; a: string };
 export const faqs: FaqItem[] = [
   {
     q: "What does ProspectOutreach do?",
-    a: "ProspectOutreach is a B2B lead generation and demand generation agency. We find your best-fit buyers, reach them with personalised cold email and LinkedIn outreach, qualify the responses, and book qualified sales meetings directly onto your team's calendar.",
+    a: "ProspectOutreach is a B2B demand generation and sales outreach agency. We find your best-fit buyers, reach them with personalised cold email and LinkedIn outreach, qualify the responses, and book qualified sales meetings directly onto your team's calendar.",
   },
   {
     q: "Which services do you offer?",
@@ -16,6 +16,14 @@ export const faqs: FaqItem[] = [
   {
     q: "How do you qualify leads before booking a meeting?",
     a: "Not every reply is a deal. We filter responses for intent and fit, using BANT (Budget, Authority, Need, Timeline) or your own qualification framework, and only pass through conversations that have a real reason to move forward.",
+  },
+  {
+    q: "How is this different from hiring an in-house SDR team?",
+    a: "Building an SDR team means hiring, training, data subscriptions and outreach tools before the first meeting is booked. With ProspectOutreach you get the targeting, data, copywriting, multi-channel outreach and qualification already in place, so your sales team can focus on closing.",
+  },
+  {
+    q: "How much do your services cost?",
+    a: "Pricing depends on your goals, target market and which services you need. Content syndication runs on cost-per-lead models, while outreach and appointment setting programmes are scoped to your ICP and volume. Book a strategy call and we'll recommend the right setup for your pipeline targets.",
   },
   {
     q: "How does content syndication pricing work?",
@@ -31,6 +39,6 @@ export const faqs: FaqItem[] = [
   },
   {
     q: "Which markets do you cover?",
-    a: "We run B2B lead generation and appointment setting across the UK, the US and global markets, with teams in the US and India supporting multiple time zones.",
+    a: "We run B2B demand generation, outreach and appointment setting across the UK, the US and global markets, with teams in the US and India supporting multiple time zones.",
   },
 ];

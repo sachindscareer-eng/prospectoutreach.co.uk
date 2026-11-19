@@ -28,16 +28,17 @@ const SITE_URL = "https://prospectoutreach.co.uk";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "B2B Lead Generation Agency UK | ProspectOutreach",
+    default: "B2B Demand Generation Agency UK | ProspectOutreach",
     template: "%s | ProspectOutreach",
   },
   description:
-    "ProspectOutreach is a B2B lead generation and demand generation agency. We find best-fit buyers, run cold email and LinkedIn outreach, and book qualified meetings.",
+    "ProspectOutreach is a B2B demand generation and sales outreach agency. Lead generation, cold email and LinkedIn outreach, and appointment setting that books qualified meetings.",
   applicationName: "ProspectOutreach",
   authors: [{ name: "ProspectOutreach" }],
   keywords: [
+    "b2b demand generation agency",
     "b2b lead generation agency",
-    "demand generation agency",
+    "sales outreach agency",
     "appointment setting",
     "cold email outreach",
     "LinkedIn outreach",
@@ -51,23 +52,23 @@ export const metadata: Metadata = {
     locale: "en_GB",
     url: SITE_URL,
     siteName: "ProspectOutreach",
-    title: "B2B Lead Generation Agency UK | ProspectOutreach",
+    title: "B2B Demand Generation Agency UK | ProspectOutreach",
     description:
-      "B2B lead generation and demand generation agency. We find best-fit buyers and book qualified meetings your team actually wants to show up to.",
+      "B2B demand generation and sales outreach agency. We find best-fit buyers and book qualified meetings your team actually wants to show up to.",
     images: [
       {
         url: "/hero_section.jpg",
         width: 1600,
         height: 1000,
-        alt: "ProspectOutreach — B2B lead generation agency",
+        alt: "ProspectOutreach — B2B demand generation agency",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "B2B Lead Generation Agency UK | ProspectOutreach",
+    title: "B2B Demand Generation Agency UK | ProspectOutreach",
     description:
-      "B2B lead generation and demand generation agency. Qualified meetings, not vanity metrics.",
+      "B2B demand generation and sales outreach agency. Qualified meetings, not vanity metrics.",
     images: ["/hero_section.jpg"],
   },
   robots: {
@@ -104,7 +105,7 @@ const orgJsonLd = {
       url: SITE_URL,
       logo: `${SITE_URL}/icon.png`,
       description:
-        "B2B lead generation and demand generation agency running cold email, LinkedIn outreach and appointment setting.",
+        "B2B demand generation and sales outreach agency running cold email, LinkedIn outreach and appointment setting.",
       sameAs: [
         "https://www.linkedin.com/company/prospectoutreach/",
         "https://www.instagram.com/prospectoutreach",

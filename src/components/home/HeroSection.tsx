@@ -88,7 +88,7 @@ export function HeroSection() {
               variants={item}
               className="mt-6 font-syne text-[2.75rem] font-extrabold leading-[1.02] tracking-tight text-foreground sm:text-6xl lg:text-[4rem]"
             >
-              Turn the Right Prospects into{" "}
+              Turn the Right B2B Prospects into{" "}
               {/* pr: italic glyphs overhang the box; padding extends the clipped gradient so the last letter isn't cut */}
               <span className="relative inline-block bg-gradient-to-r from-[#8b6fff] to-[#c084fc] bg-clip-text pr-[0.18em] italic text-transparent">
                 Real Opportunities
@@ -120,8 +120,11 @@ export function HeroSection() {
               variants={item}
               className="mt-7 max-w-md text-base leading-relaxed text-muted-foreground sm:text-lg"
             >
-              Target the right accounts, engage decision-makers and turn
-              conversations into qualified meetings for your sales team.
+              ProspectOutreach is a B2B demand generation and sales outreach
+              agency. We target the
+              right accounts, engage decision-makers with cold email and
+              LinkedIn outreach, and turn conversations into qualified meetings
+              for your sales team.
             </motion.p>
 
             <motion.div variants={item} className="mt-8 flex flex-col gap-3 sm:flex-row">

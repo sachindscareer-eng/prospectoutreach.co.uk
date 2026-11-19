@@ -61,9 +61,9 @@ export function Footer() {
             <div className="space-y-4">
               <Logo footer width={180} height={48} />
               <p className="max-w-sm text-base leading-relaxed text-muted-foreground">
-                A B2B lead generation and{" "}
+                A B2B{" "}
                 <span className="text-gradient font-semibold">demand generation</span>{" "}
-                agency — we find best-fit buyers and book qualified meetings your team wants to show up to.
+                and sales outreach agency — we find best-fit buyers and book qualified meetings your team wants to show up to.
               </p>
             </div>
 
