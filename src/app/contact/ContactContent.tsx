@@ -152,7 +152,7 @@ export function ContactContent() {
                     </span>
                     <div className="text-sm text-muted-foreground">
                       <p className="font-medium text-foreground">Mobile</p>
-                      <p><a href="tel:+919959953818" className="hover:text-primary transition-colors">+91-9959953818</a></p>
+                      <p><a href="tel:+447915378769" className="hover:text-primary transition-colors">+44 7915 378769</a></p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3 rounded-2xl bg-muted/35 px-3 py-2.5">
@@ -161,7 +161,7 @@ export function ContactContent() {
                     </span>
                     <div className="text-sm text-muted-foreground">
                       <p className="font-medium text-foreground">Location</p>
-                      <p>EON Free Zone, Kharadi, Pune, Maharashtra 411014</p>
+                      <p>21 N Main St #1022, Milltown, NJ 08850, United States</p>
                     </div>
                   </div>
                   <a 

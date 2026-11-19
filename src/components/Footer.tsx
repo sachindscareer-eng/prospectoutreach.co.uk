@@ -8,8 +8,8 @@ import { DoNotShareModal } from "@/components/DoNotShareModal";
 import { GdprModal } from "@/components/GdprModal";
 import { CcpaModal } from "@/components/CcpaModal";
 
-const MOBILE_DISPLAY = "+91-9959953818";
-const MOBILE_TEL = "+919959953818";
+const MOBILE_DISPLAY = "+44 7915 378769";
+const MOBILE_TEL = "+447915378769";
 
 const companyLinks = [
   { href: "/about", label: "About Us" },
@@ -27,12 +27,8 @@ const legalLinks = [
 
 const offices = [
   {
-    name: "Pune Office",
-    lines: "EON Free Zone, Kharadi, Pune, Maharashtra 411014, India",
-  },
-  {
     name: "USA Office",
-    lines: "United States — serving B2B teams across North America",
+    lines: "21 N Main St #1022, Milltown, NJ 08850, United States",
   },
 ];
 

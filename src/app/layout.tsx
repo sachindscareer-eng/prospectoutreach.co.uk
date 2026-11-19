@@ -112,20 +112,20 @@ const orgJsonLd = {
       contactPoint: [
         {
           "@type": "ContactPoint",
-          telephone: "+91-9959953818",
+          telephone: "+447915378769",
           contactType: "sales",
-          areaServed: ["GB", "US", "IN"],
+          areaServed: ["GB", "US"],
           availableLanguage: ["en"],
         },
       ],
       address: [
         {
           "@type": "PostalAddress",
-          addressLocality: "Pune",
-          addressRegion: "Maharashtra",
-          postalCode: "411014",
-          streetAddress: "EON Free Zone, Kharadi",
-          addressCountry: "IN",
+          streetAddress: "21 N Main St #1022",
+          addressLocality: "Milltown",
+          addressRegion: "NJ",
+          postalCode: "08850",
+          addressCountry: "US",
         },
       ],
     },

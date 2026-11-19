@@ -1,37 +1,50 @@
 "use client";
 
+import Image from "next/image";
 import {
   Zap,
   Cloud,
   Hexagon,
   Layers,
   BarChart3,
-  Shield,
-  Boxes,
-  Globe,
-  Rocket,
-  CircuitBoard,
 } from "lucide-react";
 
-// Uniform text-style companies — all identical treatment (icon + name), one colour, equal size
-const companies = [
+type Company =
+  | { icon: typeof Zap; name: string }
+  | { src: string; alt: string };
+
+// Mixed set: text-style companies + brand SVG logos (the original ones), all shown as white silhouettes
+const companies: Company[] = [
   { icon: Zap, name: "Techwave" },
+  { src: "/company_logos/4.svg", alt: "Dell logo" },
   { icon: Cloud, name: "Cloudify" },
+  { src: "/company_logos/8.svg", alt: "Oracle logo" },
   { icon: Hexagon, name: "Nexora" },
+  { src: "/company_logos/2.svg", alt: "Red Hat logo" },
   { icon: Layers, name: "DataSync" },
+  { src: "/company_logos/10.svg", alt: "Snowflake logo" },
   { icon: BarChart3, name: "ScaleHQ" },
-  { icon: Shield, name: "SecureNet" },
-  { icon: Boxes, name: "Stackly" },
-  { icon: Globe, name: "Globex" },
-  { icon: Rocket, name: "Launchpad" },
-  { icon: CircuitBoard, name: "Nodeflow" },
+  { src: "/company_logos/3.svg", alt: "Zscaler logo" },
+  { src: "/company_logos/11.svg", alt: "Unisys logo" },
+  { src: "/company_logos/5.svg", alt: "Hewlett Packard Enterprise logo" },
 ];
 
-function TrackItem({
-  company,
-}: {
-  company: { icon: typeof Zap; name: string };
-}) {
+function TrackItem({ company }: { company: Company }) {
+  if ("src" in company) {
+    return (
+      // equal-size box; pure white silhouette, original colour + zoom on hover
+      <div className="flex h-12 w-48 shrink-0 items-center justify-center">
+        <Image
+          src={company.src}
+          alt={company.alt}
+          width={200}
+          height={48}
+          unoptimized
+          className="h-8 w-auto max-w-[9.5rem] object-contain brightness-0 invert transition-all duration-300 hover:scale-110 hover:brightness-100 hover:invert-0"
+        />
+      </div>
+    );
+  }
   const Icon = company.icon;
   return (
     <div className="group flex h-12 w-48 shrink-0 items-center justify-center gap-3 text-white transition-transform duration-300 hover:scale-110">
