@@ -1,8 +1,8 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { useEffect, useRef } from "react";
+import { motion, useInView, useReducedMotion } from "framer-motion";
 import {
-  Play,
   Mail,
   CalendarCheck,
   TrendingUp,
@@ -29,6 +29,17 @@ const points = [
 
 export function VideoSection() {
   const reduce = useReducedMotion();
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const inView = useInView(videoRef, { amount: 0.3 });
+
+  // autoplay (muted, looping) while the video is on screen; pause when scrolled away
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v || reduce) return;
+    v.muted = true; // must be set on the element for browsers to allow autoplay
+    if (inView) v.play().catch(() => {});
+    else v.pause();
+  }, [inView, reduce]);
 
   return (
     <section className="relative overflow-hidden bg-[#08060f] py-20 sm:py-24">
@@ -99,32 +110,22 @@ export function VideoSection() {
 
             <div className="group relative overflow-hidden rounded-2xl border border-white/12 bg-[#0d0b18] shadow-[0_30px_80px_-20px_rgba(124,92,255,0.6)]">
               <video
+                ref={videoRef}
                 className="aspect-video h-auto w-full object-cover"
                 width={1920}
                 height={1080}
                 poster="/hero_section.jpg"
                 preload="none"
-                controls
+                muted
+                loop
                 playsInline
+                // reduced-motion users get normal controls and choose to play it themselves
+                controls={!!reduce}
                 aria-label="How ProspectOutreach builds pipeline"
               >
                 <source src="/3205679-hd_1920_1080_25fps.mp4" type="video/mp4" />
               </video>
-
-              {/* play overlay */}
-              <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-                <span className="relative flex h-20 w-20 items-center justify-center">
-                  <motion.span
-                    aria-hidden
-                    className="absolute inset-0 rounded-full bg-white/20"
-                    animate={reduce ? undefined : { scale: [1, 1.4], opacity: [0.5, 0] }}
-                    transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }}
-                  />
-                  <span className="relative flex h-16 w-16 items-center justify-center rounded-full border border-white/40 bg-white/15 backdrop-blur-sm transition-transform duration-300 group-hover:scale-110">
-                    <Play className="h-6 w-6 translate-x-0.5 fill-white text-white" />
-                  </span>
-                </span>
-              </div>
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0d0b18]/50 via-transparent to-transparent" />
             </div>
 
             {/* floating stat badges */}
