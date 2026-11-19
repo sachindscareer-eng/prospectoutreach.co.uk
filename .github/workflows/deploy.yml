@@ -28,50 +28,31 @@ jobs:
           NODE_OPTIONS: --max-old-space-size=4096
           NEXT_TELEMETRY_DISABLED: "1"
 
-      # Attempt 1 — Hostinger FTP is occasionally flaky (ECONNRESET / 550), so don't fail yet
-      - name: Deploy to Hostinger via FTPS
-        id: ftp1
-        continue-on-error: true
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: 92.249.46.109
-          port: 21
-          protocol: ftps
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./out/
-          server-dir: ./
-          state-name: .ftp-deploy-${{ github.run_id }}.json
-          timeout: 180000
-          exclude: |
-            **/.git*
-            **/.git*/**
-            smtp-config.php
+      - name: Install lftp
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
 
-      - name: Wait before retry
-        if: steps.ftp1.outcome == 'failure'
-        run: sleep 30
-
-      # Attempt 2 — only runs if attempt 1 failed; fresh state so it re-uploads everything
-      - name: Deploy to Hostinger via FTPS (retry)
-        if: steps.ftp1.outcome == 'failure'
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: 92.249.46.109
-          port: 21
-          # FTPS (TLS) is far more stable on Hostinger than plain FTP (ECONNRESET)
-          protocol: ftps
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./out/
-          # FTP root is already public_html on this account, so deploy to ./
-          server-dir: ./
-          # unique state per run → full fresh upload, avoids stale-state 550 errors
-          state-name: .ftp-deploy-${{ github.run_id }}-retry.json
-          # longer timeout so large JS chunks don't trip the data socket
-          timeout: 180000
-          # keep server-side secret config; don't wipe the whole directory
-          exclude: |
-            **/.git*
-            **/.git*/**
-            smtp-config.php
+      # lftp reconnects and resumes when Hostinger drops the data socket (the ECONNRESET
+      # that kept killing FTP-Deploy-Action). Credentials come from env, not the command line.
+      # TLS certificate chain IS verified; only the hostname match is skipped because the
+      # server presents Hostinger's shared *.hstgr.io cert for this IP.
+      # No --delete: server-only files (smtp-config.php) are left untouched.
+      - name: Deploy to Hostinger via FTPS (lftp)
+        env:
+          FTP_HOST: 92.249.46.109
+          FTP_USER: ${{ secrets.FTP_USERNAME }}
+          LFTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          lftp --env-password -u "$FTP_USER" "$FTP_HOST" <<'EOF'
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ssl:verify-certificate yes
+          set ssl:check-hostname no
+          set ftp:passive-mode true
+          set net:timeout 30
+          set net:max-retries 8
+          set net:reconnect-interval-base 5
+          set net:reconnect-interval-max 30
+          set mirror:parallel-transfer-count 3
+          mirror --reverse --verbose --no-perms --exclude-glob .git* --exclude-glob smtp-config.php ./out/ ./
+          bye
+          EOF
