@@ -16,31 +16,32 @@ type Company =
 // Mixed set: text-style companies + brand SVG logos (the original ones), all shown as white silhouettes
 const companies: Company[] = [
   { icon: Zap, name: "Techwave" },
-  { src: "/company_logos/4.svg", alt: "Dell logo" },
+  { src: "/company_logos/4.svg", alt: "Hewlett Packard Enterprise logo" },
   { icon: Cloud, name: "Cloudify" },
-  { src: "/company_logos/8.svg", alt: "Oracle logo" },
+  { src: "/company_logos/8.svg", alt: "Red Hat logo" },
   { icon: Hexagon, name: "Nexora" },
-  { src: "/company_logos/2.svg", alt: "Red Hat logo" },
+  { src: "/company_logos/2.svg", alt: "Zscaler logo" },
   { icon: Layers, name: "DataSync" },
   { src: "/company_logos/10.svg", alt: "Snowflake logo" },
   { icon: BarChart3, name: "ScaleHQ" },
-  { src: "/company_logos/3.svg", alt: "Zscaler logo" },
+  { src: "/company_logos/3.svg", alt: "Dell logo" },
   { src: "/company_logos/11.svg", alt: "Unisys logo" },
-  { src: "/company_logos/5.svg", alt: "Hewlett Packard Enterprise logo" },
 ];
 
 function TrackItem({ company }: { company: Company }) {
   if ("src" in company) {
     return (
       // equal-size box; pure white silhouette, original colour + zoom on hover
-      <div className="flex h-12 w-48 shrink-0 items-center justify-center">
+      // SVG canvases have large transparent padding, so render the image larger than the
+      // box (overflow is transparent) to make the visible mark match the text logos
+      <div className="flex h-12 w-48 shrink-0 items-center justify-center overflow-visible">
         <Image
           src={company.src}
           alt={company.alt}
-          width={200}
-          height={48}
+          width={224}
+          height={112}
           unoptimized
-          className="h-8 w-auto max-w-[9.5rem] object-contain brightness-0 invert transition-all duration-300 hover:scale-110 hover:brightness-100 hover:invert-0"
+          className="h-[60px] w-[120px] max-w-none object-contain brightness-0 invert transition-all duration-300 hover:scale-110 hover:brightness-100 hover:invert-0"
         />
       </div>
     );
