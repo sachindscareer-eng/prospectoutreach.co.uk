@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Mail, MapPin, Phone, Linkedin, Instagram, ArrowRight } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { DoNotShareModal } from "@/components/DoNotShareModal";
+import { offices } from "@/lib/offices";
 import { GdprModal } from "@/components/GdprModal";
 import { CcpaModal } from "@/components/CcpaModal";
 
@@ -25,17 +26,6 @@ const legalLinks = [
   { href: "/privacy-policy", label: "Privacy Policy" },
   { href: "#", label: "GDPR" },
   { href: "#", label: "CCPA" },
-];
-
-const offices = [
-  {
-    name: "USA Office",
-    lines: "21 N Main St #1022, Milltown, NJ 08850, United States",
-  },
-  {
-    name: "Pune Office",
-    lines: "EON Free Zone, Kharadi, Pune, Maharashtra 411014, India",
-  },
 ];
 
 const socialLinks = [
@@ -67,25 +57,29 @@ export function Footer() {
               </p>
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-2">
-              {offices.map((office) => (
-                <div
-                  key={office.name}
-                  className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-5"
-                >
-                  <div className="flex items-start gap-3">
+            <div>
+              <div className="mb-4 flex items-center gap-2">
+                <span className="h-5 w-1 rounded-full bg-accent-gradient" />
+                <h2 className="text-sm font-bold uppercase tracking-wider text-foreground">
+                  Our Global Presence
+                </h2>
+              </div>
+              <div className="space-y-3">
+                {offices.map((office) => (
+                  <address
+                    key={office.id}
+                    className="flex items-start gap-3 rounded-2xl border border-white/[0.08] bg-white/[0.02] p-4 not-italic"
+                  >
                     <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
                     <div>
-                      <p className="mb-1 text-sm font-semibold text-foreground">
-                        {office.name}
-                      </p>
+                      <p className="mb-1 text-sm font-semibold text-foreground">{office.label}</p>
                       <p className="text-sm leading-relaxed text-muted-foreground">
-                        {office.lines}
+                        {office.lines.join(", ")}
                       </p>
                     </div>
-                  </div>
-                </div>
-              ))}
+                  </address>
+                ))}
+              </div>
             </div>
           </div>
 

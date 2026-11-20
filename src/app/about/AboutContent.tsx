@@ -33,6 +33,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CountUp, Magnetic, useFinePointer } from "@/components/interactive";
+import { offices } from "@/lib/offices";
 
 /* ================================================================== */
 /* Content — existing About copy kept; new blocks only support it      */
@@ -89,10 +90,6 @@ const values = [
   { icon: Handshake, title: "True partnership", text: "We work as an extension of your marketing and sales team." },
 ];
 
-const offices = [
-  { name: "USA Office", lines: "21 N Main St #1022, Milltown, NJ 08850, United States" },
-  { name: "Pune Office", lines: "EON Free Zone, Kharadi, Pune, Maharashtra 411014, India" },
-];
 
 const GRAD = "bg-gradient-to-r from-[#8b6fff] to-[#c084fc] bg-clip-text text-transparent";
 const CARD =
@@ -622,7 +619,7 @@ export function AboutContent() {
                   {[
                     { icon: Building2, label: "Who we work with", value: "Leading tech companies & publishers" },
                     { icon: Radar, label: "Regions served", value: "North America · EMEA · APAC" },
-                    { icon: MapPin, label: "Offices", value: "New Jersey, USA · Pune, India" },
+                    { icon: MapPin, label: "Offices", value: "Pune (HQ) · Edinburgh · New Jersey" },
                     { icon: ShieldCheck, label: "Data compliance", value: "GDPR & CCPA aligned" },
                   ].map((g) => (
                     <li key={g.label} className="flex items-start gap-3.5">
@@ -816,10 +813,10 @@ export function AboutContent() {
               </div>
 
               <div className="space-y-3">
-                <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#a78bfa]">Our offices</p>
+                <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#a78bfa]">Our global presence</p>
                 {offices.map((o, i) => (
                   <motion.div
-                    key={o.name}
+                    key={o.id}
                     {...rise(i + 1)}
                     whileHover={reduce ? undefined : { x: 4 }}
                     className="flex items-start gap-4 rounded-2xl border border-white/[0.08] bg-white/[0.03] p-5 backdrop-blur-sm transition-colors hover:border-[#7c5cff]/45"
@@ -836,8 +833,8 @@ export function AboutContent() {
                       <MapPin className="h-4 w-4" />
                     </span>
                     <div>
-                      <h3 className="text-[15px] font-bold text-foreground">{o.name}</h3>
-                      <p className="mt-1 text-[13px] leading-relaxed text-muted-foreground">{o.lines}</p>
+                      <h3 className="text-[15px] font-bold text-foreground">{o.label}</h3>
+                      <p className="mt-1 text-[13px] leading-relaxed text-muted-foreground">{o.lines.join(", ")}</p>
                     </div>
                   </motion.div>
                 ))}

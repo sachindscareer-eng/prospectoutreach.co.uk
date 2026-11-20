@@ -1,3 +1,4 @@
+import { offices } from "@/lib/offices";
 import type { Metadata, Viewport } from "next";
 import { Roboto, Roboto_Condensed } from "next/font/google";
 import "./globals.css";
@@ -127,24 +128,7 @@ const orgJsonLd = {
           availableLanguage: ["en"],
         },
       ],
-      address: [
-        {
-          "@type": "PostalAddress",
-          streetAddress: "21 N Main St #1022",
-          addressLocality: "Milltown",
-          addressRegion: "NJ",
-          postalCode: "08850",
-          addressCountry: "US",
-        },
-        {
-          "@type": "PostalAddress",
-          streetAddress: "EON Free Zone, Kharadi",
-          addressLocality: "Pune",
-          addressRegion: "Maharashtra",
-          postalCode: "411014",
-          addressCountry: "IN",
-        },
-      ],
+      address: offices.map((o) => ({ "@type": "PostalAddress", ...o.schema })),
     },
     {
       "@type": "WebSite",

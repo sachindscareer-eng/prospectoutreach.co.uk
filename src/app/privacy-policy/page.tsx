@@ -125,8 +125,9 @@ export default function PrivacyPolicyPage() {
                 How can you get in contact with our team?
               </h2>
               <p className="mt-4 leading-relaxed text-muted-foreground">
-                USA: 21 N Main St #1022, Milltown, NJ 08850, United States<br />
-                India: EON Free Zone, Kharadi, Pune, Maharashtra 411014<br />
+                Head Office – India: ProspectOutreach Private Limited, Kharadi, Near World Trade Centre, Pune, Maharashtra 411014, India<br />
+                UK Business Office: 3F1, Third Floor, 3 Hill Street, Edinburgh EH2 3JP, United Kingdom<br />
+                US Business Office: 21 N Main St #1022, Milltown, NJ 08850, United States<br />
                 +44 7915 378769 · +91-9959953818
               </p>
             </div>

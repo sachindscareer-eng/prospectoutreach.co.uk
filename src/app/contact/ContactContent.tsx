@@ -6,6 +6,8 @@ import { CheckCircle2, Mail, Phone, MapPin, Instagram, Linkedin } from "lucide-r
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { offices } from "@/lib/offices";
+import { GlobalOffices } from "@/components/GlobalOffices";
 
 const expectationSteps = [
   {
@@ -80,6 +82,7 @@ export function ContactContent() {
   }
 
   return (
+    <>
     <section className="relative overflow-hidden pb-16 pt-8 sm:pb-24">
       <div className="pointer-events-none absolute -left-20 top-12 h-72 w-72 rounded-full bg-fuchsia-300/20 blur-3xl" />
       <div className="pointer-events-none absolute -right-24 top-44 h-80 w-80 rounded-full bg-cyan-300/20 blur-3xl" />
@@ -161,9 +164,12 @@ export function ContactContent() {
                       <MapPin className="h-4 w-4" />
                     </span>
                     <div className="text-sm text-muted-foreground">
-                      <p className="font-medium text-foreground">Location</p>
-                      <p><span className="text-foreground">USA:</span> 21 N Main St #1022, Milltown, NJ 08850, United States</p>
-                      <p className="mt-1"><span className="text-foreground">India:</span> EON Free Zone, Kharadi, Pune, Maharashtra 411014</p>
+                      <p className="font-medium text-foreground">Offices</p>
+                      {offices.map((o) => (
+                        <p key={o.id} className="mt-0.5">
+                          <span className="text-foreground">{o.label}:</span> {o.city}, {o.country}
+                        </p>
+                      ))}
                     </div>
                   </div>
                   <a 
@@ -345,5 +351,7 @@ export function ContactContent() {
         </div>
       </div>
     </section>
+    <GlobalOffices />
+    </>
   );
 }

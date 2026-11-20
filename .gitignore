@@ -37,3 +37,9 @@ public/smtp-config.php
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+_push_about.bat
+_build.bat
+_build.log
+_push.bat
+.preview/
