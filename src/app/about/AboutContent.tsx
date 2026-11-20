@@ -40,16 +40,15 @@ import { offices } from "@/lib/offices";
 /* ================================================================== */
 
 const stats = [
-  { value: "75", suffix: "M+", label: "Global database" },
-  { value: "45", suffix: "+", label: "Clients & counting" },
+  { value: "45", suffix: "+", label: "Clients" },
   { value: "1", suffix: "M+", label: "Leads delivered" },
-  { value: "9", suffix: " yrs", label: "B2B expertise" },
+  { value: "9", suffix: " yrs", label: "Expertise" },
 ];
 
 const regions = [
-  { key: "na", name: "North America", value: "8", zone: [0.04, 0.34] as const, blurb: "Decision-makers across the US and Canada." },
-  { key: "emea", name: "EMEA", value: "7", zone: [0.4, 0.62] as const, blurb: "Buyers across the UK, Europe, the Middle East and Africa." },
-  { key: "apac", name: "APAC", value: "6", zone: [0.64, 0.96] as const, blurb: "Professionals across Asia and the Pacific." },
+  { key: "na", name: "North America", value: "18", zone: [0.04, 0.34] as const, blurb: "Decision-makers across the US and Canada." },
+  { key: "emea", name: "EMEA", value: "15", zone: [0.4, 0.62] as const, blurb: "Buyers across the UK, Europe, the Middle East and Africa." },
+  { key: "apac", name: "APAC", value: "8", zone: [0.64, 0.96] as const, blurb: "Professionals across Asia and the Pacific." },
 ];
 
 const approach = [
@@ -433,10 +432,181 @@ function GlobalReach() {
           </motion.div>
         </AnimatePresence>
         <p className="mt-8 border-t border-white/[0.08] pt-5 text-sm text-muted-foreground">
-          Part of a <span className="font-semibold text-foreground">75M+</span> global database of B2B professionals.
+          Part of a <span className="font-semibold text-foreground">150M+</span> global database of B2B professionals.
         </p>
       </div>
     </div>
+  );
+}
+
+/* ================================================================== */
+/* Hero visual: "audience overview" panel with floating stat cards     */
+/* ================================================================== */
+
+function FloatCard({
+  className,
+  delay,
+  icon: Icon,
+  value,
+  suffix,
+  label,
+}: {
+  className: string;
+  delay: number;
+  icon: typeof Building2;
+  value: string;
+  suffix: string;
+  label: string;
+}) {
+  const reduce = useReducedMotion();
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ delay, duration: 0.6, ease: EASE }}
+      className={`absolute z-10 hidden sm:block ${className}`}
+    >
+      <motion.div
+        animate={reduce ? undefined : { y: [0, -10, 0] }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay }}
+        className="flex items-center gap-3 rounded-2xl border border-white/10 bg-[#110d1f]/90 px-4 py-3 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.8)] backdrop-blur-xl"
+      >
+        <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#7c5cff] to-[#e552ff] text-white">
+          <Icon className="h-[18px] w-[18px]" />
+        </span>
+        <div>
+          <p className="font-syne text-xl font-extrabold leading-none text-white">
+            <CountUp value={value} />
+            <span className={GRAD}>{suffix}</span>
+          </p>
+          <p className="mt-1 text-[11px] font-medium uppercase tracking-[0.1em] text-muted-foreground">{label}</p>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+function HeroVisual() {
+  const reduce = useReducedMotion();
+  const fine = useFinePointer();
+  const ref = useRef<HTMLDivElement>(null);
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
+  const rx = useSpring(useTransform(my, [-0.5, 0.5], [7, -7]), { stiffness: 120, damping: 20 });
+  const ry = useSpring(useTransform(mx, [-0.5, 0.5], [-9, 9]), { stiffness: 120, damping: 20 });
+  const max = Math.max(...regions.map((r) => Number(r.value)));
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.35, duration: 0.9, ease: EASE }}
+      className="relative mx-auto mb-6 w-full max-w-[30rem] sm:mb-12 lg:mb-0 lg:max-w-none"
+      style={{ perspective: 1200 }}
+    >
+      <div className="pointer-events-none absolute -inset-8 rounded-full bg-gradient-to-br from-[#4f7bff]/25 via-[#7c5cff]/20 to-[#e552ff]/20 blur-3xl" />
+
+      <motion.div
+        ref={ref}
+        style={fine ? { rotateX: rx, rotateY: ry } : undefined}
+        onPointerMove={(e) => {
+          if (!fine || !ref.current) return;
+          const r = ref.current.getBoundingClientRect();
+          mx.set((e.clientX - r.left) / r.width - 0.5);
+          my.set((e.clientY - r.top) / r.height - 0.5);
+        }}
+        onPointerLeave={() => {
+          mx.set(0);
+          my.set(0);
+        }}
+        className="relative rounded-[1.6rem] border border-white/10 bg-gradient-to-b from-white/[0.1] to-white/[0.02] p-1.5 shadow-[0_40px_120px_-30px_rgba(124,92,255,0.65)] backdrop-blur-xl"
+      >
+        <div className="relative overflow-hidden rounded-[1.25rem] border border-white/[0.06] bg-[#0b0916]/95 p-5 sm:p-7">
+          <div className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-[#7c5cff]/20 blur-3xl" />
+
+          {/* window bar */}
+          <div className="relative flex items-center justify-between">
+            <div className="flex items-center gap-1.5">
+              <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
+              <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
+              <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
+              <span className="ml-3 text-xs font-semibold text-muted-foreground">Audience overview</span>
+            </div>
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/25 bg-emerald-400/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-emerald-300">
+              <span className="relative flex h-1.5 w-1.5">
+                {!reduce && <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-300 opacity-75" />}
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-300" />
+              </span>
+              Verified
+            </span>
+          </div>
+
+          {/* headline number */}
+          <div className="relative mt-7">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#a78bfa]">Global B2B database</p>
+            <p className="mt-2 font-syne text-6xl font-extrabold leading-none tracking-tight text-white sm:text-7xl">
+              <CountUp value="150" />
+              <span className={GRAD}>M+</span>
+            </p>
+            <p className="mt-2 text-sm text-muted-foreground">decision-makers and professionals worldwide</p>
+          </div>
+
+          {/* region bars */}
+          <div className="relative mt-7 space-y-4">
+            {regions.map((r, i) => (
+              <div key={r.key}>
+                <div className="flex items-baseline justify-between text-sm">
+                  <span className="font-medium text-foreground/90">{r.name}</span>
+                  <span className="font-syne font-bold text-white">
+                    {r.value}
+                    <span className="text-[#c084fc]">M+</span>
+                  </span>
+                </div>
+                <div className="mt-2 h-2 overflow-hidden rounded-full bg-white/[0.06]">
+                  <motion.div
+                    className="h-full rounded-full bg-gradient-to-r from-[#4f7bff] via-[#a855f7] to-[#e552ff]"
+                    initial={{ width: reduce ? `${(Number(r.value) / max) * 100}%` : "0%" }}
+                    animate={{ width: `${(Number(r.value) / max) * 100}%` }}
+                    transition={{ delay: 0.9 + i * 0.15, duration: 1.1, ease: EASE }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* capability chips */}
+          <div className="relative mt-7 grid grid-cols-3 gap-2 border-t border-white/[0.07] pt-5">
+            {[
+              { icon: Radar, label: "Intent signals" },
+              { icon: Crosshair, label: "ICP matched" },
+              { icon: ShieldCheck, label: "GDPR & CCPA" },
+            ].map((c) => (
+              <div key={c.label} className="flex flex-col items-center gap-1.5 rounded-xl bg-white/[0.03] px-2 py-3 text-center">
+                <c.icon className="h-4 w-4 text-[#c084fc]" />
+                <span className="text-[11px] font-semibold leading-tight text-foreground/85">{c.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </motion.div>
+
+      <FloatCard className="-right-8 top-[21%] lg:-right-12" delay={1.1} icon={Building2} value="45" suffix="+" label="Clients & counting" />
+      <FloatCard className="-bottom-11 right-2 lg:-right-4" delay={1.3} icon={Target} value="1" suffix="M+" label="Leads delivered" />
+      <FloatCard className="-bottom-11 -left-4 lg:-left-10" delay={1.5} icon={Gauge} value="9" suffix=" yrs" label="B2B expertise" />
+
+      {/* mobile: stats under the panel */}
+      <div className="mt-6 grid grid-cols-3 gap-px overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.07] sm:hidden">
+        {stats.map((s) => (
+          <div key={s.label} className="bg-[#0d0b17] px-2 py-4 text-center">
+            <p className="font-syne text-2xl font-extrabold text-white">
+              <CountUp value={s.value} />
+              <span className={GRAD}>{s.suffix}</span>
+            </p>
+            <p className="mt-1 text-[10px] font-medium uppercase tracking-[0.08em] text-muted-foreground">{s.label}</p>
+          </div>
+        ))}
+      </div>
+    </motion.div>
   );
 }
 
@@ -467,126 +637,122 @@ export function AboutContent() {
           el.style.setProperty("--hx", `${e.clientX - r.left}px`);
           el.style.setProperty("--hy", `${e.clientY - r.top}px`);
         }}
-        className="group/hero relative overflow-hidden bg-[#070510] pb-16 pt-20 sm:pb-24 sm:pt-28"
+        className="group/hero relative overflow-hidden bg-[#06040d] pb-20 pt-14 sm:pb-28 sm:pt-20 lg:pb-32"
       >
-        <div className="pointer-events-none absolute inset-0 bg-grid opacity-25 [mask-image:radial-gradient(ellipse_at_top,black_30%,transparent_75%)]" />
-        {/* cursor-follow light */}
+        {/* aurora + grid */}
+        <motion.div
+          aria-hidden
+          className="pointer-events-none absolute -top-56 left-1/2 h-[34rem] w-[70rem] -translate-x-1/2 rounded-[100%] bg-gradient-to-r from-[#4f7bff]/30 via-[#a855f7]/30 to-[#e552ff]/25 blur-[130px]"
+          animate={reduce ? undefined : { opacity: [0.55, 1, 0.55], scale: [1, 1.06, 1] }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <div className="pointer-events-none absolute inset-0 bg-grid opacity-[0.18] [mask-image:radial-gradient(ellipse_70%_60%_at_50%_30%,black,transparent)]" />
         <div
           className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover/hero:opacity-100"
-          style={{ background: "radial-gradient(500px circle at var(--hx,50%) var(--hy,30%), rgba(139,111,255,0.16), transparent 60%)" }}
+          style={{ background: "radial-gradient(520px circle at var(--hx,50%) var(--hy,30%), rgba(139,111,255,0.14), transparent 60%)" }}
         />
-        {/* drifting orbs */}
-        <motion.div
-          aria-hidden
-          className="pointer-events-none absolute left-[18%] top-[6%] h-[26rem] w-[26rem] rounded-full bg-[#7c3aed]/30 blur-[130px]"
-          animate={reduce ? undefined : { x: [0, 60, 0], y: [0, 30, 0] }}
-          transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          aria-hidden
-          className="pointer-events-none absolute right-[14%] top-[18%] h-[22rem] w-[22rem] rounded-full bg-[#e552ff]/15 blur-[130px]"
-          animate={reduce ? undefined : { x: [0, -50, 0], y: [0, 40, 0] }}
-          transition={{ duration: 19, repeat: Infinity, ease: "easeInOut" }}
-        />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#7c5cff]/60 to-transparent" />
 
         <div className="container relative mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-3xl text-center">
-            <motion.span
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 rounded-full border border-[#8b5cf6]/40 bg-[#8b5cf6]/10 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-foreground sm:text-xs"
-            >
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#c084fc] opacity-75" />
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#c084fc]" />
-              </span>
-              About ProspectOutreach
-            </motion.span>
-
-            <h1 className="mt-6 font-syne text-[2.5rem] font-extrabold leading-[1.06] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-              <WordReveal text="Where data, design, and" delay={0.1} />
-              <span className="relative inline-block bg-gradient-to-r from-[#8b6fff] to-[#c084fc] bg-clip-text pr-[0.18em] italic text-transparent">
-                <motion.span
-                  className="inline-block"
-                  initial={{ opacity: 0, y: reduce ? 0 : 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.45, duration: 0.7, ease: EASE }}
+          <div className="mx-auto grid max-w-6xl items-center gap-16 lg:grid-cols-[1.08fr_0.92fr] lg:gap-12">
+            {/* copy */}
+            <div className="text-center lg:text-left">
+              <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+                <Link
+                  href="/services"
+                  className="group inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/[0.04] py-1 pl-1 pr-3.5 text-xs font-medium text-muted-foreground backdrop-blur transition-colors hover:border-[#7c5cff]/50 hover:text-white sm:text-[13px]"
                 >
-                  revenue converge
-                </motion.span>
-                <svg className="absolute -bottom-2 left-0 w-full" height="10" viewBox="0 0 300 10" fill="none" preserveAspectRatio="none" aria-hidden>
-                  <motion.path
-                    d="M2 7 C 80 2, 220 2, 298 7"
-                    stroke="url(#aboutug)"
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                    initial={{ pathLength: reduce ? 1 : 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ delay: 0.9, duration: 0.9, ease: "easeInOut" }}
-                  />
-                  <defs>
-                    <linearGradient id="aboutug" x1="0" y1="0" x2="1" y2="0">
-                      <stop offset="0%" stopColor="#8b6fff" />
-                      <stop offset="100%" stopColor="#e552ff" />
-                    </linearGradient>
-                  </defs>
-                </svg>
-              </span>
-            </h1>
+                  <span className="rounded-full bg-gradient-to-r from-[#7c5cff] to-[#e552ff] px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-white">
+                    About us
+                  </span>
+                  9 years of B2B demand generation
+                  <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                </Link>
+              </motion.div>
 
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.6, ease: EASE }}
-              className="mx-auto mt-7 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg"
-            >
-              We architect demand for B2B brands by combining intent
-              intelligence with creative execution and strong data operations.
-            </motion.p>
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.75, duration: 0.6, ease: EASE }}
-              className="mt-8 flex flex-col justify-center gap-3 sm:flex-row"
-            >
-              <Magnetic>
-                <Button size="lg" className="group h-14 gap-2 px-7 text-base" asChild>
-                  <Link href="/contact">
-                    Talk to an expert
-                    <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
-                  </Link>
-                </Button>
-              </Magnetic>
-              <Magnetic>
-                <Button size="lg" variant="outline" className="h-14 px-7 text-base" asChild>
-                  <Link href="/services">Explore services</Link>
-                </Button>
-              </Magnetic>
-            </motion.div>
-          </div>
+              <h1 className="mt-7 font-syne text-[2.7rem] font-extrabold leading-[1.02] tracking-tight text-foreground sm:text-6xl lg:text-[3.9rem]">
+                <WordReveal text="Where data, design," delay={0.1} />
+                <br className="hidden sm:block" />
+                <WordReveal text="and" delay={0.31} />
+                <span className="relative inline-block bg-gradient-to-r from-[#8b6fff] via-[#b57bff] to-[#e552ff] bg-clip-text pr-[0.18em] italic text-transparent">
+                  <motion.span
+                    className="inline-block"
+                    initial={{ opacity: 0, y: reduce ? 0 : 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.45, duration: 0.7, ease: EASE }}
+                  >
+                    revenue converge
+                  </motion.span>
+                  <svg className="absolute -bottom-2 left-0 w-full" height="10" viewBox="0 0 300 10" fill="none" preserveAspectRatio="none" aria-hidden>
+                    <motion.path
+                      d="M2 7 C 80 2, 220 2, 298 7"
+                      stroke="url(#aboutug)"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                      initial={{ pathLength: reduce ? 1 : 0 }}
+                      animate={{ pathLength: 1 }}
+                      transition={{ delay: 0.9, duration: 0.9, ease: "easeInOut" }}
+                    />
+                    <defs>
+                      <linearGradient id="aboutug" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0%" stopColor="#8b6fff" />
+                        <stop offset="100%" stopColor="#e552ff" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                </span>
+              </h1>
 
-          {/* stats bar */}
-          <motion.div
-            initial={{ opacity: 0, y: 28 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.9, duration: 0.6, ease: EASE }}
-            className="mx-auto mt-16 grid max-w-4xl grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.07] backdrop-blur sm:grid-cols-4"
-          >
-            {stats.map((s) => (
-              <div
-                key={s.label}
-                data-spotlight
-                className="group relative bg-[#0d0b17]/95 px-4 py-6 text-center transition-colors duration-300 hover:bg-[#141022]"
+              <motion.p
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6, duration: 0.6, ease: EASE }}
+                className="mx-auto mt-7 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg lg:mx-0"
               >
-                <p className="font-syne text-3xl font-extrabold tabular-nums text-white transition-transform duration-300 group-hover:-translate-y-0.5 sm:text-4xl">
-                  <CountUp value={s.value} />
-                  <span className={GRAD}>{s.suffix}</span>
-                </p>
-                <p className="mt-1.5 text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground">{s.label}</p>
-              </div>
-            ))}
-          </motion.div>
+                We architect demand for B2B brands by combining intent
+                intelligence with creative execution and strong data operations.
+              </motion.p>
+
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.75, duration: 0.6, ease: EASE }}
+                className="mt-9 flex flex-col justify-center gap-3 sm:flex-row lg:justify-start"
+              >
+                <Magnetic>
+                  <Button size="lg" className="group h-14 gap-2 px-7 text-base shadow-[0_18px_40px_-12px_rgba(168,85,247,0.7)]" asChild>
+                    <Link href="/contact">
+                      Talk to an expert
+                      <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+                    </Link>
+                  </Button>
+                </Magnetic>
+                <Magnetic>
+                  <Button size="lg" variant="outline" className="h-14 px-7 text-base" asChild>
+                    <Link href="/services">Explore services</Link>
+                  </Button>
+                </Magnetic>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1, duration: 0.6 }}
+                className="mt-10 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-muted-foreground lg:justify-start"
+              >
+                <span className="text-xs font-semibold uppercase tracking-[0.14em] text-white/40">Offices in</span>
+                {offices.map((o) => (
+                  <span key={o.id} className="inline-flex items-center gap-1.5 font-medium text-foreground/85">
+                    <span aria-hidden>{o.flag}</span>
+                    {o.city.split(",")[0]}
+                  </span>
+                ))}
+              </motion.div>
+            </div>
+
+            {/* product-style visual */}
+            <HeroVisual />
+          </div>
         </div>
       </section>
 
@@ -606,7 +772,7 @@ export function AboutContent() {
                   ProspectOutreach is a global B2B demand generation partner dedicated to driving sustainable revenue for the world&apos;s leading tech companies and publishers.
                 </p>
                 <p className="leading-[1.8] text-muted-foreground">
-                  We believe that successful outreach happens at the intersection of data and human connection. By utilizing our proprietary technology and a vast network of 75 million global professionals, we deliver omnichannel marketing solutions including ABM and intent-based syndication that put you in front of the right decision-makers at the right time.
+                  We believe that successful outreach happens at the intersection of data and human connection. By utilizing our proprietary technology and a vast network of 150 million global professionals, we deliver omnichannel marketing solutions including ABM and intent-based syndication that put you in front of the right decision-makers at the right time.
                 </p>
               </motion.div>
             </div>

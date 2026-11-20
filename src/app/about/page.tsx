@@ -6,7 +6,7 @@ const SITE_URL = "https://prospectoutreach.co.uk";
 export const metadata: Metadata = {
   title: "About Us",
   description:
-    "About ProspectOutreach: a global B2B demand generation partner with 9 years of expertise, a 75M+ professional network and offices in India, the UK and the USA.",
+    "About ProspectOutreach: a global B2B demand generation partner with 9 years of expertise, a 150M+ professional network and offices in India, the UK and the USA.",
   alternates: { canonical: `${SITE_URL}/about` },
 };
 
