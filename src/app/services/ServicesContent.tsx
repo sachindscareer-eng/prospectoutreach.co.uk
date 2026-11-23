@@ -539,34 +539,52 @@ export function ServicesContent() {
             Across the <span className={GRAD}>entire funnel</span>
           </SectionHead>
 
-          <div className="mx-auto mt-14 grid max-w-6xl grid-cols-1 gap-5 lg:grid-cols-3">
+          {/*
+            Desktop: each column spans 4 rows of the parent grid and uses subgrid,
+            so the header and each of the 3 items line up across all three columns.
+          */}
+          <div className="mx-auto mt-14 grid max-w-6xl grid-cols-1 gap-5 lg:grid-cols-3 lg:grid-rows-[auto_auto_auto_auto] lg:gap-y-0">
             {detailedGroups.map((g, gi) => (
-              <motion.div key={g.title} {...rise(gi)} className={`${CARD} flex h-full flex-col p-6`}>
-                <div className="flex items-center gap-3">
-                  <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${g.gradient} text-white shadow-lg`}>
-                    <g.icon className="h-5 w-5" />
-                  </span>
-                  <h3 className="text-lg font-bold leading-snug text-foreground">{g.title}</h3>
-                </div>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{g.description}</p>
+              <motion.div
+                key={g.title}
+                {...rise(gi)}
+                data-spotlight
+                className={`group/col relative flex flex-col overflow-hidden ${CARD} transition-colors duration-300 hover:border-[#7c5cff]/40 lg:row-span-4 lg:grid lg:grid-rows-subgrid`}
+              >
+                {/* gradient accent */}
+                <span className={`absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r ${g.gradient} opacity-70 transition-opacity duration-300 group-hover/col:opacity-100`} aria-hidden />
+                <span className={`pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-gradient-to-br ${g.gradient} opacity-[0.07] blur-2xl transition-opacity duration-500 group-hover/col:opacity-20`} aria-hidden />
 
-                <div className="mt-5 space-y-3">
-                  {g.items.map((it, ii) => (
-                    <motion.div
-                      key={it.title}
-                      {...rise(gi + ii)}
-                      whileHover={reduce ? undefined : { x: 4 }}
-                      data-spotlight
-                      className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-4 transition-colors duration-300 hover:border-[#7c5cff]/45 hover:bg-white/[0.04]"
-                    >
-                      <h4 className="flex items-center gap-2 text-sm font-semibold text-foreground">
-                        <span className={`h-1.5 w-1.5 rounded-full bg-gradient-to-r ${g.gradient}`} />
+                {/* header (row 1) */}
+                <div className="relative border-b border-white/[0.07] p-6 pb-5">
+                  <div className="flex items-center gap-3">
+                    <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${g.gradient} text-white shadow-lg ring-1 ring-white/20 transition-transform duration-300 group-hover/col:-rotate-6 group-hover/col:scale-110`}>
+                      <g.icon className="h-5 w-5" />
+                    </span>
+                    <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#a78bfa]">0{gi + 1} / 03</span>
+                  </div>
+                  <h3 className="mt-4 text-lg font-bold leading-snug text-foreground">{g.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{g.description}</p>
+                </div>
+
+                {/* items (rows 2–4) */}
+                {g.items.map((it, ii) => (
+                  <div
+                    key={it.title}
+                    className={`group/item relative flex gap-4 px-6 py-5 transition-colors duration-300 hover:bg-white/[0.035] ${ii < g.items.length - 1 ? "border-b border-white/[0.06]" : ""}`}
+                  >
+                    <span className="mt-0.5 font-syne text-sm font-bold text-white/25 transition-colors duration-300 group-hover/item:text-[#c084fc]">
+                      0{ii + 1}
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <h4 className="flex items-center justify-between gap-2 text-[15px] font-semibold text-foreground">
                         {it.title}
+                        <ArrowUpRight className="h-4 w-4 shrink-0 -translate-x-1 text-[#c084fc] opacity-0 transition-all duration-300 group-hover/item:translate-x-0 group-hover/item:opacity-100" />
                       </h4>
                       <p className="mt-1.5 text-[13px] leading-relaxed text-muted-foreground">{it.description}</p>
-                    </motion.div>
-                  ))}
-                </div>
+                    </div>
+                  </div>
+                ))}
               </motion.div>
             ))}
           </div>
