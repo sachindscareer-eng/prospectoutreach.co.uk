@@ -93,8 +93,8 @@ const coreServices = [
     description:
       "Custom-built, scalable web applications and software systems designed to solve complex business challenges and drive digital transformation.",
     points: [
-      "Custom Web App Development: Built for performance.",
-      "UI/UX & Interactive Dashboards: Data-driven design.",
+      "Custom Web Apps: Built for performance.",
+      "UI/UX & Dashboards: Data-driven, interactive design.",
       "Cloud & Infrastructure: Secure and scalable deployment.",
     ],
     gradient: "from-[#34d399] to-[#4f7bff]",
@@ -473,56 +473,57 @@ export function ServicesContent() {
             Everything you need to <span className={GRAD}>fill your pipeline</span>
           </SectionHead>
 
-          <div className="mx-auto mt-14 grid max-w-6xl grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-6">
+          {/* five equal cards in one row on desktop; points + link pinned to the bottom so rows line up */}
+          <div className="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-5">
             {coreServices.map((s, i) => (
               <motion.div
                 key={s.id}
-                {...rise(i % 3)}
-                className={`h-full ${i < 2 ? "lg:col-span-3" : "lg:col-span-2"} ${i === 4 ? "md:col-span-2 lg:col-span-2" : ""}`}
+                {...rise(i)}
+                className={`h-full ${i === coreServices.length - 1 ? "sm:col-span-2 xl:col-span-1" : ""}`}
               >
                 <TiltCard
                   id={s.id}
-                  className={`group relative flex h-full scroll-mt-36 flex-col overflow-hidden ${CARD} p-7 transition-colors duration-300 hover:border-[#7c5cff]/50`}
+                  className={`group relative flex h-full scroll-mt-36 flex-col overflow-hidden ${CARD} p-6 transition-colors duration-300 hover:border-[#7c5cff]/50`}
                 >
                   <span
                     className={`absolute inset-x-0 top-0 h-[3px] origin-left scale-x-0 bg-gradient-to-r ${s.gradient} transition-transform duration-500 group-hover:scale-x-100`}
                     aria-hidden
                   />
-                  <span className="pointer-events-none absolute right-5 top-3 font-syne text-5xl font-bold text-white/[0.05] transition-colors duration-300 group-hover:text-white/[0.09]">
+                  <span className="pointer-events-none absolute right-4 top-3 font-syne text-4xl font-bold text-white/[0.05] transition-colors duration-300 group-hover:text-white/[0.09]">
                     0{i + 1}
                   </span>
+
                   <span
                     className={`flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${s.gradient} text-white shadow-lg ring-1 ring-white/20 transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110`}
                   >
                     <s.icon className="h-6 w-6" strokeWidth={1.9} />
                   </span>
-                  <h3 className="mt-5 text-lg font-bold leading-snug text-foreground">{s.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{s.description}</p>
-                  <ul className="mt-5 space-y-2.5">
-                    {s.points.map((p) => {
-                      const [head, ...rest] = p.split(":");
+
+                  {/* fixed two-line title height so every description starts on the same line */}
+                  <h3 className="mt-5 text-base font-bold leading-snug text-foreground xl:min-h-[2.75rem]">{s.title}</h3>
+                  <p className="mt-2.5 flex-1 text-[13px] leading-relaxed text-muted-foreground">{s.description}</p>
+
+                  <ul className="mt-5 space-y-2 border-t border-white/[0.07] pt-4">
+                    {s.points.map((pt) => {
+                      const head = pt.split(":")[0];
                       return (
-                        <li key={p} className="flex items-start gap-2.5 text-[13px] leading-relaxed text-muted-foreground">
-                          <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#7c5cff]/20 text-[#c084fc]">
-                            <Check className="h-3 w-3" strokeWidth={3} />
+                        <li key={pt} title={pt} className="flex items-center gap-2 text-[12.5px] font-medium text-foreground/85 xl:whitespace-nowrap">
+                          <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#7c5cff]/20 text-[#c084fc]">
+                            <Check className="h-2.5 w-2.5" strokeWidth={3} />
                           </span>
-                          <span>
-                            <span className="font-semibold text-foreground/90">{head}</span>
-                            {rest.length ? `:${rest.join(":")}` : ""}
-                          </span>
+                          {head}
                         </li>
                       );
                     })}
                   </ul>
-                  {s.link && (
-                    <Link
-                      href={s.link}
-                      className="group/link mt-auto inline-flex items-center gap-1.5 pt-6 text-sm font-semibold text-[#c084fc] transition-colors hover:text-white"
-                    >
-                      Explore Web Solutions
-                      <ArrowRight className="h-4 w-4 transition-transform group-hover/link:translate-x-1" />
-                    </Link>
-                  )}
+
+                  <Link
+                    href={s.link ?? "/contact"}
+                    className="group/link mt-5 inline-flex items-center gap-1.5 text-[13px] font-semibold text-[#c084fc] transition-colors hover:text-white"
+                  >
+                    {s.link ? "Explore Web Solutions" : "Get started"}
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover/link:translate-x-1" />
+                  </Link>
                 </TiltCard>
               </motion.div>
             ))}
