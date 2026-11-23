@@ -637,7 +637,7 @@ export function AboutContent() {
           el.style.setProperty("--hx", `${e.clientX - r.left}px`);
           el.style.setProperty("--hy", `${e.clientY - r.top}px`);
         }}
-        className="group/hero relative overflow-hidden bg-[#06040d] pb-20 pt-14 sm:pb-28 sm:pt-20 lg:pb-32"
+        className="group/hero relative overflow-hidden bg-[#06040d] pb-20 pt-[8.5rem] sm:pb-28 sm:pt-44 lg:pb-32"
       >
         {/* aurora + grid */}
         <motion.div

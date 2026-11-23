@@ -87,7 +87,7 @@ export function HeroSection() {
   };
 
   return (
-    <section className="relative flex min-h-[calc(100vh-2rem)] items-center overflow-hidden bg-[#070510] pb-20 pt-16 sm:pb-28 sm:pt-20">
+    <section className="relative flex min-h-[calc(100vh-2rem)] items-center overflow-hidden bg-[#070510] pb-20 pt-36 sm:pb-28 sm:pt-44">
       {/* ambient glow — strong purple like reference */}
       <div className="pointer-events-none absolute inset-0 -z-10 bg-grid opacity-25" />
       <div className="pointer-events-none absolute right-[8%] top-[6%] -z-10 h-[40rem] w-[46rem] rounded-full bg-[#7c3aed]/35 blur-[140px]" />
