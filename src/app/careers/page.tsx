@@ -1,9 +1,14 @@
-import { CareersContent } from "./CareersContent";
 import { Metadata } from "next";
+import { CareersContent } from "./CareersContent";
+
+const SITE_URL = "https://prospectoutreach.co.uk";
 
 export const metadata: Metadata = {
-  title: "Careers | ProspectOutreach",
-  description: "Join our team and help us shape the future of B2B outreach and demand generation.",
+  // the root layout's title template appends " | ProspectOutreach"
+  title: "Careers",
+  description:
+    "Careers at ProspectOutreach: join a B2B demand generation team across India, the UK and the USA. Mentorship, freedom to execute and a people-first culture.",
+  alternates: { canonical: `${SITE_URL}/careers` },
 };
 
 export default function CareersPage() {
