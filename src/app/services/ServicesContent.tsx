@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import {
+  AnimatePresence,
   motion,
   useMotionValue,
   useReducedMotion,
@@ -24,6 +25,14 @@ import {
   Zap,
   Code2,
   Goal,
+  ClipboardCheck,
+  UserCheck,
+  MousePointerClick,
+  CalendarCheck,
+  PhoneCall,
+  Ticket,
+  Crosshair,
+  Mail,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Magnetic, useFinePointer } from "@/components/interactive";
@@ -109,9 +118,9 @@ const detailedGroups = [
     icon: TrendingUp,
     gradient: "from-[#4f7bff] to-[#7c5cff]",
     items: [
-      { title: "BANT Qualified Leads", description: "Filter the noise so your team focuses only on prospects with the highest propensity to buy." },
-      { title: "Sales Qualified Leads (SQLs)", description: "Pre-vetted prospects primed for direct sales conversations, ensuring time is spent closing." },
-      { title: "Marketing Qualified Leads (MQLs)", description: "Identify prospects who have demonstrated genuine interest through active engagement." },
+      { icon: ClipboardCheck, title: "BANT Qualified Leads", description: "Filter the noise so your team focuses only on prospects with the highest propensity to buy." },
+      { icon: UserCheck, title: "Sales Qualified Leads (SQLs)", description: "Pre-vetted prospects primed for direct sales conversations, ensuring time is spent closing." },
+      { icon: MousePointerClick, title: "Marketing Qualified Leads (MQLs)", description: "Identify prospects who have demonstrated genuine interest through active engagement." },
     ],
   },
   {
@@ -120,9 +129,9 @@ const detailedGroups = [
     icon: Calendar,
     gradient: "from-[#a855f7] to-[#e552ff]",
     items: [
-      { title: "Appointment Generation", description: "Securing high-value meetings with qualified stakeholders to help you build rapport." },
-      { title: "Confirmed Callback Leads", description: "Verified outreach with confirmed windows, connecting you when prospects are most receptive." },
-      { title: "Event Registrations", description: "Fill your seats with high-caliber audiences for webinars, seminars, and corporate events." },
+      { icon: CalendarCheck, title: "Appointment Generation", description: "Securing high-value meetings with qualified stakeholders to help you build rapport." },
+      { icon: PhoneCall, title: "Confirmed Callback Leads", description: "Verified outreach with confirmed windows, connecting you when prospects are most receptive." },
+      { icon: Ticket, title: "Event Registrations", description: "Fill your seats with high-caliber audiences for webinars, seminars, and corporate events." },
     ],
   },
   {
@@ -131,9 +140,9 @@ const detailedGroups = [
     icon: Zap,
     gradient: "from-[#e552ff] to-[#ff7ab8]",
     items: [
-      { title: "Account-Based Marketing (ABM)", description: "Hyper-targeted campaigns aimed at specific high-value organizations for institutional growth." },
-      { title: "Content Syndication", description: "Establish authority by distributing insights across premium professional platforms." },
-      { title: "Performance Email Marketing", description: "Tailored strategies engineered to foster meaningful engagement and conversion rates." },
+      { icon: Crosshair, title: "Account-Based Marketing (ABM)", description: "Hyper-targeted campaigns aimed at specific high-value organizations for institutional growth." },
+      { icon: Share2, title: "Content Syndication", description: "Establish authority by distributing insights across premium professional platforms." },
+      { icon: Mail, title: "Performance Email Marketing", description: "Tailored strategies engineered to foster meaningful engagement and conversion rates." },
     ],
   },
 ];
@@ -333,6 +342,195 @@ function HeroVisual() {
         </motion.div>
       </motion.div>
     </motion.div>
+  );
+}
+
+/* ================================================================== */
+/* Funnel explorer — tabs on the left, the chosen group's items right  */
+/* ================================================================== */
+
+const TAB_MS = 6000;
+
+function FunnelExplorer() {
+  const reduce = useReducedMotion();
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const boxRef = useRef<HTMLDivElement>(null);
+
+  // only auto-advance while the section is on screen
+  useEffect(() => {
+    const el = boxRef.current;
+    if (!el || !("IntersectionObserver" in window)) return;
+    const io = new IntersectionObserver(([e]) => setVisible(e.isIntersecting), { threshold: 0.3 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (reduce || paused || !visible) return;
+    const id = setTimeout(() => setActive((a) => (a + 1) % detailedGroups.length), TAB_MS);
+    return () => clearTimeout(id);
+  }, [active, paused, visible, reduce]);
+
+  const g = detailedGroups[active];
+  const running = !reduce && !paused && visible;
+
+  return (
+    <div
+      ref={boxRef}
+      className="mx-auto mt-14 grid max-w-6xl gap-5 lg:grid-cols-[0.85fr_1.15fr] lg:gap-6"
+      onPointerEnter={() => setPaused(true)}
+      onPointerLeave={() => setPaused(false)}
+    >
+      {/* tabs */}
+      <div
+        role="tablist"
+        aria-label="Service groups"
+        aria-orientation="vertical"
+        className="flex flex-col gap-3 lg:h-full"
+        onKeyDown={(e) => {
+          if (e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
+          e.preventDefault();
+          const n = detailedGroups.length;
+          const next = (active + (e.key === "ArrowDown" ? 1 : n - 1)) % n;
+          setActive(next);
+          document.getElementById(`funnel-tab-${next}`)?.focus();
+        }}
+      >
+        {detailedGroups.map((grp, i) => {
+          const on = i === active;
+          return (
+            <button
+              key={grp.title}
+              id={`funnel-tab-${i}`}
+              role="tab"
+              type="button"
+              aria-selected={on}
+              aria-controls="funnel-panel"
+              tabIndex={on ? 0 : -1}
+              onClick={() => setActive(i)}
+              className={`group relative flex flex-col justify-center overflow-hidden rounded-2xl border p-5 text-left outline-none transition-all duration-300 focus-visible:ring-2 focus-visible:ring-[#8b6fff]/70 lg:flex-1 ${
+                on
+                  ? "border-[#7c5cff]/50 bg-gradient-to-br from-white/[0.07] to-white/[0.02] shadow-[0_20px_50px_-25px_rgba(124,92,255,0.7)]"
+                  : "border-white/[0.07] bg-white/[0.015] hover:border-white/15 hover:bg-white/[0.035]"
+              }`}
+            >
+              {on && (
+                <motion.span
+                  layoutId="funnel-tab-glow"
+                  transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 300, damping: 30 }}
+                  className={`absolute inset-y-0 left-0 w-[3px] bg-gradient-to-b ${grp.gradient}`}
+                  aria-hidden
+                />
+              )}
+              <div className="flex items-start gap-4">
+                <span
+                  className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl transition-all duration-300 ${
+                    on
+                      ? `bg-gradient-to-br ${grp.gradient} text-white shadow-lg ring-1 ring-white/20`
+                      : "border border-white/10 bg-white/[0.04] text-[#a78bfa]"
+                  }`}
+                >
+                  <grp.icon className="h-5 w-5" />
+                </span>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center justify-between gap-2">
+                    <h3 className={`text-[17px] font-bold leading-snug transition-colors ${on ? "text-foreground" : "text-white/70 group-hover:text-white"}`}>
+                      {grp.title}
+                    </h3>
+                    <span className={`font-syne text-sm font-bold ${on ? "text-[#c084fc]" : "text-white/20"}`}>0{i + 1}</span>
+                  </div>
+                  <p className={`mt-1.5 text-[13px] leading-relaxed transition-colors ${on ? "text-muted-foreground" : "text-white/40"}`}>
+                    {grp.description}
+                  </p>
+                </div>
+              </div>
+              {/* auto-advance progress */}
+              {on && running && (
+                <motion.span
+                  key={`p-${active}`}
+                  aria-hidden
+                  className={`absolute bottom-0 left-0 h-[2px] bg-gradient-to-r ${grp.gradient}`}
+                  initial={{ width: "0%" }}
+                  animate={{ width: "100%" }}
+                  transition={{ duration: TAB_MS / 1000, ease: "linear" }}
+                />
+              )}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* panel */}
+      <div
+        id="funnel-panel"
+        role="tabpanel"
+        aria-labelledby={`funnel-tab-${active}`}
+        data-spotlight
+        className="relative overflow-hidden rounded-[1.6rem] border border-white/[0.09] bg-[#0d0b18] p-6 sm:p-8"
+      >
+        <div
+          className={`pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-gradient-to-br ${g.gradient} opacity-20 blur-3xl transition-all duration-700`}
+          aria-hidden
+        />
+        <div className="pointer-events-none absolute inset-0 bg-grid opacity-[0.07]" aria-hidden />
+
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={active}
+            initial={{ opacity: 0, y: reduce ? 0 : 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: reduce ? 0 : -10 }}
+            transition={{ duration: 0.35, ease: EASE }}
+            className="relative"
+          >
+            <div className="flex items-center gap-3">
+              <span className={`rounded-full bg-gradient-to-r ${g.gradient} px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-white`}>
+                Stage 0{active + 1}
+              </span>
+              <span className="h-px flex-1 bg-gradient-to-r from-white/15 to-transparent" />
+            </div>
+            <h3 className="mt-4 font-syne text-2xl font-bold tracking-tight text-foreground sm:text-[1.75rem]">{g.title}</h3>
+            <p className="mt-2 max-w-lg text-sm leading-relaxed text-muted-foreground sm:text-[15px]">{g.description}</p>
+
+            <div className="mt-7 grid gap-3">
+              {g.items.map((it, ii) => (
+                <motion.div
+                  key={it.title}
+                  initial={{ opacity: 0, x: reduce ? 0 : 18 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: reduce ? 0 : 0.08 + ii * 0.08, duration: 0.4, ease: EASE }}
+                  whileHover={reduce ? undefined : { x: 4 }}
+                  className="group/item flex items-start gap-4 rounded-2xl border border-white/[0.07] bg-white/[0.025] p-4 transition-colors duration-300 hover:border-[#7c5cff]/45 hover:bg-white/[0.05]"
+                >
+                  <span
+                    className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${g.gradient} text-white shadow-lg ring-1 ring-white/20 transition-transform duration-300 group-hover/item:-rotate-6 group-hover/item:scale-110`}
+                  >
+                    <it.icon className="h-5 w-5" />
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <h4 className="flex items-center justify-between gap-2 text-[15px] font-semibold text-foreground">
+                      {it.title}
+                      <ArrowUpRight className="h-4 w-4 shrink-0 -translate-x-1 text-[#c084fc] opacity-0 transition-all duration-300 group-hover/item:translate-x-0 group-hover/item:opacity-100" />
+                    </h4>
+                    <p className="mt-1 text-[13px] leading-relaxed text-muted-foreground">{it.description}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            <Link
+              href="/contact"
+              className="group/cta mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[#c084fc] transition-colors hover:text-white"
+            >
+              Talk to us about {g.title.toLowerCase()}
+              <ArrowRight className="h-4 w-4 transition-transform group-hover/cta:translate-x-1" />
+            </Link>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+    </div>
   );
 }
 
@@ -538,56 +736,7 @@ export function ServicesContent() {
           <SectionHead eyebrow="Detailed service overview" sub="Comprehensive solutions across the entire marketing and sales funnel.">
             Across the <span className={GRAD}>entire funnel</span>
           </SectionHead>
-
-          {/*
-            Desktop: each column spans 4 rows of the parent grid and uses subgrid,
-            so the header and each of the 3 items line up across all three columns.
-          */}
-          <div className="mx-auto mt-14 grid max-w-6xl grid-cols-1 gap-5 lg:grid-cols-3 lg:grid-rows-[auto_auto_auto_auto] lg:gap-y-0">
-            {detailedGroups.map((g, gi) => (
-              <motion.div
-                key={g.title}
-                {...rise(gi)}
-                data-spotlight
-                className={`group/col relative flex flex-col overflow-hidden ${CARD} transition-colors duration-300 hover:border-[#7c5cff]/40 lg:row-span-4 lg:grid lg:grid-rows-subgrid`}
-              >
-                {/* gradient accent */}
-                <span className={`absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r ${g.gradient} opacity-70 transition-opacity duration-300 group-hover/col:opacity-100`} aria-hidden />
-                <span className={`pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-gradient-to-br ${g.gradient} opacity-[0.07] blur-2xl transition-opacity duration-500 group-hover/col:opacity-20`} aria-hidden />
-
-                {/* header (row 1) */}
-                <div className="relative border-b border-white/[0.07] p-6 pb-5">
-                  <div className="flex items-center gap-3">
-                    <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${g.gradient} text-white shadow-lg ring-1 ring-white/20 transition-transform duration-300 group-hover/col:-rotate-6 group-hover/col:scale-110`}>
-                      <g.icon className="h-5 w-5" />
-                    </span>
-                    <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#a78bfa]">0{gi + 1} / 03</span>
-                  </div>
-                  <h3 className="mt-4 text-lg font-bold leading-snug text-foreground">{g.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{g.description}</p>
-                </div>
-
-                {/* items (rows 2–4) */}
-                {g.items.map((it, ii) => (
-                  <div
-                    key={it.title}
-                    className={`group/item relative flex gap-4 px-6 py-5 transition-colors duration-300 hover:bg-white/[0.035] ${ii < g.items.length - 1 ? "border-b border-white/[0.06]" : ""}`}
-                  >
-                    <span className="mt-0.5 font-syne text-sm font-bold text-white/25 transition-colors duration-300 group-hover/item:text-[#c084fc]">
-                      0{ii + 1}
-                    </span>
-                    <div className="min-w-0 flex-1">
-                      <h4 className="flex items-center justify-between gap-2 text-[15px] font-semibold text-foreground">
-                        {it.title}
-                        <ArrowUpRight className="h-4 w-4 shrink-0 -translate-x-1 text-[#c084fc] opacity-0 transition-all duration-300 group-hover/item:translate-x-0 group-hover/item:opacity-100" />
-                      </h4>
-                      <p className="mt-1.5 text-[13px] leading-relaxed text-muted-foreground">{it.description}</p>
-                    </div>
-                  </div>
-                ))}
-              </motion.div>
-            ))}
-          </div>
+          <FunnelExplorer />
         </div>
       </section>
 
