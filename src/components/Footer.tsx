@@ -53,7 +53,7 @@ export function Footer() {
               <p className="max-w-sm text-base leading-relaxed text-muted-foreground">
                 A B2B{" "}
                 <span className="text-gradient font-semibold">demand generation</span>{" "}
-                and sales outreach agency — we find best-fit buyers and book qualified meetings your team wants to show up to.
+                and sales outreach agency helping businesses identify high-intent buyers, generate qualified leads, and secure meaningful meetings that drive real pipeline growth.
               </p>
             </div>
 
