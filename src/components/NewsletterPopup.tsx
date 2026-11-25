@@ -62,7 +62,7 @@ export function NewsletterPopup() {
           transition={{ duration: 0.25 }}
         >
           {/* backdrop */}
-          <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={() => close()} aria-hidden />
+          <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" aria-hidden />
 
           <motion.div
             role="dialog"
@@ -123,13 +123,6 @@ export function NewsletterPopup() {
                   >
                     <Linkedin className="h-4 w-4" /> Subscribe on LinkedIn
                   </a>
-                  <button
-                    type="button"
-                    onClick={() => close()}
-                    className="text-sm font-semibold text-white/60 underline underline-offset-4 transition-colors hover:text-white"
-                  >
-                    No, thanks
-                  </button>
                 </div>
               </div>
 
