@@ -1,8 +1,8 @@
 <?php
 // optout-mail.php - Handle "Do Not Share or Sell My Information" requests
 // 1. Enable error reporting temporarily for debugging
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
+ini_set('display_errors', 0);
+ini_set('display_startup_errors', 0);
 error_reporting(E_ALL);
 
 // 2. CORS and Content Headers
@@ -23,9 +23,9 @@ use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
 
 // 4. Load PHPMailer files (using local libs)
-require __DIR__ . '/../libs/phpmailer/Exception.php';
-require __DIR__ . '/../libs/phpmailer/PHPMailer.php';
-require __DIR__ . '/../libs/phpmailer/SMTP.php';
+require __DIR__ . '/libs/phpmailer/Exception.php';
+require __DIR__ . '/libs/phpmailer/PHPMailer.php';
+require __DIR__ . '/libs/phpmailer/SMTP.php';
 
 // 5. Load local configuration
 $config = require __DIR__ . '/smtp-config.php';
