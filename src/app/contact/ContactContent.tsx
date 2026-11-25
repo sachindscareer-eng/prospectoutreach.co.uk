@@ -244,7 +244,10 @@ export function ContactContent() {
         body: body.toString(),
       });
 
-      const data = await res.json();
+      const data = await res.json().catch(() => ({
+        status: "error",
+        message: "We couldn't send your message right now. Please email sales@prospectoutreach.co.uk or call +44 7915 378769.",
+      }));
       if (data.status === "success") {
         form.reset();
         setSubmitted(true);

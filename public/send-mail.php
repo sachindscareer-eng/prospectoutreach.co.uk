@@ -27,6 +27,11 @@ require __DIR__ . '/libs/phpmailer/PHPMailer.php';
 require __DIR__ . '/libs/phpmailer/SMTP.php';
 
 // 5. Load local configuration
+if (!is_file(__DIR__ . '/smtp-config.php')) {
+    http_response_code(503);
+    echo json_encode(["status" => "error", "message" => "Our mail service is temporarily unavailable. Please email sales@prospectoutreach.co.uk or call +44 7915 378769."]);
+    exit;
+}
 $config = require __DIR__ . '/smtp-config.php';
 
 // 6. Process POST Request

@@ -28,6 +28,38 @@ jobs:
           NODE_OPTIONS: --max-old-space-size=4096
           NEXT_TELEMETRY_DISABLED: "1"
 
+      # Server-side mail config is generated from GitHub Secrets (never committed).
+      # Skipped when SMTP_PASSWORD is not set, so an existing server copy is left alone.
+      - name: Generate smtp-config.php from secrets
+        env:
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          SMTP_TO_EMAIL: ${{ secrets.SMTP_TO_EMAIL }}
+        run: |
+          if [ -z "$SMTP_PASSWORD" ] || [ -z "$SMTP_USERNAME" ]; then
+            echo "SMTP secrets not set - skipping smtp-config.php"
+            exit 0
+          fi
+          php -r '
+            $to = getenv("SMTP_TO_EMAIL") ?: "aftabb@prospectoutreach.co.uk";
+            $c = [
+              "host"        => getenv("SMTP_HOST") ?: "smtp.hostinger.com",
+              "port"        => (int) (getenv("SMTP_PORT") ?: 465),
+              "auth"        => true,
+              "username"    => getenv("SMTP_USERNAME"),
+              "password"    => getenv("SMTP_PASSWORD"),
+              "from_email"  => getenv("SMTP_USERNAME"),
+              "from_name"   => "ProspectOutreach Website",
+              "to_email"    => $to,
+              "leads_email" => "aftabb@prospectoutreach.co.uk",
+            ];
+            file_put_contents("out/smtp-config.php", "<?php\nreturn " . var_export($c, true) . ";\n");
+          '
+          php -l out/smtp-config.php
+          echo "smtp-config.php generated"
+
       - name: Install lftp
         run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
 
@@ -35,7 +67,8 @@ jobs:
       # that kept killing FTP-Deploy-Action). Credentials come from env, not the command line.
       # TLS certificate chain IS verified; only the hostname match is skipped because the
       # server presents Hostinger's shared *.hstgr.io cert for this IP.
-      # No --delete: server-only files (smtp-config.php) are left untouched.
+      # No --delete: server-only files are left untouched. smtp-config.php is only
+      # uploaded when the step above generated it from secrets.
       - name: Deploy to Hostinger via FTPS (lftp)
         env:
           FTP_HOST: 92.249.46.109
@@ -53,6 +86,6 @@ jobs:
           set net:reconnect-interval-base 5
           set net:reconnect-interval-max 30
           set mirror:parallel-transfer-count 3
-          mirror --reverse --verbose --no-perms --exclude-glob .git* --exclude-glob smtp-config.php ./out/ ./
+          mirror --reverse --verbose --no-perms --exclude-glob .git* ./out/ ./
           bye
           EOF
