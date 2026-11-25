@@ -2,29 +2,11 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { usePathname } from "next/navigation";
 import { Linkedin, Mail, X, Check } from "lucide-react";
 
 const NEWSLETTER_URL = "https://www.linkedin.com/newsletters/7449502823119056896/?displayConfirmation=true";
-const STORAGE_KEY = "po-newsletter-popup";
-const SHOW_DELAY_MS = 3500;
-const DISMISS_DAYS = 3; // closed / "No, thanks" → ask again after 3 days
-const SUBSCRIBED_DAYS = 180; // clicked subscribe → don't ask for ~6 months
-
-function readHiddenUntil(): number {
-  try {
-    return Number(window.localStorage.getItem(STORAGE_KEY)) || 0;
-  } catch {
-    return 0;
-  }
-}
-
-function hideFor(days: number) {
-  try {
-    window.localStorage.setItem(STORAGE_KEY, String(Date.now() + days * 86_400_000));
-  } catch {
-    /* storage blocked — popup simply may show again next visit */
-  }
-}
+const SHOW_DELAY_MS = 2500;
 
 const perks = ["B2B demand generation insights", "Outreach playbooks that book meetings", "Pipeline growth tips, no spam"];
 
@@ -34,17 +16,22 @@ export function NewsletterPopup() {
   const closeRef = useRef<HTMLButtonElement>(null);
   const lastFocus = useRef<HTMLElement | null>(null);
 
+  const pathname = usePathname();
+
+  // show on every visit / reload of the home page
   useEffect(() => {
-    if (readHiddenUntil() > Date.now()) return;
+    if (pathname !== "/") {
+      setOpen(false);
+      return;
+    }
     const id = setTimeout(() => {
       lastFocus.current = document.activeElement as HTMLElement | null;
       setOpen(true);
     }, SHOW_DELAY_MS);
     return () => clearTimeout(id);
-  }, []);
+  }, [pathname]);
 
-  const close = useCallback((days = DISMISS_DAYS) => {
-    hideFor(days);
+  const close = useCallback(() => {
     setOpen(false);
     lastFocus.current?.focus?.();
   }, []);
@@ -131,7 +118,7 @@ export function NewsletterPopup() {
                     href={NEWSLETTER_URL}
                     target="_blank"
                     rel="noopener noreferrer"
-                    onClick={() => close(SUBSCRIBED_DAYS)}
+                    onClick={() => close()}
                     className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#7c5cff] to-[#a855f7] px-6 py-3 text-sm font-semibold text-white shadow-[0_12px_30px_-10px_rgba(124,92,255,0.8)] transition-transform hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
                   >
                     <Linkedin className="h-4 w-4" /> Subscribe on LinkedIn
