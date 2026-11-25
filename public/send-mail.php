@@ -74,7 +74,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Recipients
         $mail->setFrom($config['from_email'], $config['from_name']);
-        $mail->addAddress($config['to_email']); 
+        // Website leads go to the sales inbox (override with 'leads_email' in smtp-config.php if needed)
+        $mail->addAddress($config['leads_email'] ?? 'aftabb@prospectoutreach.co.uk');
         $mail->addReplyTo($email, $fullName);
 
         // Content
