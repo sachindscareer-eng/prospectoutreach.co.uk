@@ -1,7 +1,19 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { Target, ShieldCheck, Workflow, TrendingUp } from "lucide-react";
+import { Target, ShieldCheck, Workflow, TrendingUp, Phone, Check } from "lucide-react";
+
+/** Phone with a verification tick — lucide has no single icon for this. */
+function PhoneVerified({ className, strokeWidth }: { className?: string; strokeWidth?: number }) {
+  return (
+    <span className="relative inline-flex">
+      <Phone className={className} strokeWidth={strokeWidth} />
+      <span className="absolute -bottom-1.5 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-white shadow ring-2 ring-[#7c5cff]">
+        <Check className="h-2.5 w-2.5 text-[#7c5cff]" strokeWidth={3.5} />
+      </span>
+    </span>
+  );
+}
 
 const benefits = [
   {
@@ -17,6 +29,13 @@ const benefits = [
     description:
       "Bounced emails and wrong contacts kill momentum. Our B2B data is verified and enriched, and handled in line with GDPR and CCPA.",
     gradient: "from-[#7c5cff] to-[#a855f7]",
+  },
+  {
+    icon: PhoneVerified,
+    title: "Human-Verified Lead Quality",
+    description:
+      "Every lead is tele-verified by our team to ensure accurate prospect information, business relevance, and qualification alignment before delivery.",
+    gradient: "from-[#8b5cf6] to-[#a855f7]",
   },
   {
     icon: Workflow,
@@ -65,7 +84,7 @@ export function WhyChoose() {
           </p>
         </motion.div>
 
-        <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-6 xl:grid-cols-5">
           {benefits.map((b, i) => (
             <motion.div
               key={b.title}
@@ -75,7 +94,9 @@ export function WhyChoose() {
               viewport={{ once: true, margin: "200px" }}
               transition={{ delay: reduce ? 0 : i * 0.08, duration: 0.5 }}
               whileHover={reduce ? undefined : { y: -8 }}
-              className="group relative overflow-hidden rounded-2xl border border-white/[0.08] bg-gradient-to-b from-white/[0.05] to-white/[0.01] p-6 transition-colors duration-300 hover:border-[#7c5cff]/50"
+              className={`group relative overflow-hidden rounded-2xl border border-white/[0.08] bg-gradient-to-b from-white/[0.05] to-white/[0.01] p-6 transition-colors duration-300 hover:border-[#7c5cff]/50 ${
+                i < 3 ? "lg:col-span-2" : "lg:col-span-3"
+              } ${i === benefits.length - 1 ? "sm:col-span-2 lg:col-span-3" : ""} xl:col-span-1`}
             >
               <span
                 className={`absolute inset-x-0 top-0 h-[3px] origin-left scale-x-0 bg-gradient-to-r ${b.gradient} transition-transform duration-500 group-hover:scale-x-100`}
