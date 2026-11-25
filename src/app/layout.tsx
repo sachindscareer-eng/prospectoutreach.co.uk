@@ -7,6 +7,7 @@ import { Footer } from "@/components/Footer";
 import { PageTransition } from "@/components/PageTransition";
 import { ScrollProgress } from "@/components/ScrollProgress";
 import { CursorGlow } from "@/components/CursorGlow";
+import { NewsletterPopup } from "@/components/NewsletterPopup";
 import { SpotlightTracker } from "@/components/interactive";
 import { cn } from "@/lib/utils";
 
@@ -162,6 +163,7 @@ export default function RootLayout({
         <Navbar />
         <PageTransition>{children}</PageTransition>
         <Footer />
+        <NewsletterPopup />
       </body>
     </html>
   );
