@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { posts } from "@/lib/blog";
 
 const SITE_URL = "https://prospectoutreach.co.uk";
 
@@ -13,6 +14,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/about", priority: 0.7, changeFrequency: "monthly" as const },
     { path: "/careers", priority: 0.6, changeFrequency: "monthly" as const },
     { path: "/contact", priority: 0.8, changeFrequency: "monthly" as const },
+    { path: "/blog", priority: 0.8, changeFrequency: "weekly" as const },
+    ...posts.map((p) => ({ path: `/blog/${p.slug}`, priority: 0.7, changeFrequency: "monthly" as const })),
+    { path: "/glossary", priority: 0.6, changeFrequency: "monthly" as const },
     { path: "/privacy-policy", priority: 0.3, changeFrequency: "yearly" as const },
   ];
 

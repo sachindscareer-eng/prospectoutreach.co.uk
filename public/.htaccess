@@ -8,6 +8,12 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
 RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
 
+# 3a. A page that is also a folder (e.g. /blog -> blog.html + blog/<post>.html):
+#     don't auto-append a slash, serve the .html file for /blog and /blog/
+DirectorySlash Off
+RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+RewriteRule ^(.+?)/?$ /$1.html [L]
+
 # 3. Clean URLs (Serve .html files without extension)
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}\.html -f

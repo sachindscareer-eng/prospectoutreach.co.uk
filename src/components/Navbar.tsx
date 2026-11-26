@@ -11,8 +11,9 @@ import {
   ChevronDown,
   Megaphone,
   Code2,
-  Palette,
-  Layers,
+  BookOpen,
+  BookA,
+  Linkedin,
   type LucideIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -20,7 +21,7 @@ import { Logo } from "@/components/Logo";
 import { Magnetic } from "@/components/interactive";
 import { cn } from "@/lib/utils";
 
-type Child = { href: string; label: string; desc: string; icon: LucideIcon };
+type Child = { href: string; label: string; desc: string; icon: LucideIcon; external?: boolean };
 type NavItem = { href: string; label: string; children?: Child[] };
 
 const navLinks: NavItem[] = [
@@ -33,11 +34,18 @@ const navLinks: NavItem[] = [
     ],
   },
   {
-    href: "/web-solutions",
-    label: "Web Solutions",
+    href: "/blog",
+    label: "Resources",
     children: [
-      { href: "/web-solutions#services", label: "Web Design", desc: "Modern, conversion-focused UI/UX", icon: Palette },
-      { href: "/web-solutions#services", label: "Development", desc: "Scalable web apps, cloud & infrastructure", icon: Layers },
+      { href: "/blog", label: "Blog", desc: "Guides on demand gen, intent data & outreach", icon: BookOpen },
+      { href: "/glossary", label: "Glossary", desc: "B2B marketing terms explained simply", icon: BookA },
+      {
+        href: "https://www.linkedin.com/newsletters/7449502823119056896/",
+        label: "Newsletter",
+        desc: "Subscribe to our LinkedIn newsletter",
+        icon: Linkedin,
+        external: true,
+      },
     ],
   },
   { href: "/about", label: "About" },
@@ -46,7 +54,9 @@ const navLinks: NavItem[] = [
 ];
 
 /** Top-level item is active when the current path is its own page. */
-const isActive = (item: NavItem, pathname: string) => pathname === item.href;
+const isActive = (item: NavItem, pathname: string) =>
+  pathname === item.href ||
+  (item.children?.some((c) => !c.external && c.href !== "/" && pathname.startsWith(c.href.split("#")[0])) ?? false);
 
 export function Navbar() {
   const pathname = usePathname();
@@ -179,6 +189,7 @@ export function Navbar() {
                               <Link
                                 key={child.label}
                                 href={child.href}
+                                {...(child.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                                 className={cn(
                                   "group/item flex items-start gap-3 rounded-xl p-3 transition-colors",
                                   childActive ? "bg-white/[0.07]" : "hover:bg-white/[0.05]"
@@ -250,6 +261,7 @@ export function Navbar() {
                         <Link
                           key={child.label}
                           href={child.href}
+                          {...(child.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                           onClick={() => setMobileOpen(false)}
                           className={cn(
                             "flex items-center gap-3 rounded-2xl px-4 py-3 transition-colors",

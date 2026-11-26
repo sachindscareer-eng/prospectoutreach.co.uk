@@ -18,6 +18,8 @@ const companyLinks = [
   { href: "/about", label: "About Us" },
   { href: "/services", label: "Services" },
   { href: "/web-solutions", label: "Web Solutions" },
+  { href: "/blog", label: "Blog" },
+  { href: "/glossary", label: "Glossary" },
   { href: "/careers", label: "Careers" },
   { href: "/contact", label: "Contact Us" },
 ];
