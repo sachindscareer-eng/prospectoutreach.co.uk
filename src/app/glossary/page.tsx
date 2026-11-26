@@ -5,7 +5,7 @@ import { GlossaryContent } from "./GlossaryContent";
 const SITE_URL = "https://prospectoutreach.co.uk";
 const PAGE_URL = `${SITE_URL}/glossary`;
 const description =
-  "B2B demand generation glossary: plain-English definitions of ABM, intent data, ICP, MQL, SQL, lead scoring, content syndication, appointment setting and more.";
+  `B2B demand generation glossary: ${glossary.length} plain-English definitions of ABM, intent data, ICP, MQL, SQL, MQA, CPQL, email deliverability, data hygiene, GDPR and more.`;
 
 export const metadata: Metadata = {
   title: "B2B Demand Generation Glossary",

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { glossary } from "@/lib/glossary";
+import { CATEGORIES, glossary } from "@/lib/glossary";
 import { cn } from "@/lib/utils";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -14,13 +14,16 @@ const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 export function GlossaryContent() {
   const reduce = useReducedMotion();
   const [query, setQuery] = useState("");
+  const [cat, setCat] = useState<string>("All");
 
   const q = query.trim().toLowerCase();
-  const filtered = glossary.filter((g) => !q || `${g.term} ${g.def}`.toLowerCase().includes(q));
+  const filtered = glossary.filter(
+    (g) => (cat === "All" || g.category === cat) && (!q || `${g.term} ${g.def}`.toLowerCase().includes(q))
+  );
   const groups = ALPHABET.map((l) => ({ letter: l, terms: filtered.filter((g) => g.term[0].toUpperCase() === l) })).filter(
     (g) => g.terms.length
   );
-  const present = new Set(glossary.map((g) => g.term[0].toUpperCase()));
+  const present = new Set(filtered.map((g) => g.term[0].toUpperCase()));
 
   return (
     <div className="relative overflow-hidden">
@@ -81,6 +84,36 @@ export function GlossaryContent() {
               />
             </label>
           </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.6, ease: EASE }}
+            className="mx-auto mt-5 flex max-w-4xl flex-wrap justify-center gap-2"
+            role="group"
+            aria-label="Filter by category"
+          >
+            {["All", ...CATEGORIES].map((c) => {
+              const count = c === "All" ? glossary.length : glossary.filter((g) => g.category === c).length;
+              return (
+                <button
+                  key={c}
+                  type="button"
+                  onClick={() => setCat(c)}
+                  aria-pressed={cat === c}
+                  className={cn(
+                    "inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-[12.5px] font-medium transition-all",
+                    cat === c
+                      ? "border-transparent bg-gradient-to-r from-[#7c5cff] to-[#e552ff] text-white shadow-[0_8px_24px_-10px_rgba(168,85,247,0.8)]"
+                      : "border-white/10 bg-white/[0.03] text-white/60 hover:border-white/25 hover:text-white"
+                  )}
+                >
+                  {c}
+                  <span className={cn("text-[11px]", cat === c ? "text-white/80" : "text-white/35")}>{count}</span>
+                </button>
+              );
+            })}
+          </motion.div>
         </div>
       </section>
 
@@ -113,7 +146,7 @@ export function GlossaryContent() {
         <div className="container mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
           {groups.length === 0 && (
             <p className="rounded-2xl border border-white/10 bg-white/[0.02] p-10 text-center text-muted-foreground">
-              No terms match “{query}”.
+              No terms match your search.
             </p>
           )}
           <div className="space-y-12">
@@ -138,6 +171,9 @@ export function GlossaryContent() {
                     >
                       <span className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-gradient-to-br from-[#7c5cff]/20 to-[#e552ff]/10 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100" />
                       <dt className="relative font-semibold text-white">{t.term}</dt>
+                      <span className="relative mt-1.5 inline-block rounded-full border border-white/10 bg-white/[0.03] px-2 py-0.5 text-[10.5px] font-medium uppercase tracking-[0.08em] text-[#b59cff]/80">
+                        {t.category}
+                      </span>
                       <dd className="relative mt-2 text-sm leading-relaxed text-muted-foreground">
                         {t.def}
                         {t.link && (
