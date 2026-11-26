@@ -21,8 +21,16 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # retried because next/font fetches Google Fonts at build time and that
+      # request occasionally fails on the runner (build dies in a few seconds)
       - name: Build static site
-        run: npm run build
+        run: |
+          for i in 1 2 3; do
+            npm run build && exit 0
+            echo "Build attempt $i failed - retrying in $((i * 20))s"
+            sleep $((i * 20))
+          done
+          exit 1
         env:
           # give the build more heap so heavier pages don't OOM on CI
           NODE_OPTIONS: --max-old-space-size=4096
