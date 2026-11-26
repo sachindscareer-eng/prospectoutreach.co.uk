@@ -11,7 +11,7 @@ const variants = {
 
 // pages whose first section is a dark full-bleed hero that already pads for the fixed navbar,
 // so its glow can sit behind the glass menu instead of leaving a flat black band above it
-const FULL_BLEED = new Set(["/", "/about", "/careers", "/services", "/contact"]);
+const FULL_BLEED = new Set(["/", "/about", "/careers", "/services", "/contact", "/web-solutions"]);
 
 export function PageTransition({
   children,
